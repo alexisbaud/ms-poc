@@ -74,7 +74,12 @@ const Button = ({
   const isFullWidthFinal = isFullWidth || fullWidth;
   
   // Taille de l'icône en fonction de la taille du bouton, si non spécifiée
-  const computedIconSize = iconSize || (size === 'sm' ? 20 : size === 'md' ? 24 : 28);
+  const computedIconSize = iconSize || (
+    size === 'xs' ? 16 : 
+    size === 'sm' ? 20 : 
+    size === 'md' ? 24 : 
+    28 // lg
+  );
   
   // Combiner l'état pressé interne et externe
   const isPressedFinal = isPressed || isPressedInternal;
@@ -168,7 +173,7 @@ Button.propTypes = {
   /** Variante visuelle du bouton */
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'toned', 'ghost', 'danger']),
   /** Taille du bouton */
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
   /** Icône du bouton (ReactNode ou SVG string) */
   icon: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   /** Position de l'icône ou "only" pour icône uniquement */

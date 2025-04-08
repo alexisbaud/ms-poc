@@ -34,6 +34,7 @@ const colors = {
     "02Through": "rgba(0, 0, 0, 0.60)",
     "03Through": "rgba(0, 0, 0, 0.40)",
     "04Through": "rgba(0, 0, 0, 0.20)",
+    "04Through": "rgba(0, 0, 0, 0.10)",
     "00Inverted": "#FAFAFA",
     "01Inverted": "#E5E5E5",
     "02Inverted": "#CDCDCD", 

@@ -11,6 +11,14 @@
   width: 100%;
 }
 
+.divider--thick-line {
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.20); /* content.04Through */
+  width: calc(100% - 32px);
+  margin: 0 12px;
+  border-radius: 1px;
+}
+
 .divider--with-label {
   gap: 8px;
 }

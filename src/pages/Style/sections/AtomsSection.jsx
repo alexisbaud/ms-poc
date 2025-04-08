@@ -83,6 +83,7 @@ const AtomsSection = () => {
         <div className="component-example">
           <h4>Tailles</h4>
           <div className="component-variants">
+            <Button size="xs" style="color" importance="primary">XS (36px)</Button>
             <Button size="sm" style="color" importance="primary">S (40px)</Button>
             <Button size="md" style="color" importance="primary">M (48px)</Button>
             <Button size="lg" style="color" importance="primary">L (56px)</Button>
@@ -153,9 +154,11 @@ const AtomsSection = () => {
 
           <h4>Tailles avec icônes</h4>
           <div className="component-variants">
+            <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="xs">Très petit</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="sm">Petit</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="md">Moyen</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="lg">Grand</Button>
+            <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="xs" />
             <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="sm" />
             <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="md" />
             <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="lg" />
@@ -332,6 +335,11 @@ const AtomsSection = () => {
             <Divider label="Avril 2024" />
           </div>
           
+          <h4>Variante : Ligne épaisse avec bords arrondis</h4>
+          <div className="component-field-variants divider-container" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
+            <Divider variant="thick" />
+          </div>
+          
           <h4>Exemples d'utilisation</h4>
           <div className="component-field-variants divider-example" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
             <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
@@ -342,8 +350,12 @@ const AtomsSection = () => {
               Contenu de section 2
             </div>
             <Divider label="Autre contenu" />
-            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
+            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem', marginBottom: '1rem' }}>
               Contenu de section 3
+            </div>
+            <Divider variant="thick" />
+            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
+              Contenu de section 4
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@
   gap: 8px;
   border: none;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-primary);
   font-weight: 600;
   transition: all 0.1s ease-out;
   position: relative;
@@ -41,10 +41,17 @@
 }
 
 /* Dimensions des tailles */
+.button--xs {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 12px;
+}
+
 .button--sm {
   height: 40px;
   padding: 0 16px;
-  font-size: 14px;
+  font-size: 15px;
   border-radius: 12px;
 }
 
@@ -70,6 +77,11 @@
   padding: 0;
   width: auto;
   aspect-ratio: 1/1; /* Assure que le bouton est parfaitement carré */
+}
+
+.button--icon-only.button--xs {
+  width: 36px;
+  min-width: 36px;
 }
 
 .button--icon-only.button--sm {
@@ -282,6 +294,12 @@
 }
 
 /* Tailles d'icônes selon la taille du bouton */
+.button--xs .button__icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 .button--sm .button__icon {
   font-size: 20px;
   width: 20px;

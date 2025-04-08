@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   text-align: left;
+  font-family: var(--font-primary);
 }
 
 /* Styles spécifiques pour la page d'accueil seulement */

@@ -4,9 +4,13 @@ import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import './TextField.css';
 import { colors } from '../../../styles';
 
+// Compteur global pour générer des IDs uniques
+let uniqueIdCounter = 0;
+
 /**
  * Composant TextField réutilisable
  * @param {Object} props - Les propriétés du composant
+ * @param {string} props.id - ID personnalisé pour le champ (optionnel)
  * @param {string} props.label - Le label du champ
  * @param {string} props.placeholder - Le placeholder du champ
  * @param {string} props.type - Le type du champ (free, password, formatted)
@@ -22,6 +26,7 @@ import { colors } from '../../../styles';
  * @returns {JSX.Element}
  */
 const TextField = forwardRef(({ 
+  id,
   label,
   placeholder = '',
   type = 'free',
@@ -44,6 +49,9 @@ const TextField = forwardRef(({
   
   const inputRef = useRef(null);
   const actualRef = ref || inputRef;
+  
+  // Générer un ID unique pour le champ si non fourni
+  const fieldId = useRef(id || `textfield-${label?.toLowerCase().replace(/\s+/g, '-') || 'input'}-${uniqueIdCounter++}`);
   
   // Déterminer si le champ a une valeur et mettre à jour l'état
   useEffect(() => {
@@ -124,7 +132,7 @@ const TextField = forwardRef(({
   
   const renderInput = () => {
     const inputProps = {
-      id: `textfield-${label?.toLowerCase().replace(/\s+/g, '-') || 'input'}`,
+      id: fieldId.current,
       className: 'textfield__input',
       value,
       onChange: handleChange,
@@ -166,7 +174,7 @@ const TextField = forwardRef(({
       >
         <div className="textfield__text-container">
           <label 
-            htmlFor={`textfield-${label?.toLowerCase().replace(/\s+/g, '-') || 'input'}`}
+            htmlFor={fieldId.current}
             className="textfield__label"
           >
             {label || 'Label/placeholder'}
@@ -199,18 +207,32 @@ const TextField = forwardRef(({
 TextField.displayName = 'TextField';
 
 TextField.propTypes = {
+  /** ID personnalisé pour le champ (optionnel) */
+  id: PropTypes.string,
+  /** Label du champ */
   label: PropTypes.string,
+  /** Texte affiché quand le champ est vide */
   placeholder: PropTypes.string,
+  /** Type de champ: free (défaut), password, ou formatted */
   type: PropTypes.oneOf(['free', 'password', 'formatted']),
+  /** Valeur actuelle du champ */
   value: PropTypes.string,
+  /** Gestionnaire d'événement pour les changements */
   onChange: PropTypes.func,
+  /** Si le champ doit être multilignes (uniquement pour type 'free') */
   multiline: PropTypes.bool,
+  /** Si le champ est désactivé */
   isDisabled: PropTypes.bool,
+  /** Expression régulière pour valider le format (uniquement pour type 'formatted') */
   format: PropTypes.instanceOf(RegExp),
+  /** Message d'erreur affiché lorsque le format est invalide */
   errorMessage: PropTypes.string,
+  /** Nombre de lignes pour le champ multiline */
   rows: PropTypes.number,
+  /** Gestionnaire d'événement quand le champ perd le focus */
   onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
+  /** Gestionnaire d'événement quand le champ prend le focus */
+  onFocus: PropTypes.func
 };
 
 export default TextField; 

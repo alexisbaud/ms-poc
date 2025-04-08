@@ -3,10 +3,15 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+  ],
+  resolve: {
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.svg']
+  },
   server: {
-    host: '0.0.0.0', // Écouter sur toutes les interfaces réseau
-    port: 3001,      // Utiliser le port 3001
-    strictPort: true // Ne pas chercher d'autre port si 3001 est occupé
+    host: '0.0.0.0',
+    port: 3000,
+    strictPort: false
   }
 })

@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../../../components/atoms/Button';
 import TextField from '../../../components/atoms/TextField';
 import Divider from '../../../components/atoms/Divider';
-import { BsArrowRight, BsPlus, BsTrash, BsDownload, BsBookmark, BsSearch, BsGear } from 'react-icons/bs';
+import NavBarEntry from '../../../components/atoms/NavBarEntry';
 import { colors } from '../../../styles';
+
+// Import direct des icônes en utilisant des URLs standards
+import houseIcon from '../../../assets/Icons/house-door.svg';
+import houseIconFill from '../../../assets/Icons/house-door-fill.svg';
+import plusIcon from '../../../assets/Icons/plus.svg';
+import xIcon from '../../../assets/Icons/x.svg';
+import searchIcon from '../../../assets/Icons/search.svg';
+import arrowRightIcon from '../../../assets/Icons/arrow-right.svg';
+import heartIcon from '../../../assets/Icons/heart.svg';
 
 const AtomsSection = () => {
   const [textFieldValues, setTextFieldValues] = useState({
@@ -14,6 +23,38 @@ const AtomsSection = () => {
     email: '',
     phone: ''
   });
+
+  // État pour stocker les SVGs comme chaînes
+  const [homeSvg, setHomeSvg] = useState('');
+  const [homeFilledSvg, setHomeFilledSvg] = useState('');
+  const [plusSvg, setPlusSvg] = useState('');
+  const [trashSvg, setTrashSvg] = useState('');
+  const [searchSvg, setSearchSvg] = useState('');
+  const [arrowRightSvg, setArrowRightSvg] = useState('');
+  const [bookmarkSvg, setBookmarkSvg] = useState('');
+  
+  // Charger les fichiers SVG au montage du composant
+  useEffect(() => {
+    // Fonction utilitaire pour charger un SVG
+    const loadSvg = async (url, setter) => {
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        setter(text);
+      } catch (error) {
+        console.error(`Error loading SVG:`, error);
+      }
+    };
+
+    // Charger tous les SVG nécessaires
+    loadSvg(houseIcon, setHomeSvg);
+    loadSvg(houseIconFill, setHomeFilledSvg);
+    loadSvg(plusIcon, setPlusSvg);
+    loadSvg(xIcon, setTrashSvg);
+    loadSvg(searchIcon, setSearchSvg);
+    loadSvg(arrowRightIcon, setArrowRightSvg);
+    loadSvg(heartIcon, setBookmarkSvg);
+  }, []);
 
   const handleTextFieldChange = (field) => (e) => {
     setTextFieldValues({
@@ -97,27 +138,27 @@ const AtomsSection = () => {
           <h4>Variantes d'icônes</h4>
           <div className="component-variants">
             <Button style="color" importance="primary" iconVariant="none">Sans icône</Button>
-            <Button style="color" importance="primary" iconVariant="before" icon={BsPlus}>Icône avant</Button>
-            <Button style="color" importance="primary" iconVariant="after" icon={BsArrowRight}>Icône après</Button>
-            <Button style="color" importance="primary" iconVariant="only" icon={BsPlus} />
+            <Button style="color" importance="primary" iconVariant="before" icon={arrowRightSvg}>Icône avant</Button>
+            <Button style="color" importance="primary" iconVariant="after" icon={arrowRightSvg}>Icône après</Button>
+            <Button style="color" importance="primary" iconVariant="only" icon={plusSvg} />
           </div>
           
           <h4>Icônes avec différents styles</h4>
           <div className="component-variants">
-            <Button style="black" importance="primary" iconVariant="before" icon={BsGear}>Settings</Button>
-            <Button style="color" importance="toned" iconVariant="before" icon={BsPlus}>Ajouter</Button>
-            <Button style="danger" importance="secondary" iconVariant="before" icon={BsTrash}>Supprimer</Button>
-            <Button style="danger" importance="primary" iconVariant="only" icon={BsTrash} />
+            <Button style="black" importance="primary" iconVariant="before" icon={homeSvg}>Settings</Button>
+            <Button style="color" importance="toned" iconVariant="before" icon={plusSvg}>Ajouter</Button>
+            <Button style="danger" importance="secondary" iconVariant="before" icon={trashSvg}>Supprimer</Button>
+            <Button style="danger" importance="primary" iconVariant="only" icon={trashSvg} />
           </div>
 
           <h4>Tailles avec icônes</h4>
           <div className="component-variants">
-            <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="sm">Petit</Button>
-            <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="md">Moyen</Button>
-            <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="lg">Grand</Button>
-            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="sm" />
-            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="md" />
-            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="lg" />
+            <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="sm">Petit</Button>
+            <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="md">Moyen</Button>
+            <Button style="color" importance="primary" iconVariant="before" icon={searchSvg} size="lg">Grand</Button>
+            <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="sm" />
+            <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="md" />
+            <Button style="color" importance="primary" iconVariant="only" icon={searchSvg} size="lg" />
           </div>
 
           <h4>Exemples d'utilisation</h4>
@@ -127,7 +168,7 @@ const AtomsSection = () => {
               importance="primary" 
               size="lg" 
               iconVariant="after"
-              icon={BsArrowRight}
+              icon={arrowRightSvg}
               onClick={() => alert('Button clicked!')}
             >
               Continuer
@@ -137,7 +178,7 @@ const AtomsSection = () => {
               importance="tertiary" 
               size="md"
               iconVariant="before"
-              icon={BsBookmark}
+              icon={bookmarkSvg}
             >
               Sauvegarder
             </Button>
@@ -146,7 +187,7 @@ const AtomsSection = () => {
               importance="toned" 
               size="sm"
               iconVariant="before"
-              icon={BsTrash}
+              icon={trashSvg}
             >
               Supprimer
             </Button>
@@ -303,6 +344,70 @@ const AtomsSection = () => {
             <Divider label="Autre contenu" />
             <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
               Contenu de section 3
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="component-section">
+        <h3 className="component-title">NavBarEntry</h3>
+        <p className="component-description">
+          Élément de navigation pour barre de navigation mobile, affichant une icône avec différents états.
+        </p>
+
+        <div className="component-example">
+          <h4>États de base</h4>
+          <div className="component-variants" style={{ display: 'flex', backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <div style={{ marginRight: '2rem' }}>
+              <p className="small-label">Non sélectionné</p>
+              <NavBarEntry 
+                icon={homeSvg} 
+                isSelected={false}
+                onClick={() => alert('NavBarEntry clicked: Home')}
+              />
+            </div>
+            
+            <div style={{ marginRight: '2rem' }}>
+              <p className="small-label">Sélectionné</p>
+              <NavBarEntry 
+                icon={homeFilledSvg}
+                isSelected={true} 
+                onClick={() => alert('NavBarEntry clicked: Home (selected)')}
+              />
+            </div>
+            
+            <div>
+              <p className="small-label">Désactivé</p>
+              <NavBarEntry 
+                icon={homeSvg}
+                isDisabled={true}
+              />
+            </div>
+          </div>
+
+          <h4>Exemple d'utilisation (barre de navigation)</h4>
+          <div style={{ maxWidth: '375px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #E4E4E4', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', borderTop: '1px solid #E4E4E4' }}>
+              <NavBarEntry 
+                icon={homeFilledSvg}
+                isSelected={true}
+                onClick={() => alert('Home clicked')}
+              />
+              <NavBarEntry 
+                icon={homeSvg}
+                isSelected={false}
+                onClick={() => alert('Search clicked')}
+              />
+              <NavBarEntry 
+                icon={homeSvg}
+                isSelected={false}
+                onClick={() => alert('Create clicked')}
+              />
+              <NavBarEntry 
+                icon={homeSvg}
+                isSelected={false}
+                onClick={() => alert('Profile clicked')}
+              />
             </div>
           </div>
         </div>

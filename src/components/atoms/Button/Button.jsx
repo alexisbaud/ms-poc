@@ -1,96 +1,157 @@
-import { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
 
 /**
- * Composant Button réutilisable
- * @param {Object} props - Les propriétés du composant
- * @param {string} props.children - Le contenu du bouton
- * @param {string} props.importance - L'importance du bouton (primary, toned, secondary, tertiary)
- * @param {string} props.style - Le style du bouton (black, color, danger)
- * @param {string} props.size - La taille du bouton (sm, md, lg)
- * @param {string} props.iconVariant - La variante d'icône (none, before, after, only)
- * @param {boolean} props.isFullWidth - Si le bouton doit prendre toute la largeur
- * @param {boolean} props.isDisabled - Si le bouton est désactivé
- * @param {Function} props.onClick - Fonction appelée au clic
- * @param {React.ElementType} props.icon - L'icône à afficher
- * @param {string} props.iconSize - Taille de l'icône (en pixels)
- * @returns {JSX.Element}
+ * Composant Button
  */
-const Button = ({ 
-  children, 
-  importance = 'primary', 
-  style = 'color', 
-  size = 'md', 
-  iconVariant = 'none', 
-  isFullWidth = false,
-  isDisabled = false,
+const Button = ({
+  children,
+  // Nouvelles props
+  variant = 'primary',
+  // Props de compatibilité avec l'ancienne version
+  importance,
+  style: styleProp,
+  isDisabled,
+  isFullWidth,
+  // Props actuelles
+  size = 'md',
+  icon = null,
+  iconVariant = 'left',
+  iconSize = null,
+  disabled = false,
+  fullWidth = false,
+  square = false,
   onClick,
-  icon: Icon,
-  iconSize = '16',
-  ...rest
+  style,
+  className = '',
+  type = 'button',
+  loading = false,
+  ...props
 }) => {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handleMouseDown = () => {
-    setIsPressed(true);
-  };
-
-  const handleMouseUp = () => {
-    setIsPressed(false);
-  };
-
-  const handleClick = (e) => {
-    if (!isDisabled && onClick) {
-      onClick(e);
-    }
-  };
-
-  // Validation: Toned n'existe pas pour le style Black
-  const finalImportance = style === 'black' && importance === 'toned' ? 'primary' : importance;
-
-  const buttonClasses = [
+  // Gérer la rétrocompatibilité
+  // Si importance est défini, l'utiliser comme variant
+  const finalVariant = importance || variant;
+  // Si styleProp est une chaîne, c'est l'ancien format (style="color")
+  const isLegacyStyle = typeof styleProp === 'string';
+  // Styles CSS inline (seulement si ce n'est pas un legacy style)
+  const inlineStyle = isLegacyStyle ? {} : style;
+  // Valeur pour les classes CSS
+  const styleValue = isLegacyStyle ? styleProp : 'primary'; // default
+  // Flags d'état
+  const isDisabledFinal = isDisabled || disabled;
+  const isFullWidthFinal = isFullWidth || fullWidth;
+  
+  // Taille de l'icône en fonction de la taille du bouton, si non spécifiée
+  const computedIconSize = iconSize || (size === 'sm' ? 16 : size === 'md' ? 20 : 24);
+  
+  // Construction des classes CSS
+  const buttonClass = [
     'button',
-    `button--${style}`,
-    `button--${finalImportance}`,
+    isLegacyStyle ? `button--${styleValue}` : '',
+    `button--${finalVariant}`,
     `button--${size}`,
-    `button--icon-${iconVariant}`,
-    iconVariant === 'only' ? 'button--icon-only' : '',
-    isFullWidth ? 'button--full-width' : '',
-    isDisabled ? 'button--disabled' : '',
-    isPressed ? 'button--pressed' : ''
+    isFullWidthFinal ? 'button--full-width' : '',
+    square ? 'button--square' : '',
+    loading ? 'button--loading' : '',
+    icon && iconVariant === 'only' ? 'button--icon-only' : '',
+    icon && iconVariant !== 'only' ? `button--icon-${iconVariant}` : '',
+    className
   ].filter(Boolean).join(' ');
 
+  // Rendu de l'icône
+  const renderIcon = (position) => {
+    if (!icon) return null;
+
+    // Si l'icône est une chaîne (SVG string), utiliser dangerouslySetInnerHTML
+    if (typeof icon === 'string') {
+      return (
+        <span
+          className={`button__icon button__icon--${position}`}
+          dangerouslySetInnerHTML={{ __html: icon }}
+          style={{ width: computedIconSize, height: computedIconSize }}
+        />
+      );
+    }
+    
+    // Sinon, c'est un ReactNode, on le rend directement
+    return (
+      <span
+        className={`button__icon button__icon--${position}`}
+        style={{ width: computedIconSize, height: computedIconSize }}
+      >
+        {icon}
+      </span>
+    );
+  };
+  
   return (
     <button
-      className={buttonClasses}
-      disabled={isDisabled}
-      onClick={handleClick}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={() => setIsPressed(false)}
-      {...rest}
+      type={type}
+      className={buttonClass}
+      onClick={onClick}
+      disabled={isDisabledFinal || loading}
+      style={inlineStyle}
+      {...props}
     >
-      {(iconVariant === 'before' || iconVariant === 'only') && Icon && (
-        <Icon size={iconSize} className="button__icon button__icon--before" />
+      {loading && (
+        <div className="button__loader">
+          <div className="button__loader-spinner"></div>
+        </div>
       )}
-      {iconVariant !== 'only' && <span className="button__text">{children}</span>}
-      {iconVariant === 'after' && Icon && <Icon size={iconSize} className="button__icon button__icon--after" />}
+      
+      {icon && (iconVariant === 'left' || iconVariant === 'only') && 
+        renderIcon('before')}
+      
+      {iconVariant !== 'only' && (
+        <span className="button__text">{children}</span>
+      )}
+      
+      {icon && iconVariant === 'right' && 
+        renderIcon('after')}
     </button>
   );
 };
 
 Button.propTypes = {
+  /** Contenu du bouton */
   children: PropTypes.node,
-  importance: PropTypes.oneOf(['primary', 'toned', 'secondary', 'tertiary']),
-  style: PropTypes.oneOf(['black', 'color', 'danger']),
+  /** Variante visuelle du bouton */
+  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'toned', 'ghost', 'danger']),
+  /** Taille du bouton */
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
-  iconVariant: PropTypes.oneOf(['none', 'before', 'after', 'only']),
-  isFullWidth: PropTypes.bool,
-  isDisabled: PropTypes.bool,
+  /** Icône du bouton (ReactNode ou SVG string) */
+  icon: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  /** Position de l'icône ou "only" pour icône uniquement */
+  iconVariant: PropTypes.oneOf(['left', 'right', 'only']),
+  /** Taille personnalisée de l'icône (en px) */
+  iconSize: PropTypes.number,
+  /** Bouton désactivé */
+  disabled: PropTypes.bool,
+  /** Bouton prenant toute la largeur disponible */
+  fullWidth: PropTypes.bool,
+  /** Bouton carré (hauteur = largeur) */
+  square: PropTypes.bool,
+  /** Fonction exécutée au clic */
   onClick: PropTypes.func,
-  icon: PropTypes.elementType,
-  iconSize: PropTypes.string,
+  /** Styles CSS inline */
+  style: PropTypes.object,
+  /** Classes CSS additionnelles */
+  className: PropTypes.string,
+  /** Type HTML du bouton */
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  /** État de chargement */
+  loading: PropTypes.bool,
+  
+  // Props pour rétrocompatibilité
+  /** @deprecated Utiliser variant à la place */
+  importance: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'toned']),
+  /** @deprecated Utiliser un autre nom de prop pour le style visuel */
+  styleProp: PropTypes.string,
+  /** @deprecated Utiliser disabled à la place */
+  isDisabled: PropTypes.bool,
+  /** @deprecated Utiliser fullWidth à la place */
+  isFullWidth: PropTypes.bool,
 };
 
 export default Button; 

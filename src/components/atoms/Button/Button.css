@@ -1,57 +1,62 @@
 .button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  gap: 8px;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
   position: relative;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Dimensions des tailles */
 .button--sm {
-  height: 40px;
+  height: 36px;
   padding: 0 16px;
+  font-size: 14px;
   border-radius: 12px;
-  font-size: 0.875rem;
 }
 
 .button--md {
-  height: 48px;
+  height: 44px;
   padding: 0 20px;
+  font-size: 16px;
   border-radius: 16px;
-  font-size: 1rem;
 }
 
 .button--lg {
-  height: 56px;
+  height: 52px;
   padding: 0 24px;
+  font-size: 16px;
   border-radius: 16px;
-  font-size: 1.125rem;
 }
 
 /* Styles pour bouton icône uniquement */
 .button--icon-only {
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: auto;
+  aspect-ratio: 1/1; /* Assure que le bouton est parfaitement carré */
 }
 
 .button--icon-only.button--sm {
-  width: 40px;
+  width: 36px;
+  min-width: 36px;
 }
 
 .button--icon-only.button--md {
-  width: 48px;
+  width: 44px;
+  min-width: 44px;
 }
 
 .button--icon-only.button--lg {
-  width: 56px;
+  width: 52px;
+  min-width: 52px;
 }
 
 .button--icon-only .button__icon {
@@ -200,17 +205,41 @@
   margin-left: 0.5rem;
 }
 
+/* Support des SVG dans les icônes */
+.button__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.button--black svg path {
+  fill: currentColor;
+}
+
+.button--color svg path {
+  fill: currentColor;
+}
+
+.button--danger svg path {
+  fill: currentColor;
+}
+
 /* Tailles d'icônes selon la taille du bouton */
 .button--sm .button__icon {
-  font-size: 14px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .button--md .button__icon {
-  font-size: 16px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .button--lg .button__icon {
-  font-size: 18px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 /* Style du texte */

@@ -1,0 +1,47 @@
+.navbar-entry {
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-entry:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.navbar-entry--pressed {
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+}
+
+.navbar-entry--disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: default;
+}
+
+.navbar-entry__icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-entry__icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* Couleurs pour les états selected/unselected */
+.navbar-entry--selected .navbar-entry__icon svg path {
+  fill: #4A4A4A; /* content.01 */
+}
+
+.navbar-entry--unselected .navbar-entry__icon svg path {
+  fill: #6F6F6F; /* content.02 */
+} 

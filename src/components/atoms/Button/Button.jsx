@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
+import { colors } from '../../../styles';
 
 /**
  * Composant Button
@@ -29,6 +30,20 @@ const Button = ({
   loading = false,
   ...props
 }) => {
+  // État pour gérer l'état pressé
+  const [isPressed, setIsPressed] = useState(false);
+
+  // Gestionnaires d'événements pour l'état pressé
+  const handlePressStart = () => {
+    if (!disabled && !isDisabled && !loading) {
+      setIsPressed(true);
+    }
+  };
+
+  const handlePressEnd = () => {
+    setIsPressed(false);
+  };
+
   // Gérer la rétrocompatibilité
   // Si importance est défini, l'utiliser comme variant
   const finalVariant = importance || variant;
@@ -54,6 +69,7 @@ const Button = ({
     isFullWidthFinal ? 'button--full-width' : '',
     square ? 'button--square' : '',
     loading ? 'button--loading' : '',
+    isPressed ? 'button--pressed' : '',
     icon && iconVariant === 'only' ? 'button--icon-only' : '',
     icon && iconVariant !== 'only' ? `button--icon-${iconVariant}` : '',
     className
@@ -92,6 +108,12 @@ const Button = ({
       onClick={onClick}
       disabled={isDisabledFinal || loading}
       style={inlineStyle}
+      onMouseDown={handlePressStart}
+      onMouseUp={handlePressEnd}
+      onMouseLeave={handlePressEnd}
+      onTouchStart={handlePressStart}
+      onTouchEnd={handlePressEnd}
+      onTouchCancel={handlePressEnd}
       {...props}
     >
       {loading && (

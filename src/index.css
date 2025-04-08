@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Désactiver le surlignement bleu sur mobile pour tous les éléments cliquables */
+a, button, input, select, textarea, [role="button"], [tabindex="0"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

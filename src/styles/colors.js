@@ -7,6 +7,7 @@ const colors = {
     color: "#0D1C91",
     toned: "#EBEDFF",
     pressLayer: "rgba(0, 0, 0, 0.06)",
+    pressLayerAlt: "rgba(255, 255, 255, 0.04)",
     danger: "#DC2626",
     dangerToned: "#FEE2E2", // Renamed from danger-toned for JS compatibility
     dangerPressLayer: "rgba(100, 00, 00, 0.06)" // Renamed from danger-pressLayer for JS compatibility

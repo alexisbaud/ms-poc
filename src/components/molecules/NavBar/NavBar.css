@@ -20,6 +20,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Style spécifique pour le bouton à l'intérieur du conteneur */

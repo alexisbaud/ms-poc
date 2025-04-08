@@ -7,6 +7,7 @@
   cursor: pointer;
   flex: 1;
   transition: background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .navbar-entry:hover {

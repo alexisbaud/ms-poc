@@ -10,25 +10,31 @@
   transition: all 0.2s ease-in-out;
   position: relative;
   overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* État pressé par défaut - s'applique si aucun autre style pressed n'est défini */
+.button--pressed {
+  background-color: rgba(0, 0, 0, 0.06); /* colors.interaction.pressLayer */
 }
 
 /* Dimensions des tailles */
 .button--sm {
-  height: 36px;
+  height: 40px;
   padding: 0 16px;
   font-size: 14px;
   border-radius: 12px;
 }
 
 .button--md {
-  height: 44px;
+  height: 48px;
   padding: 0 20px;
   font-size: 16px;
   border-radius: 16px;
 }
 
 .button--lg {
-  height: 52px;
+  height: 56px;
   padding: 0 24px;
   font-size: 16px;
   border-radius: 16px;
@@ -45,18 +51,18 @@
 }
 
 .button--icon-only.button--sm {
-  width: 36px;
-  min-width: 36px;
+  width: 40px;
+  min-width: 40px;
 }
 
 .button--icon-only.button--md {
-  width: 44px;
-  min-width: 44px;
+  width: 48px;
+  min-width: 48px;
 }
 
 .button--icon-only.button--lg {
-  width: 52px;
-  min-width: 52px;
+  width: 56px;
+  min-width: 56px;
 }
 
 .button--icon-only .button__icon {
@@ -66,12 +72,12 @@
 /* Variantes de style - BLACK */
 /* Primary */
 .button--black.button--primary {
-  background-color: #161616;
+  background-color: #161616; /* colors.background['00Inverted'] */
   color: white;
 }
 
 .button--black.button--primary.button--pressed {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #202020; /* Combinaison de colors.background['00Inverted'] + colors.interaction.pressLayerAlt */
 }
 
 /* Secondary */
@@ -92,18 +98,28 @@
 }
 
 .button--black.button--tertiary.button--pressed {
-  background-color: rgba(0, 0, 0, 0.06);
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+}
+
+/* Ghost */
+.button--black.button--ghost {
+  background-color: transparent;
+  color: #161616;
+}
+
+.button--black.button--ghost.button--pressed {
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
 }
 
 /* Variantes de style - COLOR */
 /* Primary */
 .button--color.button--primary {
-  background-color: #0D1C91;
+  background-color: #0D1C91; /* colors.interaction.color */
   color: white;
 }
 
 .button--color.button--primary.button--pressed {
-  background-color: #0A1672;
+  background-color: #1C2A9F; /* Combinaison de colors.interaction.color + colors.interaction.pressLayerAlt */
 }
 
 /* Toned */
@@ -134,18 +150,28 @@
 }
 
 .button--color.button--tertiary.button--pressed {
-  background-color: rgba(0, 0, 0, 0.06);
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+}
+
+/* Ghost (si existant) */
+.button--color.button--ghost {
+  background-color: transparent;
+  color: #0D1C91;
+}
+
+.button--color.button--ghost.button--pressed {
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
 }
 
 /* Variantes de style - DANGER */
 /* Primary */
 .button--danger.button--primary {
-  background-color: #DC2626;
+  background-color: #DC2626; /* colors.interaction.danger */
   color: white;
 }
 
 .button--danger.button--primary.button--pressed {
-  background-color: #B91C1C;
+  background-color: #E03535; /* Combinaison de colors.interaction.danger + colors.interaction.pressLayerAlt */
 }
 
 /* Toned */
@@ -176,7 +202,17 @@
 }
 
 .button--danger.button--tertiary.button--pressed {
-  background-color: rgba(220, 38, 38, 0.06);
+  background-color: rgba(220, 38, 38, 0.06); /* interaction.dangerPressLayer */
+}
+
+/* Ghost */
+.button--danger.button--ghost {
+  background-color: transparent;
+  color: #DC2626;
+}
+
+.button--danger.button--ghost.button--pressed {
+  background-color: rgba(220, 38, 38, 0.06); /* interaction.dangerPressLayer */
 }
 
 /* États */

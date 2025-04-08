@@ -40,7 +40,7 @@
 
 /* Couleurs pour les états selected/unselected */
 .navbar-entry--selected .navbar-entry__icon svg path {
-  fill: #4A4A4A; /* content.01 */
+  fill: #161616; /* content.00 */
 }
 
 .navbar-entry--unselected .navbar-entry__icon svg path {

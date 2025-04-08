@@ -8,7 +8,7 @@ import Button from '../../atoms/Button/Button';
 // Import direct des SVG comme URLs
 import houseIcon from '../../../assets/Icons/house-door.svg';
 import houseIconFill from '../../../assets/Icons/house-door-fill.svg';
-import plusIcon from '../../../assets/Icons/plus.svg';
+import plusLgIcon from '../../../assets/Icons/plus-lg.svg';
 import searchIcon from '../../../assets/Icons/search.svg';
 import searchIconFill from '../../../assets/Icons/search-fill.svg';
 import heartIcon from '../../../assets/Icons/heart.svg';
@@ -35,7 +35,7 @@ const NavBar = ({
   // États pour stocker les SVGs comme chaînes
   const [homeSvg, setHomeSvg] = useState('');
   const [homeFilledSvg, setHomeFilledSvg] = useState('');
-  const [plusSvg, setPlusSvg] = useState('');
+  const [plusLgSvg, setPlusLgSvg] = useState('');
   const [searchSvg, setSearchSvg] = useState('');
   const [searchFilledSvg, setSearchFilledSvg] = useState('');
   const [heartSvg, setHeartSvg] = useState('');
@@ -59,7 +59,7 @@ const NavBar = ({
     // Charger tous les SVGs
     loadSvg(houseIcon, setHomeSvg);
     loadSvg(houseIconFill, setHomeFilledSvg);
-    loadSvg(plusIcon, setPlusSvg);
+    loadSvg(plusLgIcon, setPlusLgSvg);
     loadSvg(searchIcon, setSearchSvg);
     loadSvg(searchIconFill, setSearchFilledSvg);
     loadSvg(heartIcon, setHeartSvg);
@@ -103,10 +103,10 @@ const NavBar = ({
       <div className="navbar__create-button">
         <Button 
           iconVariant="only"
-          iconSize={24}
-          icon={plusSvg}
-          size="sm"
+          size="s"
           variant="color"
+          style="toned"
+          icon={plusLgSvg}
           onClick={() => handleNavigate('create')}
           aria-label="Créer un post"
         />

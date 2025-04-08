@@ -24,25 +24,41 @@ const Button = ({
   fullWidth = false,
   square = false,
   onClick,
+  onMouseDown,
+  onMouseUp,
+  onMouseLeave,
   style,
   className = '',
   type = 'button',
   loading = false,
+  isPressed = false,
   ...props
 }) => {
   // État pour gérer l'état pressé
-  const [isPressed, setIsPressed] = useState(false);
+  const [isPressedInternal, setIsPressedInternal] = useState(false);
 
   // Gestionnaires d'événements pour l'état pressé
-  const handlePressStart = () => {
+  const handlePressStart = (e) => {
     if (!disabled && !isDisabled && !loading) {
-      setIsPressed(true);
+      setIsPressedInternal(true);
     }
+    if (onMouseDown) onMouseDown(e);
   };
 
-  const handlePressEnd = () => {
-    setIsPressed(false);
+  const handlePressEnd = (e) => {
+    setIsPressedInternal(false);
+    if (onMouseUp) onMouseUp(e);
   };
+  
+  const handleMouseLeave = (e) => {
+    setIsPressedInternal(false);
+    if (onMouseLeave) onMouseLeave(e);
+  };
+  
+  // Normaliser iconVariant pour gérer les deux conventions (left/right et before/after)
+  let normalizedIconVariant = iconVariant;
+  if (iconVariant === 'before') normalizedIconVariant = 'left';
+  if (iconVariant === 'after') normalizedIconVariant = 'right';
 
   // Gérer la rétrocompatibilité
   // Si importance est défini, l'utiliser comme variant
@@ -58,7 +74,10 @@ const Button = ({
   const isFullWidthFinal = isFullWidth || fullWidth;
   
   // Taille de l'icône en fonction de la taille du bouton, si non spécifiée
-  const computedIconSize = iconSize || (size === 'sm' ? 16 : size === 'md' ? 20 : 24);
+  const computedIconSize = iconSize || (size === 'sm' ? 20 : size === 'md' ? 24 : 28);
+  
+  // Combiner l'état pressé interne et externe
+  const isPressedFinal = isPressed || isPressedInternal;
   
   // Construction des classes CSS
   const buttonClass = [
@@ -70,9 +89,9 @@ const Button = ({
     isDisabledFinal ? 'button--disabled' : '',
     square ? 'button--square' : '',
     loading ? 'button--loading' : '',
-    isPressed ? 'button--pressed' : '',
-    icon && iconVariant === 'only' ? 'button--icon-only' : '',
-    icon && iconVariant !== 'only' ? `button--icon-${iconVariant}` : '',
+    isPressedFinal ? 'button--pressed' : '',
+    icon && normalizedIconVariant === 'only' ? 'button--icon-only' : '',
+    icon && normalizedIconVariant !== 'only' ? `button--icon-${normalizedIconVariant}` : '',
     className
   ].filter(Boolean).join(' ');
 
@@ -102,6 +121,13 @@ const Button = ({
     );
   };
   
+  // Fonction pour déterminer la position de l'icône en CSS
+  const getIconPosition = (variant) => {
+    if (variant === 'left' || variant === 'before') return 'before';
+    if (variant === 'right' || variant === 'after') return 'after';
+    return variant;
+  };
+  
   return (
     <button
       type={type}
@@ -111,10 +137,10 @@ const Button = ({
       style={inlineStyle}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
-      onMouseLeave={handlePressEnd}
+      onMouseLeave={handleMouseLeave}
       onTouchStart={handlePressStart}
       onTouchEnd={handlePressEnd}
-      onTouchCancel={handlePressEnd}
+      onTouchCancel={handleMouseLeave}
       {...props}
     >
       {loading && (
@@ -123,14 +149,14 @@ const Button = ({
         </div>
       )}
       
-      {icon && (iconVariant === 'left' || iconVariant === 'only') && 
+      {icon && (normalizedIconVariant === 'left' || normalizedIconVariant === 'only') && 
         renderIcon('before')}
       
-      {iconVariant !== 'only' && (
+      {normalizedIconVariant !== 'only' && (
         <span className="button__text">{children}</span>
       )}
       
-      {icon && iconVariant === 'right' && 
+      {icon && normalizedIconVariant === 'right' && 
         renderIcon('after')}
     </button>
   );
@@ -146,7 +172,7 @@ Button.propTypes = {
   /** Icône du bouton (ReactNode ou SVG string) */
   icon: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   /** Position de l'icône ou "only" pour icône uniquement */
-  iconVariant: PropTypes.oneOf(['left', 'right', 'only']),
+  iconVariant: PropTypes.oneOf(['left', 'right', 'only', 'before', 'after']),
   /** Taille personnalisée de l'icône (en px) */
   iconSize: PropTypes.number,
   /** Bouton désactivé */
@@ -157,6 +183,12 @@ Button.propTypes = {
   square: PropTypes.bool,
   /** Fonction exécutée au clic */
   onClick: PropTypes.func,
+  /** Gestionnaire d'événement de souris enfoncée */
+  onMouseDown: PropTypes.func,
+  /** Gestionnaire d'événement de souris relâchée */
+  onMouseUp: PropTypes.func,
+  /** Gestionnaire d'événement quand la souris quitte le bouton */
+  onMouseLeave: PropTypes.func,
   /** Styles CSS inline */
   style: PropTypes.object,
   /** Classes CSS additionnelles */
@@ -165,6 +197,8 @@ Button.propTypes = {
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   /** État de chargement */
   loading: PropTypes.bool,
+  /** État pressé contrôlé depuis l'extérieur */
+  isPressed: PropTypes.bool,
   
   // Props pour rétrocompatibilité
   /** @deprecated Utiliser variant à la place */

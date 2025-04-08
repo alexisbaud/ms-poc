@@ -18,7 +18,7 @@
   height: 100%; /* Prendre toute la hauteur disponible */
   border-radius: 16px;
   padding: 0 16px; /* Padding horizontal seulement */
-  background-color: #FFFFFF; /* background.00 */
+  background-color: #F9F9F9; /* background.01 */
   border: 1px solid #E1E1E1; /* content.04 */
   transition: all 0.2s ease;
   box-sizing: border-box; /* S'assurer que le padding est inclus dans la hauteur */
@@ -101,7 +101,26 @@
   opacity: 1;
 }
 
-/* Icon style */
+/* Toggle button style - remplace l'ancien textfield__icon */
+.textfield__toggle-button {
+  position: absolute !important;
+  right: 6px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+  min-width: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  /* Surcharger les styles du Button pour s'adapter au TextField */
+  border-radius: 16px !important;
+}
+
+/* On conserve l'ancien style pour la rétrocompatibilité si nécessaire */
 .textfield__icon {
   position: absolute;
   right: 16px;
@@ -133,9 +152,22 @@
   border-color: #0D1C91; /* interaction.color */
 }
 
-/* État : pressed */
+/* État : pressed - Utilisation d'un pseudo-élément pour créer l'effet de superposition */
 .textfield--pressed .textfield__container {
+  position: relative;
+}
+
+.textfield--pressed .textfield__container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
   background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+  pointer-events: none; /* Pour que les clics passent à travers */
+  z-index: 1;
 }
 
 /* État : disabled */
@@ -143,6 +175,16 @@
   opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* Dans l'état désactivé, seul le label doit être visible */
+.textfield--disabled .textfield__input {
+  opacity: 0;
+}
+
+.textfield--disabled .textfield__label {
+  opacity: 1;
+  color: #4A4A4A; /* content.01 - s'assurer que le label est visible même avec l'opacité réduite */
 }
 
 /* État : error */
@@ -204,5 +246,5 @@
 
 /* Adaptation pour le type password */
 .textfield--password .textfield__input {
-  padding-right: 32px; /* Espace pour l'icône */
+  padding-right: 60px; /* Augmenter l'espace pour le bouton plus large */
 } 

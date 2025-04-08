@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import './TextField.css';
 import { colors } from '../../../styles';
+import Button from '../Button';
 
 // Compteur global pour générer des IDs uniques
 let uniqueIdCounter = 0;
@@ -42,6 +43,7 @@ const TextField = forwardRef(({
   ...rest
 }, ref) => {
   const [isPressed, setIsPressed] = useState(false);
+  const [isToggleButtonPressed, setIsToggleButtonPressed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isFilled, setIsFilled] = useState(!!value);
@@ -68,12 +70,22 @@ const TextField = forwardRef(({
     }
   }, [value, type, format, errorMessage]);
   
-  const handleMouseDown = () => {
-    setIsPressed(true);
+  const handleMouseDown = (e) => {
+    if (!isDisabled) {
+      setIsPressed(true);
+    }
   };
   
-  const handleMouseUp = () => {
-    setIsPressed(false);
+  const handleMouseUp = (e) => {
+    if (!isDisabled) {
+      setIsPressed(false);
+    }
+  };
+  
+  const handleMouseLeave = (e) => {
+    if (!isDisabled) {
+      setIsPressed(false);
+    }
   };
   
   const handleChange = (e) => {
@@ -114,7 +126,7 @@ const TextField = forwardRef(({
   
   const textfieldClasses = [
     'textfield',
-    isFilled ? 'textfield--filled' : '',
+    isFilled && !isDisabled ? 'textfield--filled' : '',
     isPressed ? 'textfield--pressed' : '',
     isDisabled ? 'textfield--disabled' : '',
     isError ? 'textfield--error' : '',
@@ -164,9 +176,12 @@ const TextField = forwardRef(({
   return (
     <div 
       className={textfieldClasses}
-      onMouseDown={!isDisabled ? handleMouseDown : undefined}
-      onMouseUp={!isDisabled ? handleMouseUp : undefined}
-      onMouseLeave={() => setIsPressed(false)}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
+      onTouchCancel={handleMouseLeave}
     >
       <div 
         className="textfield__container"
@@ -183,18 +198,30 @@ const TextField = forwardRef(({
         </div>
         
         {type === 'password' && (
-          <button 
-            type="button"
-            className="textfield__icon"
+          <Button 
+            variant="tertiary"
+            style="black"
+            size="md"
+            className="textfield__toggle-button"
             onClick={(e) => {
               e.stopPropagation(); // Empêcher le clic de se propager au conteneur
               toggleShowPassword();
             }}
             tabIndex="-1"
             aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-          >
-            {showPassword ? <BsEyeSlash size={20} /> : <BsEye size={20} />}
-          </button>
+            icon={showPassword ? <BsEyeSlash size={20} /> : <BsEye size={20} />}
+            iconVariant="only"
+            onMouseDown={(e) => {
+              e.stopPropagation(); // Empêcher que l'événement remonte
+              setIsToggleButtonPressed(true);
+            }}
+            onMouseUp={(e) => {
+              e.stopPropagation();
+              setIsToggleButtonPressed(false);
+            }}
+            onMouseLeave={() => setIsToggleButtonPressed(false)}
+            isPressed={isToggleButtonPressed}
+          />
         )}
       </div>
       <div className="textfield__error-message">

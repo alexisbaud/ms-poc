@@ -29,7 +29,7 @@ const NavBarEntry = ({
           dangerouslySetInnerHTML={{ __html: icon }}
           style={{ 
             color: isSelected 
-              ? colors.content['01'] // #4A4A4A pour selected
+              ? colors.content['00'] // #161616 pour selected (content.00)
               : colors.content['02'] // #6F6F6F pour unselected
           }}
         />
@@ -42,7 +42,7 @@ const NavBarEntry = ({
         className="navbar-entry__icon"
         style={{ 
           color: isSelected 
-            ? colors.content['01'] // #4A4A4A pour selected
+            ? colors.content['00'] // #161616 pour selected (content.00)
             : colors.content['02'] // #6F6F6F pour unselected
         }}
       >

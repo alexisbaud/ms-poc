@@ -13,6 +13,28 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Supprimer le focus par défaut et le remplacer par notre propre style */
+.button:focus {
+  outline: none;
+}
+
+/* Style de focus uniquement lors de la navigation au clavier (via focus-visible) */
+.button:focus-visible {
+  outline: 2px solid #0D1C91; /* colors.interaction.color */
+  outline-offset: 2px;
+  z-index: 1; /* S'assurer que le focus est visible même sur des éléments avec z-index */
+}
+
+/* Style spécifique pour les boutons danger */
+.button--danger:focus-visible {
+  outline-color: #DC2626; /* colors.interaction.danger */
+}
+
+/* Style spécifique pour les boutons à fond noir */
+.button--black:focus-visible {
+  outline-color: white;
+}
+
 /* État pressé par défaut - s'applique si aucun autre style pressed n'est défini */
 .button--pressed {
   background-color: rgba(0, 0, 0, 0.06); /* colors.interaction.pressLayer */

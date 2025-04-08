@@ -67,6 +67,7 @@ const Button = ({
     `button--${finalVariant}`,
     `button--${size}`,
     isFullWidthFinal ? 'button--full-width' : '',
+    isDisabledFinal ? 'button--disabled' : '',
     square ? 'button--square' : '',
     loading ? 'button--loading' : '',
     isPressed ? 'button--pressed' : '',

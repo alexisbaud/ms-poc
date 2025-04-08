@@ -13,6 +13,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Classe utilitaire pour détecter la navigation au clavier vs souris */
+:root {
+  --focus-color: #0D1C91;
+  --focus-width: 2px;
+}
+
+/* Masquer le focus sauf en cas de navigation au clavier */
+*:focus {
+  outline: none;
+}
+
+/* Le focus ne sera visible que lorsque la classe js-focus-visible est ajoutée au body */
+body.js-focus-visible *:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Pour les navigateurs qui ne supportent pas :focus-visible */
+body.js-focus-visible *:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Désactiver le surlignement bleu sur mobile pour tous les éléments cliquables */
 a, button, input, select, textarea, [role="button"], [tabindex="0"] {
   -webkit-tap-highlight-color: transparent;
@@ -54,10 +76,6 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -70,4 +88,26 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Styles de focus pour les éléments interactifs autres que les boutons */
+a:focus, 
+input:focus, 
+select:focus, 
+textarea:focus, 
+[role="button"]:focus, 
+[tabindex="0"]:focus {
+  outline: none;
+}
+
+/* Style de focus visible uniquement lors de la navigation au clavier */
+body.js-focus-visible a:focus-visible,
+body.js-focus-visible input:focus-visible, 
+body.js-focus-visible select:focus-visible, 
+body.js-focus-visible textarea:focus-visible,
+body.js-focus-visible [role="button"]:focus-visible,
+body.js-focus-visible [tabindex="0"]:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: 2px;
+  z-index: 1;
 }

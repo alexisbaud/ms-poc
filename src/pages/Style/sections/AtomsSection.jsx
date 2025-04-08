@@ -195,6 +195,22 @@ const AtomsSection = () => {
               Supprimer
             </Button>
           </div>
+
+          <h4>Bouton full width avec icône à droite</h4>
+          <div className="component-variants">
+            <div className="fullwidth-button-container" style={{ width: '100%' }}>
+              <Button 
+                style="color"
+                importance="primary" 
+                size="md" 
+                iconVariant="after"
+                icon={arrowRightSvg}
+                isFullWidth
+              >
+                Continuer
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import AtomsSection from './sections/AtomsSection';
 import MoleculesSection from './sections/MoleculesSection';
 import OrganismsSection from './sections/OrganismsSection';
 import StyleGuide from './sections/StyleGuide';
+import TypographySection from './sections/TypographySection';
 import './Style.css';
 
 /**
@@ -13,6 +14,7 @@ const Style = () => {
 
   const tabs = [
     { id: 'style', label: 'Style' },
+    { id: 'typography', label: 'Typographie' },
     { id: 'atoms', label: 'Atoms' },
     { id: 'molecules', label: 'Molecules' },
     { id: 'organisms', label: 'Organisms' }
@@ -23,6 +25,8 @@ const Style = () => {
     switch (activeTab) {
       case 'style':
         return <StyleGuide />;
+      case 'typography':
+        return <TypographySection />;
       case 'atoms':
         return <AtomsSection />;
       case 'molecules':

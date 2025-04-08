@@ -1,0 +1,97 @@
+/**
+ * Styles de texte pour l'application
+ * Basés sur la configuration de typography.js
+ */
+
+/* Style de base pour tous les textes */
+.text {
+  font-family: var(--font-primary);
+  color: #161616; /* colors.content.00 */
+  margin: 0;
+  padding: 0;
+}
+
+/* Title - 32px - bold - line height=120% */
+.text-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* H1 - 24px - semibold - line height=120% */
+.text-h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* H2 - 20px - semibold - line height=120% */
+.text-h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* H3 - 18px - semibold - line height=120% */
+.text-h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* H4 - 16px - semibold - line height=120% */
+.text-h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* Button text - medium - line height=100% */
+.text-button {
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+/* Body L - 16px - regular - line height=140% */
+.text-body-l {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+/* Body M - 14px - regular - line height=140% */
+.text-body-m {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+/* Caption - 14px - light - line height=120% - letter spacing=2% */
+.text-caption {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 120%;
+  letter-spacing: 0.02em; /* 2% en em */
+}
+
+/* Variantes de couleur */
+.text-content-00 { color: #161616; } /* colors.content.00 - Par défaut */
+.text-content-01 { color: #4A4A4A; } /* colors.content.01 */
+.text-content-02 { color: #6F6F6F; } /* colors.content.02 */
+.text-content-03 { color: #ABABAB; } /* colors.content.03 */
+.text-content-04 { color: #E1E1E1; } /* colors.content.04 */
+
+/* Variantes de couleur inversée */
+.text-content-00-inverted { color: #FAFAFA; } /* colors.content.00Inverted */
+.text-content-01-inverted { color: #E5E5E5; } /* colors.content.01Inverted */
+.text-content-02-inverted { color: #CDCDCD; } /* colors.content.02Inverted */
+.text-content-03-inverted { color: #979797; } /* colors.content.03Inverted */
+.text-content-04-inverted { color: #555555; } /* colors.content.04Inverted */ 

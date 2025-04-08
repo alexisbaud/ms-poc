@@ -11,6 +11,7 @@
   position: relative;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+  width: auto; /* Par défaut, les boutons prennent la largeur de leur contenu */
 }
 
 /* Supprimer le focus par défaut et le remplacer par notre propre style */
@@ -257,22 +258,61 @@
 }
 
 .button--full-width {
-  width: 100%;
-}
-
-/* Icônes */
-.button__icon {
-  display: inline-flex;
-  align-items: center;
+  width: 100% !important;
   justify-content: center;
 }
 
+/* Utiliser un pseudo-élément pour équilibrer visuellement le bouton avec icône à droite */
+.button--full-width.button--icon-right::before {
+  content: "";
+  display: block;
+  opacity: 0;
+  flex: 0 0 auto;
+}
+
+/* Utiliser un pseudo-élément pour équilibrer visuellement le bouton avec icône à gauche */
+.button--full-width.button--icon-left::after {
+  content: "";
+  display: block;
+  opacity: 0;
+  flex: 0 0 auto;
+}
+
+/* Ajuster la taille des pseudo-éléments en fonction de la taille du bouton */
+.button--full-width.button--icon-right.button--xs::before,
+.button--full-width.button--icon-left.button--xs::after {
+  width: 16px;
+}
+
+.button--full-width.button--icon-right.button--sm::before,
+.button--full-width.button--icon-left.button--sm::after {
+  width: 20px;
+}
+
+.button--full-width.button--icon-right.button--md::before,
+.button--full-width.button--icon-left.button--md::after {
+  width: 24px;
+}
+
+.button--full-width.button--icon-right.button--lg::before,
+.button--full-width.button--icon-left.button--lg::after {
+  width: 28px;
+}
+
+/* Ensure proper spacing for the icons */
+.button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .button__icon--before {
-  margin-right: 0.5rem;
+  margin-right: 8px;
 }
 
 .button__icon--after {
-  margin-left: 0.5rem;
+  margin-left: 8px;
 }
 
 /* Support des SVG dans les icônes */
@@ -322,4 +362,9 @@
 .button__text {
   font-weight: 500;
   display: inline-block;
+}
+
+/* Centrer le texte dans les boutons full width */
+.button--full-width .button__text {
+  text-align: center;
 } 

@@ -63,12 +63,16 @@ const Button = ({
   // Gérer la rétrocompatibilité
   // Si importance est défini, l'utiliser comme variant
   const finalVariant = importance || variant;
+  
   // Si styleProp est une chaîne, c'est l'ancien format (style="color")
   const isLegacyStyle = typeof styleProp === 'string';
+  
+  // Déterminer le style visuel (color, black, danger)
+  const styleValue = isLegacyStyle ? styleProp : 'color'; // default
+  
   // Styles CSS inline (seulement si ce n'est pas un legacy style)
   const inlineStyle = isLegacyStyle ? {} : style;
-  // Valeur pour les classes CSS
-  const styleValue = isLegacyStyle ? styleProp : 'primary'; // default
+  
   // Flags d'état
   const isDisabledFinal = isDisabled || disabled;
   const isFullWidthFinal = isFullWidth || fullWidth;
@@ -124,13 +128,6 @@ const Button = ({
         {icon}
       </span>
     );
-  };
-  
-  // Fonction pour déterminer la position de l'icône en CSS
-  const getIconPosition = (variant) => {
-    if (variant === 'left' || variant === 'before') return 'before';
-    if (variant === 'right' || variant === 'after') return 'after';
-    return variant;
   };
   
   return (

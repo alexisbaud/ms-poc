@@ -3,7 +3,7 @@ const Database = require('better-sqlite3');
 const fs = require('fs');
 
 // Database file path
-const dbPath = path.join(__dirname, '../data/microstory.db');
+const dbPath = path.join(__dirname, '../database.sqlite');
 
 // Ensure data directory exists
 const dataDir = path.dirname(dbPath);
@@ -20,11 +20,12 @@ function initDatabase() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
+      pseudo TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
-      created_at TEXT NOT NULL,
-      updated_at TEXT
+      passwordHash TEXT NOT NULL,
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT,
+      postAmount INTEGER DEFAULT 0
     )
   `);
 }

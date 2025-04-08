@@ -27,20 +27,21 @@ class User {
    * @returns {Object} - Created user object
    */
   static create(userData) {
-    const { username, email, password } = userData;
+    const { pseudo, email, passwordHash } = userData;
     
     const stmt = db.prepare(
-      'INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)'
+      'INSERT INTO users (pseudo, email, passwordHash, createdAt, postAmount) VALUES (?, ?, ?, ?, ?)'
     );
     
     const now = new Date().toISOString();
-    const info = stmt.run(username, email, password, now);
+    const info = stmt.run(pseudo, email, passwordHash, now, 0);
     
     return {
       id: info.lastInsertRowid,
-      username,
+      pseudo,
       email,
-      created_at: now
+      createdAt: now,
+      postAmount: 0
     };
   }
   
@@ -51,7 +52,7 @@ class User {
    * @returns {boolean} - Success status
    */
   static update(id, userData) {
-    const allowedFields = ['username', 'email', 'password'];
+    const allowedFields = ['pseudo', 'email', 'passwordHash', 'postAmount'];
     const updates = [];
     const values = [];
     
@@ -66,7 +67,7 @@ class User {
       return false;
     }
     
-    updates.push('updated_at = ?');
+    updates.push('updatedAt = ?');
     values.push(new Date().toISOString());
     values.push(id);
     
@@ -76,6 +77,18 @@ class User {
     return info.changes > 0;
   }
   
+  /**
+   * Increment post count for a user
+   * @param {number} id - User ID
+   * @returns {boolean} - Success status
+   */
+  static incrementPostCount(id) {
+    const stmt = db.prepare('UPDATE users SET postAmount = postAmount + 1, updatedAt = ? WHERE id = ?');
+    const info = stmt.run(new Date().toISOString(), id);
+    
+    return info.changes > 0;
+  }
+
   /**
    * Delete a user
    * @param {number} id - User ID

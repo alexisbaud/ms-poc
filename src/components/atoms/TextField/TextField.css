@@ -246,5 +246,6 @@
 
 /* Adaptation pour le type password */
 .textfield--password .textfield__input {
-  padding-right: 60px; /* Augmenter l'espace pour le bouton plus large */
-} 
+  padding-right: 60px; /* Espace pour le bouton toggle */
+  box-sizing: border-box; /* S'assurer que le padding est inclus dans la largeur */
+}

@@ -5,7 +5,7 @@
 .env
 
 # Database
-/data/*.db
+database.sqlite
 
 # Logs
 logs

@@ -16,22 +16,46 @@
 .button--sm {
   height: 40px;
   padding: 0 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 0.875rem;
 }
 
 .button--md {
   height: 48px;
   padding: 0 20px;
-  border-radius: 12px;
+  border-radius: 16px;
   font-size: 1rem;
 }
 
 .button--lg {
   height: 56px;
   padding: 0 24px;
-  border-radius: 12px;
+  border-radius: 16px;
   font-size: 1.125rem;
+}
+
+/* Styles pour bouton icône uniquement */
+.button--icon-only {
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button--icon-only.button--sm {
+  width: 40px;
+}
+
+.button--icon-only.button--md {
+  width: 48px;
+}
+
+.button--icon-only.button--lg {
+  width: 56px;
+}
+
+.button--icon-only .button__icon {
+  margin: 0;
 }
 
 /* Variantes de style - BLACK */

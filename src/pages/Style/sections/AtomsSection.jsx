@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../../../components/atoms/Button';
 import TextField from '../../../components/atoms/TextField';
+import Divider from '../../../components/atoms/Divider';
 import { BsArrowRight, BsPlus, BsTrash, BsDownload, BsBookmark, BsSearch, BsGear } from 'react-icons/bs';
 import { colors } from '../../../styles';
 
@@ -98,6 +99,7 @@ const AtomsSection = () => {
             <Button style="color" importance="primary" iconVariant="none">Sans icône</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={BsPlus}>Icône avant</Button>
             <Button style="color" importance="primary" iconVariant="after" icon={BsArrowRight}>Icône après</Button>
+            <Button style="color" importance="primary" iconVariant="only" icon={BsPlus} />
           </div>
           
           <h4>Icônes avec différents styles</h4>
@@ -105,6 +107,7 @@ const AtomsSection = () => {
             <Button style="black" importance="primary" iconVariant="before" icon={BsGear}>Settings</Button>
             <Button style="color" importance="toned" iconVariant="before" icon={BsPlus}>Ajouter</Button>
             <Button style="danger" importance="secondary" iconVariant="before" icon={BsTrash}>Supprimer</Button>
+            <Button style="danger" importance="primary" iconVariant="only" icon={BsTrash} />
           </div>
 
           <h4>Tailles avec icônes</h4>
@@ -112,6 +115,9 @@ const AtomsSection = () => {
             <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="sm">Petit</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="md">Moyen</Button>
             <Button style="color" importance="primary" iconVariant="before" icon={BsSearch} size="lg">Grand</Button>
+            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="sm" />
+            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="md" />
+            <Button style="color" importance="primary" iconVariant="only" icon={BsSearch} size="lg" />
           </div>
 
           <h4>Exemples d'utilisation</h4>
@@ -263,6 +269,40 @@ const AtomsSection = () => {
               >
                 S'inscrire
               </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="component-section">
+        <h3 className="component-title">Divider</h3>
+        <p className="component-description">
+          Séparateur horizontal pour diviser visuellement le contenu en sections.
+        </p>
+
+        <div className="component-example">
+          <h4>Variante : Ligne simple</h4>
+          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
+            <Divider />
+          </div>
+
+          <h4>Variante : Ligne avec label</h4>
+          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
+            <Divider label="Avril 2024" />
+          </div>
+          
+          <h4>Exemples d'utilisation</h4>
+          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px', maxWidth: '400px' }}>
+            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+              Contenu de section 1
+            </div>
+            <Divider />
+            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem', marginBottom: '1rem' }}>
+              Contenu de section 2
+            </div>
+            <Divider label="Autre contenu" />
+            <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
+              Contenu de section 3
             </div>
           </div>
         </div>

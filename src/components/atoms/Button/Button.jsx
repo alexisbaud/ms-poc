@@ -9,7 +9,7 @@ import './Button.css';
  * @param {string} props.importance - L'importance du bouton (primary, toned, secondary, tertiary)
  * @param {string} props.style - Le style du bouton (black, color, danger)
  * @param {string} props.size - La taille du bouton (sm, md, lg)
- * @param {string} props.iconVariant - La variante d'icône (none, before, after)
+ * @param {string} props.iconVariant - La variante d'icône (none, before, after, only)
  * @param {boolean} props.isFullWidth - Si le bouton doit prendre toute la largeur
  * @param {boolean} props.isDisabled - Si le bouton est désactivé
  * @param {Function} props.onClick - Fonction appelée au clic
@@ -55,6 +55,7 @@ const Button = ({
     `button--${finalImportance}`,
     `button--${size}`,
     `button--icon-${iconVariant}`,
+    iconVariant === 'only' ? 'button--icon-only' : '',
     isFullWidth ? 'button--full-width' : '',
     isDisabled ? 'button--disabled' : '',
     isPressed ? 'button--pressed' : ''
@@ -70,8 +71,10 @@ const Button = ({
       onMouseLeave={() => setIsPressed(false)}
       {...rest}
     >
-      {iconVariant === 'before' && Icon && <Icon size={iconSize} className="button__icon button__icon--before" />}
-      <span className="button__text">{children}</span>
+      {(iconVariant === 'before' || iconVariant === 'only') && Icon && (
+        <Icon size={iconSize} className="button__icon button__icon--before" />
+      )}
+      {iconVariant !== 'only' && <span className="button__text">{children}</span>}
       {iconVariant === 'after' && Icon && <Icon size={iconSize} className="button__icon button__icon--after" />}
     </button>
   );
@@ -82,7 +85,7 @@ Button.propTypes = {
   importance: PropTypes.oneOf(['primary', 'toned', 'secondary', 'tertiary']),
   style: PropTypes.oneOf(['black', 'color', 'danger']),
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
-  iconVariant: PropTypes.oneOf(['none', 'before', 'after']),
+  iconVariant: PropTypes.oneOf(['none', 'before', 'after', 'only']),
   isFullWidth: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,

@@ -1,0 +1,30 @@
+.divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider--line {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.20); /* content.04Through */
+  width: 100%;
+}
+
+.divider--with-label {
+  gap: 8px;
+}
+
+.divider--with-label .divider__line {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.20); /* content.04Through */
+  flex-grow: 1;
+}
+
+.divider__label {
+  font-size: 16px;
+  line-height: 90%;
+  margin-bottom: 2px;
+  width: fit-content;
+  color: rgba(0, 0, 0, 0.40); /* content.03Through */
+} 

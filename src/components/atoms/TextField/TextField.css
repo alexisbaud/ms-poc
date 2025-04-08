@@ -1,0 +1,208 @@
+.textfield {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  cursor: text;
+  transition: all 0.2s ease;
+  height: 60px; /* Forcer la hauteur totale à 60px */
+}
+
+.textfield__container {
+  position: relative;
+  display: flex;
+  align-items: center; /* Centrer verticalement */
+  width: 100%;
+  height: 100%; /* Prendre toute la hauteur disponible */
+  border-radius: 16px;
+  padding: 0 16px; /* Padding horizontal seulement */
+  background-color: #FFFFFF; /* background.00 */
+  border: 1px solid #E1E1E1; /* content.04 */
+  transition: all 0.2s ease;
+  box-sizing: border-box; /* S'assurer que le padding est inclus dans la hauteur */
+}
+
+/* Conteneur pour label et input pour centrage vertical */
+.textfield__text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrer par défaut */
+  height: 100%;
+  width: 100%;
+  position: relative; /* Pour le positionnement absolu des enfants */
+}
+
+/* Style pour le label */
+.textfield__label {
+  font-size: 16px;
+  color: #ABABAB; /* content.03 pour un look de placeholder */
+  transition: all 0.2s ease;
+  margin: 0;
+  line-height: 1.2;
+  pointer-events: none;
+  text-align: left; /* Ferrer à gauche */
+  position: absolute; /* Position absolue pour pouvoir le déplacer */
+  top: 50%; /* Centré verticalement par défaut */
+  transform: translateY(-50%); /* Ajustement pour le centrage vertical */
+  left: 0;
+}
+
+/* Style de l'input */
+.textfield__input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #4A4A4A; /* content.01 */
+  padding: 0;
+  opacity: 0; /* Invisible par défaut */
+  margin-top: 0; /* Pas besoin de marge quand invisible */
+  font-family: inherit;
+  text-align: left; /* Ferrer à gauche */
+  transition: opacity 0.2s ease; /* Animation d'apparition */
+}
+
+/* Style pour le placeholder - caché par défaut */
+.textfield__input::placeholder {
+  color: #ABABAB; /* content.03 */
+  opacity: 0; /* Masqué par défaut */
+  transition: opacity 0.2s ease;
+}
+
+/* Quand le champ est actif ou rempli */
+.textfield--filled .textfield__text-container,
+.textfield__container:focus-within .textfield__text-container {
+  justify-content: flex-start; /* Alignement en haut quand actif */
+  padding-top: 12px; /* Espace en haut pour le label */
+}
+
+/* Déplacement du label vers le haut quand actif/focus */
+.textfield--filled .textfield__label,
+.textfield__container:focus-within .textfield__label {
+  color: #4A4A4A; /* content.01 pour le label actif */
+  top: 12px; /* Position en haut quand actif */
+  transform: none; /* Pas de transformation supplémentaire */
+  font-size: 14px; /* Texte légèrement plus petit */
+}
+
+/* Affichage de l'input quand actif/focus */
+.textfield--filled .textfield__input,
+.textfield__container:focus-within .textfield__input {
+  opacity: 1; /* Visible quand actif */
+  margin-top: 20px; /* Espace pour le label au-dessus */
+}
+
+/* Afficher le placeholder uniquement quand le champ a le focus */
+.textfield__container:focus-within .textfield__input::placeholder {
+  opacity: 1;
+}
+
+/* Icon style */
+.textfield__icon {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: #4A4A4A; /* content.01 */
+  z-index: 2;
+}
+
+/* Error message */
+.textfield__error-message {
+  position: absolute;
+  bottom: -16px;
+  left: 16px;
+  font-size: 12px;
+  color: #DC2626; /* interaction.danger */
+  width: calc(100% - 32px);
+  text-align: left;
+}
+
+/* État : focused */
+.textfield__container:focus-within {
+  border-color: #0D1C91; /* interaction.color */
+}
+
+/* État : pressed */
+.textfield--pressed .textfield__container {
+  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+}
+
+/* État : disabled */
+.textfield--disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* État : error */
+.textfield--error .textfield__container {
+  border-color: #DC2626; /* interaction.danger */
+  background-color: #FEE2E2; /* interaction.danger-toned */
+}
+
+/* Variante : multiline */
+.textfield--multiline {
+  height: auto;
+}
+
+.textfield--multiline .textfield__container {
+  height: auto;
+  min-height: 60px;
+  padding: 12px 16px;
+  align-items: flex-start;
+}
+
+.textfield--multiline .textfield__text-container {
+  height: auto;
+  min-height: 36px;
+}
+
+.textfield--multiline.textfield--filled .textfield__text-container,
+.textfield--multiline .textfield__container:focus-within .textfield__text-container {
+  padding-top: 0;
+}
+
+.textfield--multiline .textfield__label {
+  top: 0;
+  transform: none;
+}
+
+.textfield--multiline.textfield--filled .textfield__label,
+.textfield--multiline .textfield__container:focus-within .textfield__label {
+  top: 0;
+}
+
+.textfield--multiline .textfield__input {
+  resize: vertical;
+  min-height: 40px;
+  margin-top: 24px;
+  opacity: 1; /* Toujours visible pour multiline */
+}
+
+.textfield--multiline.textfield--filled .textfield__input,
+.textfield--multiline .textfield__container:focus-within .textfield__input {
+  margin-top: 24px;
+}
+
+.textfield--multiline .textfield__error-message {
+  position: relative;
+  bottom: auto;
+  margin-top: 4px;
+  left: 0;
+}
+
+/* Adaptation pour le type password */
+.textfield--password .textfield__input {
+  padding-right: 32px; /* Espace pour l'icône */
+} 

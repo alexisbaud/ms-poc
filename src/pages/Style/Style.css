@@ -80,6 +80,14 @@
   align-items: center;
 }
 
+.component-field-variants {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .component-example {
   margin-bottom: 2rem;
 }

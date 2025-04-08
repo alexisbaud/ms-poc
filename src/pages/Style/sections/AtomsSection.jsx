@@ -1,8 +1,32 @@
+import { useState } from 'react';
 import Button from '../../../components/atoms/Button';
+import TextField from '../../../components/atoms/TextField';
 import { BsArrowRight, BsPlus, BsTrash, BsDownload, BsBookmark, BsSearch, BsGear } from 'react-icons/bs';
 import { colors } from '../../../styles';
 
 const AtomsSection = () => {
+  const [textFieldValues, setTextFieldValues] = useState({
+    free: '',
+    password: '',
+    formatted: '',
+    multiline: 'Ceci est un exemple de texte multiligne qui s\'étend sur plusieurs lignes pour démontrer la fonctionnalité multiline du champ.',
+    email: '',
+    phone: ''
+  });
+
+  const handleTextFieldChange = (field) => (e) => {
+    setTextFieldValues({
+      ...textFieldValues,
+      [field]: e.target.value
+    });
+  };
+
+  // Regex pour validation d'email simple
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  // Regex pour validation de numéro de téléphone français
+  const phoneRegex = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
+
   return (
     <div>
       <h2>Atoms</h2>
@@ -120,6 +144,126 @@ const AtomsSection = () => {
             >
               Supprimer
             </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="component-section">
+        <h3 className="component-title">TextField</h3>
+        <p className="component-description">
+          Composant de champ de saisie avec différentes variantes et états.
+        </p>
+
+        <div className="component-example">
+          <h4>Type de champ : Free</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Champ de texte libre"
+              placeholder="Entrez du texte..."
+              type="free"
+              value={textFieldValues.free}
+              onChange={handleTextFieldChange('free')}
+            />
+          </div>
+
+          <h4>Type de champ : Password</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Mot de passe"
+              placeholder="Entrez votre mot de passe"
+              type="password"
+              value={textFieldValues.password}
+              onChange={handleTextFieldChange('password')}
+            />
+          </div>
+
+          <h4>Type de champ : Formatted (Email)</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Adresse email"
+              placeholder="exemple@domaine.com"
+              type="formatted"
+              format={emailRegex}
+              errorMessage="Veuillez entrer une adresse email valide"
+              value={textFieldValues.email}
+              onChange={handleTextFieldChange('email')}
+            />
+          </div>
+
+          <h4>Type de champ : Formatted (Téléphone)</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Numéro de téléphone"
+              placeholder="06 12 34 56 78"
+              type="formatted"
+              format={phoneRegex}
+              errorMessage="Veuillez entrer un numéro de téléphone valide"
+              value={textFieldValues.phone}
+              onChange={handleTextFieldChange('phone')}
+            />
+          </div>
+
+          <h4>Variante : Multiline</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Description"
+              placeholder="Entrez une description..."
+              type="free"
+              multiline
+              rows={4}
+              value={textFieldValues.multiline}
+              onChange={handleTextFieldChange('multiline')}
+            />
+          </div>
+
+          <h4>État : Disabled</h4>
+          <div className="component-field-variants">
+            <TextField 
+              label="Champ désactivé"
+              placeholder="Ce champ est désactivé"
+              type="free"
+              isDisabled
+              value="Vous ne pouvez pas modifier ce champ"
+            />
+          </div>
+
+          <h4>Exemples d'utilisation</h4>
+          <div className="component-field-variants">
+            <div style={{ maxWidth: '400px' }}>
+              <TextField 
+                label="Nom d'utilisateur"
+                placeholder="Entrez votre nom d'utilisateur"
+                type="free"
+                value={textFieldValues.free}
+                onChange={handleTextFieldChange('free')}
+              />
+              <div style={{ height: '16px' }}></div>
+              <TextField 
+                label="Email"
+                placeholder="exemple@domaine.com"
+                type="formatted"
+                format={emailRegex}
+                errorMessage="Veuillez entrer une adresse email valide"
+                value={textFieldValues.email}
+                onChange={handleTextFieldChange('email')}
+              />
+              <div style={{ height: '16px' }}></div>
+              <TextField 
+                label="Mot de passe"
+                placeholder="Entrez votre mot de passe"
+                type="password"
+                value={textFieldValues.password}
+                onChange={handleTextFieldChange('password')}
+              />
+              <div style={{ height: '16px' }}></div>
+              <Button 
+                style="color"
+                importance="primary" 
+                isFullWidth
+              >
+                S'inscrire
+              </Button>
+            </div>
           </div>
         </div>
       </div>

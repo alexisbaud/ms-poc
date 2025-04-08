@@ -8,14 +8,18 @@
   flex: 1;
   transition: background-color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
+  background-color: transparent !important;
 }
 
-.navbar-entry:hover {
+/* État hover uniquement sur les entrées non sélectionnées */
+.navbar-entry:hover:not(.navbar-entry--selected),
+.navbar-entry--unselected:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
+/* État pressed - doit prendre priorité sur les autres états */
 .navbar-entry--pressed {
-  background-color: rgba(0, 0, 0, 0.06); /* interaction.pressLayer */
+  background-color: rgba(0, 0, 0, 0.06) !important; /* interaction.pressLayer */
 }
 
 .navbar-entry--disabled {
@@ -25,17 +29,19 @@
 }
 
 .navbar-entry__icon {
-  width: 24px;
-  height: 24px;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none; /* Permet aux clics de passer à travers l'icône vers le conteneur parent */
 }
 
 .navbar-entry__icon svg {
   width: 24px;
   height: 24px;
   fill: currentColor;
+  pointer-events: none; /* Pour être sûr que les SVG ne bloquent pas les clics */
 }
 
 /* Couleurs pour les états selected/unselected */

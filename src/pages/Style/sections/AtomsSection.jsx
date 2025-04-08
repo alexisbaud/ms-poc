@@ -70,7 +70,7 @@ const AtomsSection = () => {
   const phoneRegex = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
 
   return (
-    <div>
+    <div className="atoms-section">
       <h2>Atoms</h2>
       <p className="component-description">Les composants atomiques sont les plus petits éléments de l'interface.</p>
 
@@ -130,7 +130,7 @@ const AtomsSection = () => {
           <div className="component-variants">
             <Button style="color" importance="primary">Normal</Button>
             <Button style="color" importance="primary" isDisabled>Disabled</Button>
-            <div style={{ width: '200px' }}>
+            <div className="fullwidth-button-container">
               <Button style="color" importance="primary" isFullWidth>Full width</Button>
             </div>
           </div>
@@ -276,7 +276,7 @@ const AtomsSection = () => {
 
           <h4>Exemples d'utilisation</h4>
           <div className="component-field-variants">
-            <div style={{ maxWidth: '400px' }}>
+            <div className="form-example">
               <TextField 
                 label="Nom d'utilisateur"
                 placeholder="Entrez votre nom d'utilisateur"
@@ -323,17 +323,17 @@ const AtomsSection = () => {
 
         <div className="component-example">
           <h4>Variante : Ligne simple</h4>
-          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
+          <div className="component-field-variants divider-container" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
             <Divider />
           </div>
 
           <h4>Variante : Ligne avec label</h4>
-          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
+          <div className="component-field-variants divider-container" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
             <Divider label="Avril 2024" />
           </div>
           
           <h4>Exemples d'utilisation</h4>
-          <div className="component-field-variants" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px', maxWidth: '400px' }}>
+          <div className="component-field-variants divider-example" style={{ padding: '1rem', backgroundColor: '#F4F4F4', borderRadius: '8px' }}>
             <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
               Contenu de section 1
             </div>
@@ -357,8 +357,8 @@ const AtomsSection = () => {
 
         <div className="component-example">
           <h4>États de base</h4>
-          <div className="component-variants" style={{ display: 'flex', backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
-            <div style={{ marginRight: '2rem' }}>
+          <div className="component-variants navbar-states" style={{ display: 'flex', backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <div className="navbar-state">
               <p className="small-label">Non sélectionné</p>
               <NavBarEntry 
                 icon={homeSvg} 
@@ -367,7 +367,7 @@ const AtomsSection = () => {
               />
             </div>
             
-            <div style={{ marginRight: '2rem' }}>
+            <div className="navbar-state">
               <p className="small-label">Sélectionné</p>
               <NavBarEntry 
                 icon={homeFilledSvg}
@@ -376,7 +376,7 @@ const AtomsSection = () => {
               />
             </div>
             
-            <div>
+            <div className="navbar-state">
               <p className="small-label">Désactivé</p>
               <NavBarEntry 
                 icon={homeSvg}
@@ -386,8 +386,8 @@ const AtomsSection = () => {
           </div>
 
           <h4>Exemple d'utilisation (barre de navigation)</h4>
-          <div style={{ maxWidth: '375px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #E4E4E4', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', borderTop: '1px solid #E4E4E4' }}>
+          <div className="navbar-example">
+            <div className="navbar-container">
               <NavBarEntry 
                 icon={homeFilledSvg}
                 isSelected={true}

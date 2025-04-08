@@ -1,6 +1,6 @@
 const OrganismsSection = () => {
   return (
-    <div>
+    <div className="organisms-section">
       <h2>Organisms</h2>
       <p className="component-description">
         Les organismes sont des composants plus complexes qui combinent des molécules et des atomes pour former des sections distinctes de l'interface.

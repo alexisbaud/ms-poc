@@ -23,10 +23,13 @@ const NavBarEntry = ({
     
     // Si c'est une chaîne SVG
     if (typeof icon === 'string') {
+      // Modification du SVG pour ajouter pointer-events: none
+      const modifiedSvg = icon.replace('<svg', '<svg style="pointer-events: none;"');
+      
       return (
         <div 
           className="navbar-entry__icon"
-          dangerouslySetInnerHTML={{ __html: icon }}
+          dangerouslySetInnerHTML={{ __html: modifiedSvg }}
           style={{ 
             color: isSelected 
               ? colors.content['00'] // #161616 pour selected (content.00)

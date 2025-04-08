@@ -1,7 +1,15 @@
 .design-system {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .design-system {
+    padding: 1rem;
+  }
 }
 
 .design-system-header {
@@ -15,6 +23,12 @@
   margin-bottom: 0.5rem;
 }
 
+@media (max-width: 570px) {
+  .design-system-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
 .design-system-header p {
   color: #6b7280;
 }
@@ -25,6 +39,18 @@
   margin-bottom: 2rem;
   border-bottom: 1px solid #e5e7eb;
   padding-bottom: 0.5rem;
+}
+
+@media (max-width: 570px) {
+  .design-system-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .nav-tab {
+    text-align: left;
+    padding: 0.75rem 1rem;
+  }
 }
 
 .nav-tab {
@@ -48,15 +74,25 @@
 }
 
 .design-system-content {
-  background-color: #f9fafb;
+  background-color: #fff;
   padding: 2rem;
   border-radius: 0.5rem;
   min-height: 500px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 570px) {
+  .design-system-content {
+    padding: 1rem;
+    min-height: auto;
+  }
 }
 
 /* Pour les sections de composants */
 .component-section {
   margin-bottom: 3rem;
+  width: 100%;
 }
 
 .component-section h2 {
@@ -80,6 +116,17 @@
   align-items: center;
 }
 
+@media (max-width: 570px) {
+  .component-variants {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .component-variants > * {
+    width: 100%;
+  }
+}
+
 .component-field-variants {
   display: flex;
   flex-direction: column;
@@ -88,8 +135,16 @@
   margin-bottom: 1.5rem;
 }
 
+@media (max-width: 570px) {
+  .component-field-variants {
+    max-width: 100%;
+  }
+}
+
 .component-example {
   margin-bottom: 2rem;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .component-title {
@@ -110,6 +165,12 @@
   gap: 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 570px) {
+  .color-palette {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 }
 
 .color-sample {
@@ -135,4 +196,183 @@
 .color-sample span:last-child {
   font-size: 0.875rem;
   opacity: 0.8;
+}
+
+/* Ajout de styles pour les composants responsives */
+@media (max-width: 570px) {
+  /* Assure que les boutons s'adaptent correctement */
+  button[style*="isFullWidth"] {
+    width: 100% !important;
+  }
+  
+  /* Ajuste les exemples d'utilisation avec largeur fixe */
+  [style*="width: 375px"], 
+  [style*="max-width: 375px"],
+  [style*="width: 400px"],
+  [style*="max-width: 400px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Nouveaux styles pour les classes ajoutées */
+.fullwidth-button-container {
+  width: 100%;
+  max-width: 200px;
+}
+
+@media (max-width: 570px) {
+  .fullwidth-button-container {
+    max-width: 100%;
+  }
+}
+
+.form-example {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 570px) {
+  .form-example {
+    max-width: 100%;
+  }
+}
+
+.divider-container {
+  width: 100%;
+}
+
+.divider-example {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 570px) {
+  .divider-example {
+    max-width: 100%;
+  }
+}
+
+.navbar-states {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.navbar-state {
+  margin-right: 2rem;
+}
+
+@media (max-width: 570px) {
+  .navbar-states {
+    flex-direction: column;
+  }
+  
+  .navbar-state {
+    margin-right: 0;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  
+  .navbar-state:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.navbar-example {
+  width: 100%;
+  max-width: 375px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #E4E4E4;
+  overflow: hidden;
+}
+
+.navbar-container {
+  display: flex;
+  width: 100%;
+  border-top: 1px solid #E4E4E4;
+}
+
+@media (max-width: 570px) {
+  .navbar-example {
+    max-width: 100%;
+  }
+}
+
+/* Styles pour les boutons de démo de navigation */
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nav-demo-button {
+  padding: 4px 8px;
+  background-color: #F4F4F4;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-demo-button.active {
+  background-color: #EBEDFF;
+}
+
+/* Styles pour la navbar de démo dans MoleculesSection */
+.navbar-phone-container {
+  position: relative;
+  width: 375px;
+  height: 150px;
+  border: 1px solid #E4E4E4;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  background-color: #F9F9F9;
+}
+
+.navbar-phone-inner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 570px) {
+  .navbar-phone-container {
+    width: 100%;
+  }
+  
+  .nav-buttons {
+    flex-direction: column;
+  }
+  
+  .nav-demo-button {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+  }
+}
+
+/* Styles pour le guide de style */
+.typography-examples {
+  width: 100%;
+}
+
+@media (max-width: 570px) {
+  .typography-examples h1 {
+    font-size: 1.75rem;
+  }
+  
+  .typography-examples h2 {
+    font-size: 1.5rem;
+  }
+  
+  .typography-examples h3 {
+    font-size: 1.25rem;
+  }
+  
+  .typography-examples h4 {
+    font-size: 1.1rem;
+  }
 } 

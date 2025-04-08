@@ -36,4 +36,10 @@
 .navbar__create-button .button__icon {
   width: 24px !important;
   height: 24px !important;
+  pointer-events: none !important;
+}
+
+/* S'assurer que le bouton central capture les clics sur toute sa surface */
+.navbar__create-button svg {
+  pointer-events: none !important;
 } 

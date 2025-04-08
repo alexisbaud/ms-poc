@@ -4,6 +4,7 @@ import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import './TextField.css';
 import { colors } from '../../../styles';
 import Button from '../Button';
+import { smartScrollToElement } from '../../../utils/scrollUtils';
 
 // Compteur global pour générer des IDs uniques
 let uniqueIdCounter = 0;
@@ -50,6 +51,7 @@ const TextField = forwardRef(({
   const [currentErrorMessage, setCurrentErrorMessage] = useState('');
   
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
   const actualRef = ref || inputRef;
   
   // Générer un ID unique pour le champ si non fourni
@@ -101,6 +103,16 @@ const TextField = forwardRef(({
   };
   
   const handleFocus = (e) => {
+    // Défilement intelligent vers l'élément seulement si nécessaire
+    // Utilise la même logique pour tous les champs que pour le textarea
+    if (containerRef.current) {
+      smartScrollToElement(containerRef.current, {
+        onlyIfBelow: true, // Ne défile que si l'élément est sous le centre de l'écran
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+    
     if (onFocus) {
       onFocus(e);
     }
@@ -182,6 +194,7 @@ const TextField = forwardRef(({
       onTouchStart={handleMouseDown}
       onTouchEnd={handleMouseUp}
       onTouchCancel={handleMouseLeave}
+      ref={containerRef}
     >
       <div 
         className="textfield__container"

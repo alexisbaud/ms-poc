@@ -11,7 +11,7 @@ const MoleculesSection = () => {
   };
 
   return (
-    <div>
+    <div className="molecules-section">
       <h2>Molecules</h2>
       <p className="component-description">
         Les molécules sont des groupes d'atomes qui forment des composants relativement simples.
@@ -26,8 +26,8 @@ const MoleculesSection = () => {
         <div className="component-example">
           <h4>Exemple d'utilisation</h4>
           
-          <div style={{ position: 'relative', width: '375px', height: '150px', border: '1px solid #E4E4E4', borderRadius: '8px', marginBottom: '24px', overflow: 'hidden', backgroundColor: '#F9F9F9' }}>
-            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%' }}>
+          <div className="navbar-phone-container">
+            <div className="navbar-phone-inner">
               <NavBar 
                 activePage={activePage}
                 onNavigate={handleNavigate}
@@ -37,34 +37,34 @@ const MoleculesSection = () => {
           
           <div className="component-description">
             <p>Page active actuelle: <strong>{activePage}</strong></p>
-            <div style={{ marginTop: '8px' }}>
+            <div className="nav-buttons">
               <button 
                 onClick={() => setActivePage('home')} 
-                style={{ marginRight: '8px', padding: '4px 8px', backgroundColor: activePage === 'home' ? '#EBEDFF' : '#F4F4F4' }}
+                className={`nav-demo-button ${activePage === 'home' ? 'active' : ''}`}
               >
                 Home
               </button>
               <button 
                 onClick={() => setActivePage('search')} 
-                style={{ marginRight: '8px', padding: '4px 8px', backgroundColor: activePage === 'search' ? '#EBEDFF' : '#F4F4F4' }}
+                className={`nav-demo-button ${activePage === 'search' ? 'active' : ''}`}
               >
                 Search
               </button>
               <button 
                 onClick={() => setActivePage('create')} 
-                style={{ marginRight: '8px', padding: '4px 8px', backgroundColor: activePage === 'create' ? '#EBEDFF' : '#F4F4F4' }}
+                className={`nav-demo-button ${activePage === 'create' ? 'active' : ''}`}
               >
                 Create
               </button>
               <button 
                 onClick={() => setActivePage('liked')} 
-                style={{ marginRight: '8px', padding: '4px 8px', backgroundColor: activePage === 'liked' ? '#EBEDFF' : '#F4F4F4' }}
+                className={`nav-demo-button ${activePage === 'liked' ? 'active' : ''}`}
               >
                 Liked
               </button>
               <button 
                 onClick={() => setActivePage('profile')} 
-                style={{ padding: '4px 8px', backgroundColor: activePage === 'profile' ? '#EBEDFF' : '#F4F4F4' }}
+                className={`nav-demo-button ${activePage === 'profile' ? 'active' : ''}`}
               >
                 Profile
               </button>

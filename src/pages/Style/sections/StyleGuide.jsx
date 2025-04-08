@@ -2,7 +2,7 @@ import { colors } from '../../../styles';
 
 const StyleGuide = () => {
   return (
-    <div>
+    <div className="style-guide-section">
       <h2>Guide de style</h2>
       <p className="component-description">
         Ce guide définit les principes de design, les couleurs, la typographie et autres éléments visuels utilisés dans l'application.
@@ -158,23 +158,25 @@ const StyleGuide = () => {
         <h3>Typographie</h3>
         <p>Styles typographiques utilisés dans l'application</p>
         
-        <h1 style={{ marginBottom: '0.5rem' }}>Titre h1</h1>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les titres principaux</p>
-        
-        <h2 style={{ marginBottom: '0.5rem' }}>Titre h2</h2>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les sections principales</p>
-        
-        <h3 style={{ marginBottom: '0.5rem' }}>Titre h3</h3>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les sous-sections</p>
-        
-        <h4 style={{ marginBottom: '0.5rem' }}>Titre h4</h4>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les groupes de contenu</p>
-        
-        <p style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Texte standard</p>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour le contenu principal</p>
-        
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>Petit texte</p>
-        <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les légendes et les notes</p>
+        <div className="typography-examples">
+          <h1 style={{ marginBottom: '0.5rem' }}>Titre h1</h1>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les titres principaux</p>
+          
+          <h2 style={{ marginBottom: '0.5rem' }}>Titre h2</h2>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les sections principales</p>
+          
+          <h3 style={{ marginBottom: '0.5rem' }}>Titre h3</h3>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les sous-sections</p>
+          
+          <h4 style={{ marginBottom: '0.5rem' }}>Titre h4</h4>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les groupes de contenu</p>
+          
+          <p style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Texte standard</p>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour le contenu principal</p>
+          
+          <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>Petit texte</p>
+          <p style={{ marginBottom: '1rem', color: '#6b7280' }}>Utilisé pour les légendes et les notes</p>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import './App.css'
 
 // Pages
 import Style from './pages/Style'
-import AuthRoutes from './pages/auth'
+import AuthRoutes from './pages/Auth'
 import Profile from './pages/Profile'
 import HomePage from './pages/HomePage'
 import CreatePostPage from './pages/Create'

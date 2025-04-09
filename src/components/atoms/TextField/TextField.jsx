@@ -25,6 +25,7 @@ let uniqueIdCounter = 0;
  * @param {number} props.rows - Nombre de lignes pour un champ multiline
  * @param {Function} props.onBlur - Fonction appelée quand le champ perd le focus
  * @param {Function} props.onFocus - Fonction appelée quand le champ prend le focus
+ * @param {boolean} props.isPressed - État pressé contrôlé depuis l'extérieur
  * @returns {JSX.Element}
  */
 const TextField = forwardRef(({ 
@@ -41,6 +42,7 @@ const TextField = forwardRef(({
   rows = 3,
   onBlur,
   onFocus,
+  isPressed: isPressedExternal = false,
   ...rest
 }, ref) => {
   const [isPressed, setIsPressed] = useState(false);
@@ -136,10 +138,13 @@ const TextField = forwardRef(({
     }
   };
   
+  // Déterminer l'état pressé final (interne ou externe)
+  const isPressedFinal = isPressed || isPressedExternal;
+  
   const textfieldClasses = [
     'textfield',
     isFilled && !isDisabled ? 'textfield--filled' : '',
-    isPressed ? 'textfield--pressed' : '',
+    isPressedFinal ? 'textfield--pressed' : '',
     isDisabled ? 'textfield--disabled' : '',
     isError ? 'textfield--error' : '',
     type === 'password' ? 'textfield--password' : '',
@@ -272,7 +277,9 @@ TextField.propTypes = {
   /** Gestionnaire d'événement quand le champ perd le focus */
   onBlur: PropTypes.func,
   /** Gestionnaire d'événement quand le champ prend le focus */
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  /** État pressé contrôlé depuis l'extérieur */
+  isPressed: PropTypes.bool
 };
 
 export default TextField; 

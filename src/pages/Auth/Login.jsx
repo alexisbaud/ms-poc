@@ -17,6 +17,13 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pressedStates, setPressedStates] = useState({
+    email: false,
+    password: false,
+    submit: false,
+    register: false,
+    forgotPassword: false
+  });
   
   // Gestion des changements dans les champs
   const handleChange = (e) => {
@@ -53,14 +60,20 @@ const Login = () => {
     
     try {
       // Appeler le service de connexion via le thunk Redux
-      await dispatch(loginUser({
+      const resultAction = await dispatch(loginUser({
         email: formData.email,
         password: formData.password
-      })).unwrap();
+      }));
       
-      // Rediriger vers la page d'accueil
-      navigate('/');
+      // Vérifier si l'action a réussi ou échoué
+      if (loginUser.fulfilled.match(resultAction)) {
+        // Rediriger vers la page profil
+        navigate('/profile');
+      } else if (loginUser.rejected.match(resultAction)) {
+        setError(resultAction.payload || 'Identifiants invalides');
+      }
     } catch (error) {
+      console.error('Login error:', error);
       setError(error.message || 'Identifiants invalides');
     } finally {
       setIsSubmitting(false);
@@ -71,6 +84,21 @@ const Login = () => {
   const goToRegister = () => {
     navigate('/auth/register');
   };
+
+  // Gestion des états pressed
+  const handlePressStart = (field) => () => {
+    setPressedStates(prev => ({
+      ...prev,
+      [field]: true
+    }));
+  };
+
+  const handlePressEnd = (field) => () => {
+    setPressedStates(prev => ({
+      ...prev,
+      [field]: false
+    }));
+  };
   
   return (
     <div className="auth-container">
@@ -78,8 +106,6 @@ const Login = () => {
         <img src={logo} alt="Microstory Logo" className="auth-logo" />
         <h1 className="auth-title text-title" style={{ color: colors.content['00'], marginTop: '8px' }}>Microstory</h1>
       </div>
-      
-      <h2 className="auth-heading text-h1" style={{ color: colors.content['01'], marginTop: '64px', marginBottom: '16px' }}>Connexion</h2>
       
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="auth-field-container">
@@ -89,6 +115,13 @@ const Login = () => {
             placeholder="exemple@email.com"
             value={formData.email}
             onChange={handleChange}
+            onMouseDown={handlePressStart('email')}
+            onMouseUp={handlePressEnd('email')}
+            onMouseLeave={handlePressEnd('email')}
+            onTouchStart={handlePressStart('email')}
+            onTouchEnd={handlePressEnd('email')}
+            onTouchCancel={handlePressEnd('email')}
+            isPressed={pressedStates.email}
           />
         </div>
         
@@ -100,6 +133,13 @@ const Login = () => {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            onMouseDown={handlePressStart('password')}
+            onMouseUp={handlePressEnd('password')}
+            onMouseLeave={handlePressEnd('password')}
+            onTouchStart={handlePressStart('password')}
+            onTouchEnd={handlePressEnd('password')}
+            onTouchCancel={handlePressEnd('password')}
+            isPressed={pressedStates.password}
           />
         </div>
         
@@ -114,6 +154,13 @@ const Login = () => {
             size="xs"
             onClick={() => {}}
             disabled={true}
+            onMouseDown={handlePressStart('forgotPassword')}
+            onMouseUp={handlePressEnd('forgotPassword')}
+            onMouseLeave={handlePressEnd('forgotPassword')}
+            onTouchStart={handlePressStart('forgotPassword')}
+            onTouchEnd={handlePressEnd('forgotPassword')}
+            onTouchCancel={handlePressEnd('forgotPassword')}
+            isPressed={pressedStates.forgotPassword}
           >
             Mot de passe oublié ?
           </Button>
@@ -127,17 +174,31 @@ const Login = () => {
             size="lg"
             fullWidth
             loading={isSubmitting}
+            onMouseDown={handlePressStart('submit')}
+            onMouseUp={handlePressEnd('submit')}
+            onMouseLeave={handlePressEnd('submit')}
+            onTouchStart={handlePressStart('submit')}
+            onTouchEnd={handlePressEnd('submit')}
+            onTouchCancel={handlePressEnd('submit')}
+            isPressed={pressedStates.submit}
           >
             Se connecter
           </Button>
           
-          <div style={{ marginTop: '8px' }}>
+          <div style={{ marginTop: '-8px' }}>
             <Button
               style="black"
               importance="tertiary"
               size="sm"
               fullWidth
               onClick={goToRegister}
+              onMouseDown={handlePressStart('register')}
+              onMouseUp={handlePressEnd('register')}
+              onMouseLeave={handlePressEnd('register')}
+              onTouchStart={handlePressStart('register')}
+              onTouchEnd={handlePressEnd('register')}
+              onTouchCancel={handlePressEnd('register')}
+              isPressed={pressedStates.register}
             >
               Je n'ai pas de compte
             </Button>

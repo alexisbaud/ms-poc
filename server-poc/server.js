@@ -7,7 +7,7 @@ const { globalLimiter } = require('./middleware/rateLimiter');
 
 // Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Pour rechercher une chaîne dans le code : grep -r "chaîne" .
 const HOST = '0.0.0.0'; // Listen on all network interfaces
 
 // Middleware

@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Clé secrète pour JWT (à déplacer dans les variables d'environnement en production)
+const JWT_SECRET = 'your-secret-key-here';
+
 /**
  * Validates an email address format
  * @param {string} email - Email to validate
@@ -18,7 +21,9 @@ const isValidEmail = (email) => {
  * @returns {boolean} - True if password meets requirements
  */
 const isValidPassword = (password) => {
-  return password && password.length >= 8;
+  // Au moins 8 caractères, 1 lettre, 1 chiffre
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+  return passwordRegex.test(password);
 };
 
 /**
@@ -61,17 +66,27 @@ exports.register = async (req, res) => {
       return res.status(400).json({ 
         success: false,
         field: 'password',
-        message: 'Password must be at least 8 characters long' 
+        message: 'Password must be at least 8 characters long and contain at least one letter and one digit' 
       });
     }
     
-    // Check if user already exists
+    // Check if user already exists with this email
     const existingUser = User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ 
         success: false,
         field: 'email',
         message: 'User already exists with this email' 
+      });
+    }
+    
+    // Check if pseudo is already taken
+    const existingPseudo = User.findByPseudo(pseudo);
+    if (existingPseudo) {
+      return res.status(400).json({
+        success: false,
+        field: 'pseudo',
+        message: 'This username is already taken'
       });
     }
     
@@ -89,21 +104,21 @@ exports.register = async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { id: newUser.id },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
     
     // Return user data without passwordHash
     res.status(201).json({
       success: true,
+      token,
       user: {
         id: newUser.id,
         pseudo: newUser.pseudo,
         email: newUser.email,
         createdAt: newUser.createdAt,
         postAmount: newUser.postAmount
-      },
-      token
+      }
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -162,21 +177,21 @@ exports.login = async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { id: user.id },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
     
     // Return user data without passwordHash
     res.json({
       success: true,
+      token,
       user: {
         id: user.id,
         pseudo: user.pseudo,
         email: user.email,
         createdAt: user.createdAt,
         postAmount: user.postAmount
-      },
-      token
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -220,6 +235,76 @@ exports.getUserProfile = (req, res) => {
     res.status(500).json({ 
       success: false,
       message: 'Server error while fetching user profile',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+/**
+ * Check if an email is already registered
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.checkEmailExists = async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    // Validate email format first
+    if (!email || !isValidEmail(email)) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid email format' 
+      });
+    }
+    
+    // Check if user already exists with this email
+    const existingUser = User.findByEmail(email);
+    
+    // Return true if user exists, false otherwise
+    return res.json({
+      success: true,
+      exists: !!existingUser
+    });
+  } catch (error) {
+    console.error('Check email error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error while checking email',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+/**
+ * Check if a pseudo is already registered
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.checkPseudoExists = async (req, res) => {
+  try {
+    const { pseudo } = req.body;
+    
+    // Validate pseudo format first
+    if (!pseudo || pseudo.trim().length < 3) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid pseudo format' 
+      });
+    }
+    
+    // Check if user already exists with this pseudo
+    const existingUser = User.findByPseudo(pseudo);
+    
+    // Return true if user exists, false otherwise
+    return res.json({
+      success: true,
+      exists: !!existingUser
+    });
+  } catch (error) {
+    console.error('Check pseudo error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error while checking pseudo',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }

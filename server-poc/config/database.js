@@ -30,7 +30,10 @@ function initDatabase() {
   `);
 }
 
-// Initialize database
+// Initialize database on module load
 initDatabase();
 
-module.exports = db; 
+module.exports = {
+  db,
+  initDatabase
+}; 

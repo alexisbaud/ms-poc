@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const { db } = require('../config/database');
 
 class User {
   /**
@@ -19,6 +19,16 @@ class User {
   static findByEmail(email) {
     const stmt = db.prepare('SELECT * FROM users WHERE email = ?');
     return stmt.get(email) || null;
+  }
+  
+  /**
+   * Find a user by pseudo
+   * @param {string} pseudo - User pseudo
+   * @returns {Object|null} - User object or null if not found
+   */
+  static findByPseudo(pseudo) {
+    const stmt = db.prepare('SELECT * FROM users WHERE pseudo = ?');
+    return stmt.get(pseudo) || null;
   }
   
   /**

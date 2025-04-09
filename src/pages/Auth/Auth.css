@@ -98,4 +98,54 @@
     width: 140px;
     height: 90px;
   }
+}
+
+/* Styles pour les états pressed - version améliorée */
+/* Effet pour les champs de texte */
+.textfield--pressed .textfield__container {
+  transform: scale(0.99);
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* S'assurer que l'état pressed est toujours visible et prioritaire */
+.textfield--pressed .textfield__container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  background-color: rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Effet plus visible pour les boutons */
+.button--pressed {
+  transform: scale(0.98) !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset !important;
+}
+
+/* Effet spécifique pour les boutons primaires et secondaires */
+.button--color.button--primary.button--pressed,
+.button--black.button--primary.button--pressed {
+  opacity: 0.9;
+}
+
+/* Ajouter un effet de pulsation pour le feedback tactile */
+@keyframes pulse {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(0.96); }
+  100% { transform: scale(0.98); }
+}
+
+.auth-container .button:active {
+  animation: pulse 0.3s ease-in-out;
+}
+
+/* Assurer que les transitions sont fluides mais rapides */
+.textfield__container,
+.button {
+  transition: all 0.05s ease-out !important;
 } 

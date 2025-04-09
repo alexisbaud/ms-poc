@@ -39,6 +39,9 @@ const Button = ({
 
   // Gestionnaires d'événements pour l'état pressé
   const handlePressStart = (e) => {
+    // Empêcher la propagation des événements pour éviter les effets indésirables
+    if (e.stopPropagation) e.stopPropagation();
+    
     if (!disabled && !isDisabled && !loading) {
       setIsPressedInternal(true);
     }
@@ -46,11 +49,17 @@ const Button = ({
   };
 
   const handlePressEnd = (e) => {
+    // Empêcher la propagation des événements pour éviter les effets indésirables
+    if (e.stopPropagation) e.stopPropagation();
+    
     setIsPressedInternal(false);
     if (onMouseUp) onMouseUp(e);
   };
   
   const handleMouseLeave = (e) => {
+    // Empêcher la propagation des événements pour éviter les effets indésirables
+    if (e.stopPropagation) e.stopPropagation();
+    
     setIsPressedInternal(false);
     if (onMouseLeave) onMouseLeave(e);
   };

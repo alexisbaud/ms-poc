@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 // Définir l'URL de base pour toutes les requêtes
+// Log l'URL utilisée pour faciliter le débogage
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+console.log('API URL:', API_URL);
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -32,6 +36,9 @@ api.interceptors.response.use(
       // Rediriger vers la page de connexion si nécessaire
       // window.location.href = '/login';
     }
+    
+    // Log l'erreur pour faciliter le débogage
+    console.error('API Error:', error.response || error.message);
     return Promise.reject(error);
   }
 );

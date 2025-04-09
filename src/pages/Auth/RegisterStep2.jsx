@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../features/auth/authThunks';
+import { checkPseudoExists } from '../../services/auth';
 import TextField from '../../components/atoms/TextField/TextField';
 import Button from '../../components/atoms/Button/Button';
 import logo from '../../assets/logo.png';
@@ -19,10 +20,17 @@ const RegisterStep2 = () => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
+  const [globalError, setGlobalError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   // État pour stocker l'icône SVG comme chaîne
   const [chevronLeftSvg, setChevronLeftSvg] = useState('');
+  // État pour gérer les états pressed
+  const [pressedStates, setPressedStates] = useState({
+    pseudo: false,
+    submit: false,
+    back: false
+  });
   
   // Charger l'icône SVG au montage du composant
   useEffect(() => {
@@ -30,7 +38,9 @@ const RegisterStep2 = () => {
       try {
         const response = await fetch(chevronLeftIcon);
         const text = await response.text();
-        setChevronLeftSvg(text);
+        // Ajouter style="pointer-events: none;" à l'élément SVG
+        const svgWithStyle = text.replace('<svg', '<svg style="pointer-events: none;"');
+        setChevronLeftSvg(svgWithStyle);
       } catch (error) {
         console.error('Erreur lors du chargement de l\'icône SVG:', error);
       }
@@ -70,19 +80,52 @@ const RegisterStep2 = () => {
       [id]: value
     }));
     
-    // Réinitialiser l'erreur
-    if (error) {
-      setError('');
+    // Réinitialiser les erreurs
+    if (errors[id]) {
+      setErrors(prev => ({
+        ...prev,
+        [id]: ''
+      }));
+    }
+    if (globalError) {
+      setGlobalError('');
     }
   };
   
   // Validation du formulaire
-  const validateForm = () => {
+  const validateForm = async () => {
+    const newErrors = {};
+    let hasError = false;
+    
     if (!formData.pseudo || formData.pseudo.trim() === '') {
-      setError('Le pseudo est requis');
-      return false;
+      newErrors.pseudo = 'Le pseudo est requis';
+      hasError = true;
+    } else if (formData.pseudo.length < 3) {
+      newErrors.pseudo = 'Le pseudo doit contenir au moins 3 caractères';
+      hasError = true;
+    } else if (formData.pseudo.length > 20) {
+      newErrors.pseudo = 'Le pseudo ne doit pas dépasser 20 caractères';
+      hasError = true;
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(formData.pseudo)) {
+      newErrors.pseudo = 'Le pseudo ne peut contenir que des lettres, chiffres, tirets et underscores';
+      hasError = true;
+    } else {
+      try {
+        // Vérifier si le pseudo est déjà utilisé
+        const pseudoExists = await checkPseudoExists(formData.pseudo);
+        if (pseudoExists) {
+          newErrors.pseudo = 'Ce pseudo est déjà utilisé';
+          hasError = true;
+        }
+      } catch (error) {
+        console.error('Erreur lors de la vérification du pseudo:', error);
+        newErrors.pseudo = 'Erreur lors de la vérification du pseudo';
+        hasError = true;
+      }
     }
-    return true;
+    
+    setErrors(newErrors);
+    return !hasError;
   };
   
   // Soumission du formulaire
@@ -94,22 +137,60 @@ const RegisterStep2 = () => {
     }
     
     setIsSubmitting(true);
+    setGlobalError('');
+    setErrors({});
     
     try {
       // Appeler le service d'inscription via le thunk Redux
-      await dispatch(registerUser({
+      const resultAction = await dispatch(registerUser({
         email: formData.email,
         password: formData.password,
         pseudo: formData.pseudo
-      })).unwrap();
+      }));
       
-      // Nettoyer les données de l'étape 1
-      sessionStorage.removeItem('registerStep1');
-      
-      // Rediriger vers la page d'accueil
-      navigate('/');
+      // Vérifier si l'action a réussi ou échoué
+      if (registerUser.fulfilled.match(resultAction)) {
+        // Si on arrive ici, c'est que l'enregistrement a réussi
+        // Nettoyer les données de l'étape 1
+        sessionStorage.removeItem('registerStep1');
+        
+        // Rediriger vers la page profil
+        navigate('/profile');
+      } else if (registerUser.rejected.match(resultAction)) {
+        // Récupérer le message d'erreur
+        const errorMessage = resultAction.payload || 'Une erreur est survenue lors de l\'inscription';
+        
+        // Gérer spécifiquement le cas où l'email existe déjà
+        if (errorMessage.toLowerCase().includes('email') && 
+            (errorMessage.toLowerCase().includes('existe') || 
+             errorMessage.toLowerCase().includes('already exists') ||
+             errorMessage.toLowerCase().includes('déjà associé'))) {
+          
+          // Réinitialiser les données de l'étape 1 et rediriger vers l'étape 1
+          sessionStorage.removeItem('registerStep1');
+          navigate('/auth/register', { 
+            state: { 
+              error: 'Cet email est déjà associé à un compte. Veuillez en utiliser un autre.' 
+            } 
+          });
+        } else if (errorMessage.toLowerCase().includes('pseudo') && 
+                  (errorMessage.toLowerCase().includes('existe') || 
+                   errorMessage.toLowerCase().includes('already exists') ||
+                   errorMessage.toLowerCase().includes('déjà utilisé'))) {
+          // Gérer le cas où le pseudo est déjà utilisé
+          setGlobalError('Ce pseudo est déjà utilisé. Veuillez en choisir un autre.');
+          setErrors(prev => ({
+            ...prev,
+            pseudo: 'Ce pseudo est déjà utilisé'
+          }));
+        } else {
+          // Afficher l'erreur normalement
+          setGlobalError(errorMessage);
+        }
+      }
     } catch (error) {
-      setError(error.message || 'Une erreur est survenue lors de l\'inscription');
+      console.error('Register error:', error);
+      setGlobalError(error.message || 'Une erreur est survenue lors de l\'inscription');
     } finally {
       setIsSubmitting(false);
     }
@@ -119,17 +200,51 @@ const RegisterStep2 = () => {
   const goBack = () => {
     navigate(-1);
   };
+
+  // Gestion des états pressed
+  const handlePressStart = (field) => () => {
+    setPressedStates(prev => ({
+      ...prev,
+      [field]: true
+    }));
+  };
+
+  const handlePressEnd = (field) => () => {
+    setPressedStates(prev => ({
+      ...prev,
+      [field]: false
+    }));
+  };
   
   return (
     <div className="auth-container">
-      <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
+      <div 
+        onClick={goBack}
+        style={{ 
+          position: 'absolute', 
+          top: '16px', 
+          left: '16px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '40px',
+          height: '40px'
+        }}
+      >
         <Button
           style="black"
           importance="tertiary"
           size="md"
           icon={chevronLeftSvg}
           iconVariant="only"
-          onClick={goBack}
+          onMouseDown={handlePressStart('back')}
+          onMouseUp={handlePressEnd('back')}
+          onMouseLeave={handlePressEnd('back')}
+          onTouchStart={handlePressStart('back')}
+          onTouchEnd={handlePressEnd('back')}
+          onTouchCancel={handlePressEnd('back')}
+          isPressed={pressedStates.back}
         />
       </div>
 
@@ -138,9 +253,11 @@ const RegisterStep2 = () => {
         <h1 className="auth-title text-title" style={{ color: colors.content['00'], marginTop: '8px' }}>Microstory</h1>
       </div>
       
-      <h2 className="auth-heading text-h1" style={{ color: colors.content['01'], marginTop: '64px', marginBottom: '16px' }}>Création du profil</h2>
-      
       <form className="auth-form" onSubmit={handleSubmit}>
+        {globalError && (
+          <div className="auth-error-message">{globalError}</div>
+        )}
+        
         <div className="auth-field-container">
           <TextField
             id="pseudo"
@@ -148,13 +265,16 @@ const RegisterStep2 = () => {
             placeholder=""
             value={formData.pseudo}
             onChange={handleChange}
-            errorMessage={error}
+            errorMessage={errors.pseudo}
+            onMouseDown={handlePressStart('pseudo')}
+            onMouseUp={handlePressEnd('pseudo')}
+            onMouseLeave={handlePressEnd('pseudo')}
+            onTouchStart={handlePressStart('pseudo')}
+            onTouchEnd={handlePressEnd('pseudo')}
+            onTouchCancel={handlePressEnd('pseudo')}
+            isPressed={pressedStates.pseudo}
           />
         </div>
-        
-        {error && !error.includes('pseudo') && (
-          <div className="auth-error-message">{error}</div>
-        )}
         
         <div className="auth-actions" style={{ marginTop: '32px' }}>
           <Button
@@ -164,6 +284,13 @@ const RegisterStep2 = () => {
             size="lg"
             fullWidth
             loading={isSubmitting}
+            onMouseDown={handlePressStart('submit')}
+            onMouseUp={handlePressEnd('submit')}
+            onMouseLeave={handlePressEnd('submit')}
+            onTouchStart={handlePressStart('submit')}
+            onTouchEnd={handlePressEnd('submit')}
+            onTouchCancel={handlePressEnd('submit')}
+            isPressed={pressedStates.submit}
           >
             Créer mon compte
           </Button>

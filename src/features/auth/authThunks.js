@@ -5,37 +5,44 @@ import * as authService from '../../services/auth';
 /**
  * Thunk pour l'inscription d'un utilisateur
  */
-export const registerUser = ({ email, password, pseudo }) => async (dispatch) => {
-  try {
-    dispatch(authRequest());
-    const result = await authService.register({ email, password, pseudo });
-    dispatch(loginSuccess(result));
-    return result;
-  } catch (error) {
-    dispatch(authFailure(error.message));
-    throw error;
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async ({ email, password, pseudo }, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(authRequest());
+      const result = await authService.register({ email, password, pseudo });
+      dispatch(loginSuccess(result));
+      return result;
+    } catch (error) {
+      dispatch(authFailure(error.message));
+      return rejectWithValue(error.message);
+    }
   }
-};
+);
 
 /**
  * Thunk pour la connexion d'un utilisateur
  */
-export const loginUser = ({ email, password }) => async (dispatch) => {
-  try {
-    dispatch(authRequest());
-    const result = await authService.login({ email, password });
-    dispatch(loginSuccess(result));
-    return result;
-  } catch (error) {
-    dispatch(authFailure(error.message));
-    throw error;
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async ({ email, password }, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(authRequest());
+      const result = await authService.login({ email, password });
+      dispatch(loginSuccess(result));
+      return result;
+    } catch (error) {
+      dispatch(authFailure(error.message));
+      return rejectWithValue(error.message);
+    }
   }
-};
+);
 
 /**
  * Thunk pour la déconnexion d'un utilisateur
  */
 export const logoutUser = () => (dispatch) => {
+  authService.logout();
   dispatch(logout());
 };
 

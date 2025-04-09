@@ -81,6 +81,11 @@ const NavBar = ({
     return null;
   }
 
+  // Vérifier si un bouton est désactivé (tous sauf Home et Profile pour le moment)
+  const isDisabled = (pageId) => {
+    return pageId !== 'home' && pageId !== 'profile';
+  };
+
   return (
     <nav className="navbar" {...props}>
       {/* Accueil */}
@@ -91,15 +96,15 @@ const NavBar = ({
         aria-label="Accueil"
       />
 
-      {/* Recherche */}
+      {/* Recherche (désactivée) */}
       <NavBarEntry 
-        icon={activeTab === 'search' ? searchFilledSvg : searchSvg}
-        isSelected={activeTab === 'search'}
-        onClick={() => handleNavigate('search')}
+        icon={searchSvg}
+        isSelected={false}
+        isDisabled={true}
         aria-label="Recherche"
       />
 
-      {/* Bouton de création de post (spécial) */}
+      {/* Bouton de création de post (désactivé) */}
       <div className="navbar__create-button">
         <Button 
           iconVariant="only"
@@ -107,16 +112,16 @@ const NavBar = ({
           variant="color"
           style="toned"
           icon={plusLgSvg}
-          onClick={() => handleNavigate('create')}
+          disabled={true}
           aria-label="Créer un post"
         />
       </div>
 
-      {/* Posts likés */}
+      {/* Posts likés (désactivés) */}
       <NavBarEntry 
-        icon={activeTab === 'liked' ? heartFilledSvg : heartSvg}
-        isSelected={activeTab === 'liked'}
-        onClick={() => handleNavigate('liked')}
+        icon={heartSvg}
+        isSelected={false}
+        isDisabled={true}
         aria-label="Posts likés"
       />
 

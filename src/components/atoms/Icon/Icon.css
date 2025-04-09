@@ -1,0 +1,114 @@
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-out;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Masquer le contenu accessible hors écran */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Icon sizes */
+.icon--xs {
+  width: 16px;
+  height: 16px;
+}
+
+.icon--sm {
+  width: 20px;
+  height: 20px;
+}
+
+.icon--md {
+  width: 24px;
+  height: 24px;
+}
+
+.icon--lg {
+  width: 32px;
+  height: 32px;
+}
+
+.icon--xl {
+  width: 40px;
+  height: 40px;
+}
+
+/* Icon colors */
+.icon--content-00 svg path { fill: #161616; }
+.icon--content-01 svg path { fill: #4A4A4A; }
+.icon--content-02 svg path { fill: #6F6F6F; }
+.icon--content-03 svg path { fill: #ABABAB; }
+.icon--content-04 svg path { fill: #E1E1E1; }
+.icon--content-00-inverted svg path { fill: #FAFAFA; }
+.icon--content-01-inverted svg path { fill: #E5E5E5; }
+.icon--color svg path { fill: #0D1C91; }
+.icon--danger svg path { fill: #DC2626; }
+.icon--white svg path { fill: #FFFFFF; }
+
+/* Interactive states */
+.icon--clickable {
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 4px;
+  margin: -4px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.icon--pressed {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+
+.icon--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Handler pour erreur de chargement */
+.icon__error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Assurer que le contenu SVG s'adapte correctement */
+.icon__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon__content svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* État hover et état pressed */
+.icon--clickable:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.icon--pressed {
+  background-color: rgba(0, 0, 0, 0.06);
+} 

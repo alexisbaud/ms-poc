@@ -1,0 +1,97 @@
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-out;
+  position: relative;
+}
+
+/* Avatar sizes */
+.avatar--xs {
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem;
+}
+
+.avatar--sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.875rem;
+}
+
+.avatar--md {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+.avatar--lg {
+  width: 56px;
+  height: 56px;
+  font-size: 1.25rem;
+}
+
+.avatar--xl {
+  width: 72px;
+  height: 72px;
+  font-size: 1.5rem;
+}
+
+.avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar__initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  user-select: none;
+}
+
+/* Interactive states */
+.avatar--clickable {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.avatar--pressed {
+  transform: scale(0.95);
+  opacity: 0.9;
+  box-shadow: 0 0 0 2px rgba(13, 28, 145, 0.3); /* Color interaction */
+}
+
+.avatar--disabled {
+  opacity: 0.5;
+  filter: grayscale(70%);
+  pointer-events: none;
+}
+
+/* Protection layer to enhance hover and active states */
+.avatar--clickable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  pointer-events: none;
+}
+
+.avatar--clickable:hover::after {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.avatar--pressed::after {
+  background-color: rgba(0, 0, 0, 0.06);
+} 

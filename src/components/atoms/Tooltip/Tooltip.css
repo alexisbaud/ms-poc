@@ -1,0 +1,177 @@
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  display: inline-block;
+}
+
+.tooltip-trigger--clickable {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  max-width: 250px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform-origin: center center;
+  font-family: var(--font-primary);
+}
+
+.tooltip--visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Contenu du tooltip */
+.tooltip__content {
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Flèche du tooltip */
+.tooltip__arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
+
+/* Tailles */
+.tooltip--sm .tooltip__content {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.tooltip--md .tooltip__content {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.tooltip--lg .tooltip__content {
+  padding: 10px 16px;
+  font-size: 15px;
+}
+
+/* Positions */
+.tooltip--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  margin-bottom: 8px;
+}
+
+.tooltip--top .tooltip__arrow {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+.tooltip--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  margin-top: 8px;
+}
+
+.tooltip--bottom .tooltip__arrow {
+  top: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+.tooltip--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  margin-right: 8px;
+}
+
+.tooltip--left .tooltip__arrow {
+  right: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+.tooltip--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  margin-left: 8px;
+}
+
+.tooltip--right .tooltip__arrow {
+  left: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+/* Animations quand visible */
+.tooltip--top.tooltip--visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip--bottom.tooltip--visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip--left.tooltip--visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+.tooltip--right.tooltip--visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Variantes de couleur */
+.tooltip--dark {
+  background-color: #161616; /* background.00Inverted */
+  color: white;
+}
+
+.tooltip--dark .tooltip__arrow {
+  background-color: #161616; /* background.00Inverted */
+}
+
+.tooltip--light {
+  background-color: white;
+  color: #161616; /* content.00 */
+  border: 1px solid #E1E1E1; /* content.04 */
+}
+
+.tooltip--light .tooltip__arrow {
+  background-color: white;
+  border: 1px solid #E1E1E1; /* content.04 */
+  border-width: 0 1px 1px 0;
+}
+
+.tooltip--color {
+  background-color: #0D1C91; /* interaction.color */
+  color: white;
+}
+
+.tooltip--color .tooltip__arrow {
+  background-color: #0D1C91; /* interaction.color */
+}
+
+/* États (rarement utilisés pour un tooltip) */
+.tooltip--pressed {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+.tooltip--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+} 

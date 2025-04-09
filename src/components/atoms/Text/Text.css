@@ -1,0 +1,130 @@
+/* Base styling for text component */
+.text {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  transition: color 0.2s ease-out, opacity 0.2s ease-out, transform 0.1s ease-out;
+}
+
+/* Text variants */
+.text-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+.text-h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+.text-h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+.text-h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+.text-h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+.text-button {
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+.text-body-l {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+.text-body-m {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+.text-caption {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 120%;
+  letter-spacing: 0.02em;
+}
+
+/* Font weights */
+.text-weight-light { font-weight: 300; }
+.text-weight-regular { font-weight: 400; }
+.text-weight-medium { font-weight: 500; }
+.text-weight-semibold { font-weight: 600; }
+.text-weight-bold { font-weight: 700; }
+
+/* Text alignments */
+.text-align-left { text-align: left; }
+.text-align-center { text-align: center; }
+.text-align-right { text-align: right; }
+
+/* Text colors */
+.text-content-00 { color: #161616; }
+.text-content-01 { color: #4A4A4A; }
+.text-content-02 { color: #6F6F6F; }
+.text-content-03 { color: #ABABAB; }
+.text-content-04 { color: #E1E1E1; }
+.text-content-00-inverted { color: #FAFAFA; }
+.text-content-01-inverted { color: #E5E5E5; }
+
+/* Colors for interactive states */
+.text-color { color: #0D1C91; }
+.text-danger { color: #DC2626; }
+
+/* Text truncation */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* Multi-line text with ellipsis */
+.text-multiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Interactive states */
+.text-clickable {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.text-pressed {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.text-disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+} 

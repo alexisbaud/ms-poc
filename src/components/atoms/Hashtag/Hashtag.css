@@ -1,0 +1,127 @@
+.hashtag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  color: #666;
+  border-radius: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.hashtag:hover {
+  background-color: #e6e6e6;
+}
+
+.hashtag:active {
+  transform: scale(0.98);
+}
+
+/* Tailles */
+.hashtag--sm {
+  font-size: 11px;
+  height: 20px;
+  padding: 0 8px;
+}
+
+.hashtag--md {
+  font-size: 13px;
+  height: 24px;
+}
+
+.hashtag--lg {
+  font-size: 14px;
+  height: 28px;
+  padding: 0 14px;
+}
+
+/* Variantes */
+.hashtag--default {
+  background-color: #F4F4F4; /* background.02 */
+  color: #4A4A4A; /* content.01 */
+}
+
+.hashtag--subtle {
+  background-color: transparent;
+  color: #6F6F6F; /* content.02 */
+}
+
+.hashtag--color {
+  background-color: #EBEDFF; /* interaction.toned */
+  color: #0D1C91; /* interaction.color */
+}
+
+.hashtag--outline {
+  background-color: transparent;
+  color: #4A4A4A; /* content.01 */
+  box-shadow: inset 0 0 0 1px #E1E1E1; /* content.04 */
+}
+
+/* États */
+.hashtag--clickable {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hashtag--pressed {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+.hashtag--pressed.hashtag--default {
+  background-color: #EDEDED; /* background.03 */
+}
+
+.hashtag--pressed.hashtag--subtle {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.hashtag--pressed.hashtag--color {
+  background-color: #D9DEFF; /* darker interaction.toned */
+}
+
+.hashtag--pressed.hashtag--outline {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.hashtag--selected.hashtag--default {
+  background-color: #E4E4E4; /* background.04 */
+  font-weight: 600;
+}
+
+.hashtag--selected.hashtag--subtle {
+  color: #161616; /* content.00 */
+  font-weight: 600;
+}
+
+.hashtag--selected.hashtag--color {
+  background-color: #0D1C91; /* interaction.color */
+  color: white;
+}
+
+.hashtag--selected.hashtag--outline {
+  box-shadow: inset 0 0 0 1px #6F6F6F; /* content.02 */
+  font-weight: 600;
+}
+
+.hashtag--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hover */
+.hashtag--clickable:hover:not(.hashtag--pressed):not(.hashtag--disabled) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.hashtag--clickable.hashtag--subtle:hover:not(.hashtag--pressed):not(.hashtag--disabled) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.hashtag--clickable.hashtag--color:hover:not(.hashtag--pressed):not(.hashtag--disabled) {
+  background-color: #D9DEFF; /* darker interaction.toned */
+} 

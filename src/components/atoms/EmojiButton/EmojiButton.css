@@ -1,0 +1,116 @@
+.emoji-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background-color: #F4F4F4; /* background.02 */
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  font-family: var(--font-primary);
+  padding: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Button sizes */
+.emoji-button--xs {
+  height: 24px;
+  min-width: 24px;
+}
+
+.emoji-button--xs .emoji-button__emoji {
+  font-size: 12px;
+}
+
+.emoji-button--xs .emoji-button__count {
+  font-size: 10px;
+}
+
+.emoji-button--sm {
+  height: 28px;
+  min-width: 28px;
+}
+
+.emoji-button--sm .emoji-button__emoji {
+  font-size: 14px;
+}
+
+.emoji-button--sm .emoji-button__count {
+  font-size: 11px;
+}
+
+.emoji-button--md {
+  height: 36px;
+  min-width: 36px;
+}
+
+.emoji-button--md .emoji-button__emoji {
+  font-size: 16px;
+}
+
+.emoji-button--md .emoji-button__count {
+  font-size: 12px;
+}
+
+.emoji-button--lg {
+  height: 44px;
+  min-width: 44px;
+}
+
+.emoji-button--lg .emoji-button__emoji {
+  font-size: 20px;
+}
+
+.emoji-button--lg .emoji-button__count {
+  font-size: 14px;
+}
+
+/* Emoji styles */
+.emoji-button__emoji {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Count styles */
+.emoji-button__count {
+  font-weight: 500;
+  color: #4A4A4A; /* content.01 */
+}
+
+/* Interactive states */
+.emoji-button--selected {
+  background-color: #EBEDFF; /* interaction.toned */
+  box-shadow: 0 0 0 1px #0D1C91;
+}
+
+.emoji-button--pressed {
+  transform: scale(0.95);
+  background-color: #D9DEFF; /* Darker interaction.toned */
+}
+
+.emoji-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hover state */
+.emoji-button:hover:not(.emoji-button--disabled) {
+  background-color: #EDEDED; /* background.03 */
+}
+
+.emoji-button--selected:hover {
+  background-color: #EBEDFF; /* interaction.toned */
+}
+
+/* Focus state */
+.emoji-button:focus {
+  outline: none;
+}
+
+.emoji-button:focus-visible {
+  box-shadow: 0 0 0 2px rgba(13, 28, 145, 0.4); /* interaction.color with transparency */
+} 

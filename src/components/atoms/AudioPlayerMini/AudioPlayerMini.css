@@ -1,0 +1,120 @@
+.audio-player-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  position: relative;
+  transition: all 0.2s ease-out;
+}
+
+/* Tailles du lecteur */
+.audio-player-mini--sm {
+  height: 28px;
+}
+
+.audio-player-mini--md {
+  height: 40px;
+}
+
+.audio-player-mini--lg {
+  height: 48px;
+}
+
+/* Bouton play/pause */
+.audio-player-mini__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0D1C91; /* interaction.color */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tailles des boutons */
+.audio-player-mini--sm .audio-player-mini__button {
+  width: 28px;
+  height: 28px;
+}
+
+.audio-player-mini--md .audio-player-mini__button {
+  width: 40px;
+  height: 40px;
+}
+
+.audio-player-mini--lg .audio-player-mini__button {
+  width: 48px;
+  height: 48px;
+}
+
+/* Conteneur de la barre de progression */
+.audio-player-mini__progress-container {
+  flex-grow: 1;
+  height: 4px;
+  background-color: #E4E4E4; /* background.04 */
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Barre de progression */
+.audio-player-mini__progress-bar {
+  height: 100%;
+  width: 100%;
+  background-color: #0D1C91; /* interaction.color */
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* States */
+.audio-player-mini--playing .audio-player-mini__button {
+  background-color: #1C2A9F; /* interaction.color + pressLayerAlt */
+}
+
+.audio-player-mini--pressed .audio-player-mini__button {
+  transform: scale(0.95);
+  background-color: #1C2A9F; /* interaction.color + pressLayerAlt */
+}
+
+.audio-player-mini--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.audio-player-mini--disabled .audio-player-mini__button {
+  cursor: not-allowed;
+  background-color: #6F6F6F; /* content.02 */
+}
+
+/* Animation de chargement */
+.audio-player-mini--loading .audio-player-mini__button {
+  background-color: #4A4A4A; /* content.01 */
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.audio-player-mini--loading .audio-player-mini__progress-bar {
+  background-color: #ABABAB; /* content.03 */
+  animation: pulse 1.5s infinite;
+  transform: scaleX(0.3); /* largeur fixe pendant le chargement */
+}
+
+/* État d'erreur */
+.audio-player-mini--error .audio-player-mini__button {
+  background-color: #DC2626; /* interaction.danger */
+}
+
+.audio-player-mini--error .audio-player-mini__progress-bar {
+  background-color: #DC2626; /* interaction.danger */
+} 

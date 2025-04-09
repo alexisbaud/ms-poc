@@ -1,0 +1,97 @@
+.interaction-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 0;
+  transition: all 0.2s ease-out;
+}
+
+/* Section avec les réactions emoji */
+.interaction-bar__reactions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Section avec les actions (commentaire, partage) */
+.interaction-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Style du bouton d'action */
+.interaction-bar__action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  color: #4A4A4A; /* content.01 */
+  font-family: var(--font-primary);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* États des boutons d'action */
+.interaction-bar__action:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.interaction-bar__action--pressed,
+.interaction-bar__action:active {
+  background-color: rgba(0, 0, 0, 0.06);
+  transform: scale(0.97);
+}
+
+/* Tailles */
+.interaction-bar--sm {
+  font-size: 14px;
+}
+
+.interaction-bar--sm .interaction-bar__action {
+  padding: 4px 8px;
+}
+
+.interaction-bar--md {
+  font-size: 16px;
+}
+
+.interaction-bar--lg {
+  font-size: 18px;
+  padding: 12px 0;
+}
+
+.interaction-bar--lg .interaction-bar__action {
+  padding: 8px 12px;
+}
+
+/* État pressé de toute la barre */
+.interaction-bar--pressed {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* État désactivé */
+.interaction-bar--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 480px) {
+  .interaction-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .interaction-bar__actions {
+    width: 100%;
+    justify-content: space-around;
+  }
+} 

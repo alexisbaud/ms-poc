@@ -1,0 +1,125 @@
+.expanded-post-a {
+  max-width: 768px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.expanded-post-a__header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #f0f0f0;
+  z-index: 10;
+}
+
+.expanded-post-a__back-button {
+  background: none;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.expanded-post-a__back-button:hover {
+  background-color: #f5f5f5;
+}
+
+.expanded-post-a__back-button:active {
+  background-color: #eeeeee;
+  transform: scale(0.95);
+}
+
+.expanded-post-a__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.expanded-post-a__content {
+  padding: 1.5rem;
+}
+
+.expanded-post-a__post-content {
+  margin: 1.25rem 0;
+}
+
+.expanded-post-a__text {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.expanded-post-a__hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.expanded-post-a__post-meta {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.expanded-post-a__timestamp {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* Media queries pour responsive */
+@media (max-width: 640px) {
+  .expanded-post-a {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  .expanded-post-a__content {
+    padding: 1rem;
+  }
+  
+  .expanded-post-a__text {
+    font-size: 1rem;
+  }
+  
+  .expanded-post-a__hashtags {
+    margin: 1rem 0;
+    gap: 0.375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .expanded-post-a__header {
+    padding: 0.75rem;
+  }
+  
+  .expanded-post-a__back-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .expanded-post-a__title {
+    font-size: 1.125rem;
+  }
+  
+  .expanded-post-a__content {
+    padding: 0.75rem;
+  }
+} 

@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectIsAuthenticated } from './features/auth/authSlice'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+
+// Pages
 import Style from './pages/Style'
 import AuthRoutes from './pages/auth'
 import Profile from './pages/Profile'
-import Home from './pages/Home'
+import HomePage from './pages/HomePage'
+import CreatePostPage from './pages/Create'
+import PostDetailPage from './pages/PostDetailPage'
 
 function App() {
-  const [count, setCount] = useState(0)
   const isAuthenticated = useSelector(selectIsAuthenticated)
 
   return (
@@ -29,12 +30,36 @@ function App() {
           } 
         />
         
-        {/* Page Home */}
+        {/* Page Home avec le fil d'actualité */}
         <Route 
           path="/home" 
           element={
             isAuthenticated ? (
-              <Home />
+              <HomePage />
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          } 
+        />
+        
+        {/* Page Création de post */}
+        <Route 
+          path="/create" 
+          element={
+            isAuthenticated ? (
+              <CreatePostPage />
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          } 
+        />
+        
+        {/* Page Détail d'un post */}
+        <Route 
+          path="/post/:id" 
+          element={
+            isAuthenticated ? (
+              <PostDetailPage />
             ) : (
               <Navigate to="/auth" replace />
             )

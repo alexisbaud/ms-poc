@@ -8,8 +8,8 @@ import Icon from '../../components/atoms/Icon';
 import Avatar from '../../components/atoms/Avatar';
 import Loader from '../../components/atoms/Loader';
 
-// Mock data - remplacer par des appels API dans une version production
-import { mockPosts } from './mockData';
+// Import services
+import PostsService from '../../services/posts';
 
 /**
  * Page d'accueil avec fil d'actualité et header sticky
@@ -25,21 +25,41 @@ const HomePage = () => {
   const [loadingAudioPostId, setLoadingAudioPostId] = useState(null);
   const [error, setError] = useState(null);
   
-  // Simulation chargement des posts
+  // Chargement des posts depuis l'API
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
         
-        // Simule un appel API avec délai
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await PostsService.getPosts(page, 5);
         
-        // Récupération des données mockées
-        const newPosts = mockPosts.slice(0, page * 5);
-        setPosts(newPosts);
+        // Transformer les posts pour les adapter au format attendu par les composants
+        const formattedPosts = response.posts.map(post => ({
+          id: post.id.toString(),
+          type: post.type === 'Post A' ? 'short' : 'long',
+          title: post.title,
+          content: post.content,
+          hashtags: post.hashtags,
+          createdAt: post.createdAt,
+          author: {
+            id: post.authorId.toString(),
+            username: post.authorName,
+            avatar: 'https://randomuser.me/api/portraits/men/32.jpg', // Avatar par défaut
+            verified: false
+          },
+          likeCount: 0, // Ces données viendront d'autres endpoints dans une version future
+          commentCount: 0,
+          shareCount: 0,
+          isLiked: false,
+          ttsAudioUrl: post.ttsAudioUrl,
+          ttsGenerated: post.ttsGenerated
+        }));
         
-        // Indique si il y a plus de posts à charger
-        setHasMore(newPosts.length < mockPosts.length);
+        // Si c'est la première page, on remplace les posts, sinon on les ajoute
+        setPosts(prevPosts => (page === 1 ? formattedPosts : [...prevPosts, ...formattedPosts]));
+        
+        // Détermine s'il y a plus de posts à charger
+        setHasMore(response.hasMore);
       } catch (err) {
         console.error('Erreur lors du chargement des posts:', err);
         setError('Une erreur est survenue lors du chargement des publications.');
@@ -55,7 +75,15 @@ const HomePage = () => {
   const handleLoadMore = async () => {
     if (!isLoading && hasMore) {
       setPage(prevPage => prevPage + 1);
-      return new Promise(resolve => setTimeout(resolve, 1000));
+      // Retourne une promesse qui sera résolue quand le chargement des nouveaux posts sera terminé
+      return new Promise(resolve => {
+        const checkInterval = setInterval(() => {
+          if (!isLoading) {
+            clearInterval(checkInterval);
+            resolve();
+          }
+        }, 100);
+      });
     }
     return Promise.resolve();
   };
@@ -88,14 +116,33 @@ const HomePage = () => {
   };
   
   const handlePlay = (postId) => {
-    // Simule le chargement audio et la lecture
-    setLoadingAudioPostId(postId);
+    // Si le post est déjà en cours de lecture, on l'arrête
+    if (playingPostId === postId) {
+      setPlayingPostId(null);
+      return;
+    }
     
-    // Simule un délai de chargement
-    setTimeout(() => {
-      setLoadingAudioPostId(null);
-      setPlayingPostId(postId === playingPostId ? null : postId);
-    }, 1500);
+    // Post à lire
+    const post = posts.find(p => p.id === postId);
+    
+    // Si le TTS est déjà généré, on lance la lecture immédiatement
+    if (post && post.ttsGenerated) {
+      setPlayingPostId(postId);
+    } else {
+      // Sinon on indique un chargement et on simule une génération TTS
+      setLoadingAudioPostId(postId);
+      
+      // Dans une version complète, appeler l'API pour générer le TTS
+      setTimeout(() => {
+        setLoadingAudioPostId(null);
+        setPlayingPostId(postId);
+        
+        // Mettre à jour le statut ttsGenerated du post
+        setPosts(prevPosts => prevPosts.map(p => 
+          p.id === postId ? { ...p, ttsGenerated: true } : p
+        ));
+      }, 2000);
+    }
   };
   
   return (
@@ -105,13 +152,10 @@ const HomePage = () => {
           <h1 className="home-page__title">Micro Story</h1>
           
           <div className="home-page__actions">
-            <button className="home-page__action-button">
+            <button className="home-page__action-button" onClick={() => navigate('/search')}>
               <Icon name="search" size="md" />
             </button>
-            <button className="home-page__action-button">
-              <Icon name="notifications" size="md" />
-            </button>
-            <button className="home-page__profile-button">
+            <button className="home-page__profile-button" onClick={() => navigate('/profile')}>
               <Avatar 
                 src="https://randomuser.me/api/portraits/women/44.jpg" 
                 alt="Profil" 

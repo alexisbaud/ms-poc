@@ -1,44 +1,39 @@
 import axios from 'axios';
 
-// Définir l'URL de base pour toutes les requêtes
-// Log l'URL utilisée pour faciliter le débogage
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-console.log('API URL:', API_URL);
-
+// Configuration de base pour axios
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  timeout: 10000,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
   }
 });
 
-// Intercepteur pour ajouter le token JWT aux requêtes
-api.interceptors.request.use(
-  (config) => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Intercepteur pour ajouter le token d'authentification à chaque requête
+api.interceptors.request.use(config => {
+  const token = sessionStorage.getItem('token');
+  
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  
+  return config;
+});
 
-// Intercepteur pour gérer les réponses
+// Intercepteur pour gérer les erreurs de réponse
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Gérer les erreurs globalement (ex: expiration de token, serveur indisponible)
-    if (error.response && error.response.status === 401) {
-      // Token expiré ou invalide
+  response => response,
+  error => {
+    // Traitement des erreurs communes
+    console.error('API error:', error.response?.data || error.message);
+    
+    // Redirection vers login si erreur 401 (non authentifié)
+    if (error.response?.status === 401) {
       sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      // Rediriger vers la page de connexion si nécessaire
-      // window.location.href = '/login';
+      window.location.href = '/login';
     }
     
-    // Log l'erreur pour faciliter le débogage
-    console.error('API Error:', error.response || error.message);
     return Promise.reject(error);
   }
 );

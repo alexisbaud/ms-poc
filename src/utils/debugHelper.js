@@ -69,7 +69,9 @@ export const testApiConnection = async () => {
       );
       
       // Tester aussi avec pingdom (sans attendre le résultat)
-      fetch(`https://tools.pingdom.com/ping/?pingUrl=${encodeURIComponent(apiUrl)}&pingCommand=ping`)
+      fetch(`https://tools.pingdom.com/ping/?pingUrl=${encodeURIComponent(apiUrl)}&pingCommand=ping`, {
+        mode: 'no-cors'  // Utiliser le mode no-cors pour éviter les erreurs CORS
+      })
         .then(() => console.info('[API TEST] Test Pingdom lancé'))
         .catch(err => console.error('[API TEST] Erreur Pingdom:', err.message));
       

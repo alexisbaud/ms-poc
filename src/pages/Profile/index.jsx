@@ -19,6 +19,8 @@ const Profile = () => {
   const handleNavigation = (pageId) => {
     if (pageId === 'home') {
       navigate('/home');
+    } else if (pageId === 'create') {
+      navigate('/create');
     }
   };
 

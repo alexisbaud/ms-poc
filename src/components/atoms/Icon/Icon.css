@@ -57,6 +57,17 @@
 .icon--danger svg path { fill: #DC2626; }
 .icon--white svg path { fill: #FFFFFF; }
 
+/* Couleur personnalisée pour l'icône de cœur */
+.icon--#007bff svg path,
+.icon[style*="color: #007bff"] svg path {
+  fill: #007bff !important;
+}
+
+/* S'assurer que l'icône avec un filtre SVG spécifique (cœur rempli) aie la bonne couleur */
+.post-interactions__button--liked .icon svg path {
+  fill: #007bff !important;
+}
+
 /* Interactive states */
 .icon--clickable {
   cursor: pointer;
@@ -111,4 +122,4 @@
 
 .icon--pressed {
   background-color: rgba(0, 0, 0, 0.06);
-} 
+}

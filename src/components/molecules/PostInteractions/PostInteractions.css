@@ -1,11 +1,68 @@
 .post-interactions {
   display: flex;
   flex-direction: row;
-  gap: 4px;
+  justify-content: center; /* Centre les boutons horizontalement */
+  gap: 16px; /* Augmente l'espace entre les boutons */
 }
 
 .post-interactions__button {
   min-width: 32px;
   min-height: 32px;
   padding: 4px;
-} 
+  display: flex;
+  justify-content: center; /* Centre l'icône horizontalement */
+  align-items: center; /* Centre l'icône verticalement */
+}
+
+/* Style pour le compteur */
+.post-interactions__count {
+  margin-left: 4px;
+  font-size: 0.9em;
+}
+
+/* Compteur avec couleur lorsque liké */
+.post-interactions__count--liked {
+  color: #007bff;
+}
+
+/* Wrapper pour le bouton like pour assurer l'application des styles */
+.post-interactions__like-wrapper {
+  display: inline-flex;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+/* Style du wrapper quand actif */
+.post-interactions__like-wrapper--active {
+  background-color: rgba(0, 123, 255, 0.15);
+}
+
+/* Style pour le bouton liké - augmentation de la spécificité */
+.post-interactions__button.post-interactions__button--liked {
+  background-color: rgba(0, 123, 255, 0.15);
+  color: #007bff;
+}
+
+/* Style pour l'icône dans le bouton liké */
+.post-interactions__button--liked .button__icon svg path,
+.post-interactions__button--liked .button__icon img {
+  fill: #007bff !important;
+  filter: invert(36%) sepia(98%) saturate(1904%) hue-rotate(198deg) brightness(97%) contrast(106%);
+}
+
+/* Importante: remplace le style du bouton lorsqu'il est liké */
+button.button.post-interactions__button.post-interactions__button--liked {
+  background-color: rgba(0, 123, 255, 0.15) !important;
+  color: #007bff !important;
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 480px) {
+  .post-interactions {
+    gap: 12px; /* Espace réduit en mobile mais suffisant pour une bonne lisibilité */
+  }
+  
+  .post-interactions__button {
+    padding: 2px;
+  }
+}

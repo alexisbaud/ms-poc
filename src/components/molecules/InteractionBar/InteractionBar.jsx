@@ -14,7 +14,14 @@ const InteractionBar = ({
   onComment = () => {},
   onShare = () => {},
   className = '',
-  ...props
+  postId,
+  likeCount,
+  commentCount,
+  shareCount,
+  isLiked,
+  onLike,
+  disabled = true,
+  ...rest
 }) => {
   const barClasses = [
     'interaction-bar',
@@ -22,7 +29,7 @@ const InteractionBar = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={barClasses} {...props}>
+    <div className={barClasses} {...rest}>
       <EmojiReactions 
         emojis={emojis}
         selectedEmoji={selectedEmoji}
@@ -31,6 +38,13 @@ const InteractionBar = ({
       <PostInteractions
         onComment={onComment}
         onShare={onShare}
+        commentCount={commentCount}
+        shareCount={shareCount}
+        likeCount={likeCount}
+        isLiked={isLiked}
+        onLike={onLike}
+        disabled={disabled}
+        postId={postId}
       />
     </div>
   );
@@ -48,7 +62,21 @@ InteractionBar.propTypes = {
   /** Handler for share button click */
   onShare: PropTypes.func,
   /** Additional CSS classes */
-  className: PropTypes.string
+  className: PropTypes.string,
+  /** Post ID */
+  postId: PropTypes.string,
+  /** Number of likes */
+  likeCount: PropTypes.number,
+  /** Number of comments */
+  commentCount: PropTypes.number,
+  /** Number of shares */
+  shareCount: PropTypes.number,
+  /** Whether the current user has liked the post */
+  isLiked: PropTypes.bool,
+  /** Handler for like button click */
+  onLike: PropTypes.func,
+  /** Whether interactions are disabled */
+  disabled: PropTypes.bool
 };
 
 export default InteractionBar; 

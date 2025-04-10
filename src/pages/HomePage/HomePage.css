@@ -69,7 +69,6 @@
 .home-page__content {
   flex: 1;
   max-width: 768px;
-  margin: 0 auto;
   padding: 1rem;
   padding-bottom: 2rem;
 }

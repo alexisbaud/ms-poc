@@ -28,12 +28,13 @@ const WritePostPage = () => {
   const [error, setError] = useState(null);
   const [wordCount, setWordCount] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isContentEmpty, setIsContentEmpty] = useState(true);
 
   // Calculer le nombre de mots à chaque changement de contenu
   useEffect(() => {
     const words = content.split(/\s+/).filter(Boolean).length;
     setWordCount(words);
+    setIsContentEmpty(!content.trim());
   }, [content]);
 
   // Gérer le changement de contenu

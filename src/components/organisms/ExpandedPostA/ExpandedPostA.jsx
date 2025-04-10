@@ -11,7 +11,7 @@ import Icon from '../../atoms/Icon';
 import Button from '../../atoms/Button';
 import InteractionBar from '../../molecules/InteractionBar';
 import PostHeader from '../../molecules/PostHeader';
-import CommentSection from '../CommentSection';
+import EmojiReactions from '../../molecules/EmojiReactions';
 
 /**
  * Vue détaillée du Post A avec tous les hashtags + commentaires
@@ -39,16 +39,19 @@ const ExpandedPostA = ({
   
   return (
     <article className="expanded-post-a">
-      <div className="expanded-post-a__header">
-        <button 
-          className="expanded-post-a__back-button" 
+      <header className="expanded-post-a__header">
+        <Button 
+          style="black"
+          importance="tertiary" 
+          size="M"
           onClick={handleBackClick}
           aria-label="Retour"
-        >
-          <Icon name="arrow-left" size="md" />
-        </button>
+          icon={<Icon src="/icons/chevron-left.svg" size="md" />}
+          iconVariant="only"
+          square
+        />
         <h1 className="expanded-post-a__title">Publication</h1>
-      </div>
+      </header>
       
       <div className="expanded-post-a__content">
         <PostHeader 
@@ -67,7 +70,7 @@ const ExpandedPostA = ({
           </Text>
         </div>
         
-        {post.hashtags && post.hashtags.length > 0 && (
+        {post.hashtags && Array.isArray(post.hashtags) && post.hashtags.length > 0 && (
           <div className="expanded-post-a__hashtags">
             {post.hashtags.map((tag, index) => (
               <Hashtag 
@@ -86,29 +89,18 @@ const ExpandedPostA = ({
           </Text>
         </div>
         
-        <InteractionBar 
-          postId={post.id}
-          likeCount={post.likeCount}
-          commentCount={post.commentCount}
-          shareCount={post.shareCount}
-          isLiked={post.isLiked}
-          onLike={onLike}
-          onComment={onComment}
-          onShare={onShare}
-          size="lg"
-          disabled={disabled}
-        />
-        
-        <Divider />
-        
-        <CommentSection 
-          postId={post.id}
-          comments={comments}
-          onAddComment={onAddComment}
-          isLoading={isLoadingComments}
-          onUserClick={onUserClick}
-          disabled={disabled}
-        />
+        {/* Afficher uniquement les emoji reactions sans les interactions de post */}
+        <div className="expanded-post-a__reactions">
+          <EmojiReactions 
+            emojis={['❤️', '😂', '😮', '👏']}
+            selectedEmoji={post.selectedEmoji}
+            onReact={(emoji) => {
+              if (onLike) {
+                onLike(post.id, emoji);
+              }
+            }}
+          />
+        </div>
       </div>
     </article>
   );

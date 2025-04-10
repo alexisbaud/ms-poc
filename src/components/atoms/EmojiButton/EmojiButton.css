@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   width: 40px;
+  min-width: 40px;
   height: 32px;
   background-color: #F4F4F4; /* background.02 */
   border: none;
@@ -19,22 +20,24 @@
 }
 
 .emoji-button:hover {
-  background-color: #EBEBEB;
+  background-color: #0D1C91; /* interaction.color avec transparence */
 }
 
 .emoji-button--pressed {
-  background-color: rgba(0, 0, 0, 0.08); /* interaction.PressLayer */
+  background-color: #0D1C91; /* interaction.color avec transparence */
   transform: scale(0.95);
 }
 
 .emoji-button--selected {
-  background-color: #EDEDED;
+  background-color: #0D1C91; /* interaction.color avec transparence */
+  border: 1px solid rgba(13, 28, 145, 0.3); /* interaction.color avec transparence */
 }
 
 /* Responsive */
 @media (max-width: 480px) {
   .emoji-button {
-    width: 36px;
+    width: 40px;
+    min-width: 40px;
     height: 30px;
   }
   
@@ -46,7 +49,7 @@
 /* Button sizes */
 .emoji-button--xs {
   height: 24px;
-  min-width: 24px;
+  min-width: 40px;
 }
 
 .emoji-button--xs .emoji-button__emoji {
@@ -59,7 +62,7 @@
 
 .emoji-button--sm {
   height: 28px;
-  min-width: 28px;
+  min-width: 40px;
 }
 
 .emoji-button--sm .emoji-button__emoji {
@@ -72,7 +75,7 @@
 
 .emoji-button--md {
   height: 36px;
-  min-width: 36px;
+  min-width: 40px;
 }
 
 .emoji-button--md .emoji-button__emoji {

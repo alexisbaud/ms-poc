@@ -6,15 +6,15 @@ import NavBarEntry from '../../atoms/NavBarEntry';
 import Button from '../../atoms/Button/Button';
 
 // Import direct des SVG comme URLs
-import houseIcon from '../../../assets/Icons/house-door.svg';
-import houseIconFill from '../../../assets/Icons/house-door-fill.svg';
-import plusLgIcon from '../../../assets/Icons/plus-lg.svg';
-import searchIcon from '../../../assets/Icons/search.svg';
-import searchIconFill from '../../../assets/Icons/search-fill.svg';
-import heartIcon from '../../../assets/Icons/heart.svg';
-import heartIconFill from '../../../assets/Icons/heart-fill.svg';
-import personIcon from '../../../assets/Icons/person.svg';
-import personIconFill from '../../../assets/Icons/person-fill.svg';
+import houseIcon from '/icons/house-door.svg';
+import houseIconFill from '/icons/house-door-fill.svg';
+import plusLgIcon from '/icons/plus-lg.svg';
+import searchIcon from '/icons/search.svg';
+import searchIconFill from '/icons/search-fill.svg';
+import heartIcon from '/icons/heart.svg';
+import heartIconFill from '/icons/heart-fill.svg';
+import personIcon from '/icons/person.svg';
+import personIconFill from '/icons/person-fill.svg';
 
 /**
  * Barre de navigation mobile fixée en bas de l'écran

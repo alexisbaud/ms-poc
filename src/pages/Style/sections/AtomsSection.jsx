@@ -9,13 +9,13 @@ import EmojiButton from '../../../components/atoms/EmojiButton';
 import { colors } from '../../../styles';
 
 // Import direct des icônes en utilisant des URLs standards
-import houseIcon from '../../../assets/Icons/house-door.svg';
-import houseIconFill from '../../../assets/Icons/house-door-fill.svg';
-import plusIcon from '../../../assets/Icons/plus.svg';
-import xIcon from '../../../assets/Icons/x.svg';
-import searchIcon from '../../../assets/Icons/search.svg';
-import arrowRightIcon from '../../../assets/Icons/arrow-right.svg';
-import heartIcon from '../../../assets/Icons/heart.svg';
+import houseIcon from '/icons/house-door.svg';
+import houseIconFill from '/icons/house-door-fill.svg';
+import plusIcon from '/icons/plus.svg';
+import xIcon from '/icons/x.svg';
+import searchIcon from '/icons/search.svg';
+import arrowRightIcon from '/icons/arrow-right.svg';
+import heartIcon from '/icons/heart.svg';
 
 const AtomsSection = () => {
   const [textFieldValues, setTextFieldValues] = useState({

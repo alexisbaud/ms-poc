@@ -89,7 +89,7 @@ const WritePostPage = () => {
           size="M"
           onClick={handleBack}
           aria-label="Retour"
-          icon={<Icon src="/src/assets/Icons/chevron-left.svg" size="md" />}
+          icon={<Icon src="/icons/chevron-left.svg" size="md" />}
           iconVariant="only"
           square
         />

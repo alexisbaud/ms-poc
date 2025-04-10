@@ -1,8 +1,1 @@
-{
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/[^.]+", "dest": "/", "status": 200 }
-  ],
-  "outputDirectory": "dist"
-} 
+{ "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }] } 

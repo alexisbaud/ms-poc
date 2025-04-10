@@ -193,7 +193,7 @@ const CustomizePostPage = () => {
           size="M"
           onClick={handleBack}
           aria-label="Retour"
-          icon={<Icon src="/src/assets/Icons/chevron-left.svg" size="md" />}
+          icon={<Icon src="/icons/chevron-left.svg" size="md" />}
           iconVariant="only"
           square
         />
@@ -294,7 +294,7 @@ const CustomizePostPage = () => {
                       onClick={() => handleRemoveHashtag(tag)}
                       aria-label={`Supprimer le hashtag ${tag}`}
                     >
-                      <Icon src="/src/assets/Icons/x.svg" size="sm" />
+                      <Icon src="/icons/x.svg" size="sm" />
                     </button>
                   </div>
                 ))}

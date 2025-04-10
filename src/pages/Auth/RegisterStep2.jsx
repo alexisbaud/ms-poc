@@ -10,7 +10,7 @@ import { colors } from '../../styles';
 import './Auth.css';
 
 // Import de l'icône chevron gauche
-import chevronLeftIcon from '../../assets/Icons/chevron-left.svg';
+import chevronLeftIcon from '/icons/chevron-left.svg';
 
 const RegisterStep2 = () => {
   const navigate = useNavigate();

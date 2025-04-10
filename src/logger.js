@@ -19,6 +19,11 @@ const originalConsole = {
   assert: console.assert
 };
 
+// Sauvegarder les méthodes fetch et XMLHttpRequest originales pour le monitoring réseau
+const originalFetch = window.fetch;
+const originalXHROpen = XMLHttpRequest.prototype.open;
+const originalXHRSend = XMLHttpRequest.prototype.send;
+
 /**
  * Obtient la stack trace actuelle
  * @returns {string} Stack trace formatée
@@ -286,6 +291,167 @@ const initLogger = () => {
     } catch (e) {
       // Ignorer les erreurs de mesure de performance
     }
+  }
+
+  // Capture des performances réseau
+  if (window.PerformanceObserver) {
+    try {
+      // Observer les requêtes réseau
+      const networkObserver = new PerformanceObserver((list) => {
+        list.getEntries().forEach(entry => {
+          if (entry.entryType === 'resource') {
+            logs.push({
+              timestamp: new Date().toISOString(),
+              type: 'NETWORK',
+              message: `Resource loaded: ${entry.name}`,
+              data: {
+                duration: entry.duration,
+                transferSize: entry.transferSize,
+                initiatorType: entry.initiatorType,
+                startTime: entry.startTime,
+                responseEnd: entry.responseEnd
+              }
+            });
+          }
+        });
+      });
+      
+      networkObserver.observe({ entryTypes: ['resource'] });
+      
+      // Observer les métriques de performance web
+      const perfObserver = new PerformanceObserver((list) => {
+        list.getEntries().forEach(entry => {
+          logs.push({
+            timestamp: new Date().toISOString(),
+            type: 'PERF_METRIC',
+            message: `Performance metric: ${entry.name}`,
+            data: {
+              value: entry.value,
+              startTime: entry.startTime,
+              duration: entry.duration
+            }
+          });
+        });
+      });
+      
+      perfObserver.observe({ entryTypes: ['paint', 'largest-contentful-paint', 'layout-shift', 'first-input', 'longtask'] });
+    } catch (e) {
+      console.warn('Performance Observer not fully supported:', e);
+    }
+  }
+
+  // Intercepter les requêtes fetch pour les logger
+  window.fetch = function(...args) {
+    const url = args[0] instanceof Request ? args[0].url : String(args[0]);
+    const method = args[0] instanceof Request ? args[0].method : (args[1]?.method || 'GET');
+    
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      type: 'FETCH',
+      message: `${method} ${url}`,
+      context: extractContext(getStackTrace())
+    };
+    
+    logs.push(logEntry);
+    
+    return originalFetch.apply(this, args)
+      .then(response => {
+        // Cloner la réponse pour éviter de la consommer
+        const clone = response.clone();
+        
+        logs.push({
+          timestamp: new Date().toISOString(),
+          type: 'FETCH_RESPONSE',
+          message: `${method} ${url} - Status: ${clone.status}`,
+          data: {
+            status: clone.status,
+            statusText: clone.statusText,
+            headers: Array.from(clone.headers.entries()).reduce((obj, [key, value]) => {
+              obj[key] = value;
+              return obj;
+            }, {})
+          }
+        });
+        
+        return response;
+      })
+      .catch(error => {
+        logs.push({
+          timestamp: new Date().toISOString(),
+          type: 'FETCH_ERROR',
+          message: `${method} ${url} - Error: ${error.message}`,
+          stack: error.stack
+        });
+        
+        throw error;
+      });
+  };
+  
+  // Intercepter les requêtes XMLHttpRequest
+  XMLHttpRequest.prototype.open = function(method, url, ...args) {
+    this._logger_url = url;
+    this._logger_method = method;
+    return originalXHROpen.apply(this, [method, url, ...args]);
+  };
+  
+  XMLHttpRequest.prototype.send = function(...args) {
+    const url = this._logger_url;
+    const method = this._logger_method;
+    
+    logs.push({
+      timestamp: new Date().toISOString(),
+      type: 'XHR',
+      message: `${method} ${url}`,
+      context: extractContext(getStackTrace())
+    });
+    
+    // Capturer la réponse et les erreurs
+    this.addEventListener('load', () => {
+      logs.push({
+        timestamp: new Date().toISOString(),
+        type: 'XHR_RESPONSE',
+        message: `${method} ${url} - Status: ${this.status}`,
+        data: {
+          status: this.status,
+          statusText: this.statusText,
+          responseType: this.responseType,
+          responseSize: this.responseText?.length || 0
+        }
+      });
+    });
+    
+    this.addEventListener('error', () => {
+      logs.push({
+        timestamp: new Date().toISOString(),
+        type: 'XHR_ERROR',
+        message: `${method} ${url} - Network Error`,
+        stack: getStackTrace()
+      });
+    });
+    
+    return originalXHRSend.apply(this, args);
+  };
+
+  // Capturer les logs du navigateur via la console (erreurs JS, warnings CSS, etc.)
+  if (window.console) {
+    // Certains navigateurs émettent des événements "error" globaux pour les erreurs de console
+    // On a déjà configuré un listener pour ceux-ci plus haut
+    
+    // Écouter les erreurs de chargement d'images et autres ressources
+    document.addEventListener('error', (event) => {
+      const target = event.target;
+      if (target && target.tagName) {
+        logs.push({
+          timestamp: new Date().toISOString(),
+          type: 'RESOURCE_ERROR',
+          message: `Failed to load ${target.tagName.toLowerCase()}: ${target.src || target.href || 'unknown resource'}`,
+          context: {
+            element: target.tagName.toLowerCase(),
+            url: target.src || target.href || 'unknown'
+          }
+        });
+      }
+    }, true); // Utilisation de la phase de capture pour attraper les erreurs avant qu'elles ne se propagent
   }
 
   isInitialized = true;

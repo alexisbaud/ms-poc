@@ -1,0 +1,5 @@
+.emoji-reactions {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+} 

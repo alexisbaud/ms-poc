@@ -11,6 +11,14 @@ export const registerUser = createAsyncThunk(
     try {
       dispatch(authRequest());
       const result = await authService.register({ email, password, pseudo });
+      
+      // Vérifier la présence du token et le stocker explicitement
+      console.log('Register success - token reçu:', !!result.token);
+      if (result.token) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+      }
+      
       dispatch(loginSuccess(result));
       return result;
     } catch (error) {
@@ -29,7 +37,21 @@ export const loginUser = createAsyncThunk(
     try {
       dispatch(authRequest());
       const result = await authService.login({ email, password });
+      
+      // Vérifier la présence du token et le stocker explicitement
+      console.log('Login success - token reçu:', !!result.token);
+      if (result.token) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+      }
+      
       dispatch(loginSuccess(result));
+      
+      // Vérifier que le token est bien stocké
+      setTimeout(() => {
+        console.log('Token dans localStorage après login:', !!localStorage.getItem('token'));
+      }, 100);
+      
       return result;
     } catch (error) {
       dispatch(authFailure(error.message));

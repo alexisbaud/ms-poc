@@ -5,6 +5,10 @@ import store from './features/store'
 import './index.css'
 import App from './App.jsx'
 import { initFocusVisible } from './utils/focusVisible'
+import Logger from './logger'
+
+// Importer et initialiser le logger en premier
+Logger.init()
 
 // Composant d'initialisation - initialise le focus visible lors du montage
 function AppWithFocusVisible() {

@@ -1,0 +1,414 @@
+/* Styles communs pour les pages de création de post */
+
+.create-post-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0;
+  background-color: var(--color-background);
+  box-sizing: border-box;
+  overflow-x: hidden; /* Empêcher le scroll horizontal */
+}
+
+.create-post-page__header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__back-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.create-post-page__back-button:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.create-post-page__title {
+  flex: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.create-post-page__content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden; /* Empêche le scroll horizontal */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+/* Page A - Rédaction de l'histoire */
+.create-post-page__step-1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__visibility {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.create-post-page__visibility-options {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.create-post-page__content-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__content-input--fullsize {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 150px); /* Hauteur de la page moins l'en-tête et la marge */
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+/* Nouvelles classes pour les TextFields */
+.create-post-page__content .textfield {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__content .textfield__container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__content .textfield__input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__content-textarea {
+  flex: 1;
+  min-height: 200px;
+  resize: none;
+  border: none;
+  background-color: var(--color-surface);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__content-textarea--fullsize {
+  min-height: calc(100vh - 200px); /* Hauteur de la page moins l'en-tête, la marge et le compteur */
+}
+
+.create-post-page__word-counter {
+  margin-top: 0.5rem;
+  text-align: right;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.create-post-page__actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--color-background);
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__error {
+  color: var(--color-error);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.create-post-page__next-button,
+.create-post-page__publish-button {
+  width: 100%;
+}
+
+/* Page B - Personnalisation du post */
+.create-post-page__step-2 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__title-input,
+.create-post-page__tts-input {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-surface);
+  border-radius: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-page__suggestion--horizontal {
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.create-post-page__suggestion .text-caption {
+  flex: 1;
+  min-width: 200px;
+  max-width: calc(100% - 100px); /* Réserve de l'espace pour le bouton */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.create-post-page__suggestion-button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.create-post-page__hashtags {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+/* Formulaire d'ajout de hashtag */
+.create-post-page__hashtag-form {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 0.3rem 0; /* Réduire la marge du bas */
+  align-items: flex-start;
+  width: 100%;
+  flex-wrap: wrap;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+  box-sizing: border-box;
+}
+
+.create-post-page__hashtag-form--horizontal {
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.create-post-page__hashtag-input {
+  flex: 1;
+  max-width: calc(100% - 120px); /* Réserver espace pour le bouton */
+}
+
+.create-post-page__hashtag-button {
+  white-space: nowrap;
+  flex-shrink: 0;
+  max-width: 110px;
+}
+
+.create-post-page__hashtag-form .text-field {
+  flex: 1;
+  min-width: 200px;
+  max-width: calc(100% - 120px); /* Réserver espace pour le bouton */
+}
+
+.create-post-page__hashtags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__hashtags-list--reduced-margin {
+  margin-top: 0.2rem;
+}
+
+.create-post-page__hashtag-item {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border-radius: 1rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.create-post-page__remove-hashtag {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-post-page__suggested-hashtags {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__suggested-hashtags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__buttons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+  max-width: 100%; /* S'assure que rien ne dépasse */
+}
+
+.create-post-page__buttons button {
+  flex: 1;
+  min-width: 120px;
+}
+
+.create-post-page__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Classe pour les champs texte en pleine largeur */
+.create-post-page__fullwidth-field {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.create-post-page__fullwidth-field .textfield__container,
+.create-post-page__fullwidth-field .textfield__input {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.create-post-page__fullwidth-field textarea,
+.create-post-page__fullwidth-field input {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Améliorer la responsivité sur les petits écrans */
+@media (max-width: 480px) {
+  .create-post-page__content {
+    padding: 0.75rem;
+  }
+  
+  .create-post-page__suggestion {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .create-post-page__suggestion button {
+    align-self: flex-end;
+  }
+  
+  .create-post-page__suggestion--horizontal {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .create-post-page__suggestion--horizontal .text-caption {
+    margin-right: 0.5rem;
+    max-width: calc(100% - 90px); /* Réserve espace pour le bouton */
+  }
+  
+  .create-post-page__hashtag-form {
+    flex-direction: column;
+  }
+  
+  .create-post-page__hashtag-form--horizontal {
+    flex-direction: row;
+  }
+  
+  .create-post-page__hashtag-form button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  .create-post-page__hashtag-form--horizontal button {
+    width: auto;
+    margin-top: 0;
+    max-width: 110px;
+  }
+  
+  .create-post-page__hashtag-form--horizontal .textfield {
+    max-width: calc(100% - 120px);
+  }
+  
+  .create-post-page__buttons {
+    flex-direction: column;
+  }
+  
+  .create-post-page__buttons button {
+    width: 100%;
+  }
+} 

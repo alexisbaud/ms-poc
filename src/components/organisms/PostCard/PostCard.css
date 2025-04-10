@@ -1,0 +1,41 @@
+.post-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Space between content sections */
+.post-card > *:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+/* Variant specific styles */
+.post-card--a .post-card__content {
+  margin-top: 8px;
+}
+
+.post-card--b .post-card__content {
+  margin-top: 12px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .post-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .post-card > *:not(:last-child) {
+    margin-bottom: 8px;
+  }
+} 

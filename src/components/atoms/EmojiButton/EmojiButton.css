@@ -1,16 +1,46 @@
 .emoji-button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  border: none;
+  width: 40px;
+  height: 32px;
   background-color: #F4F4F4; /* background.02 */
-  border-radius: 16px;
+  border: none;
+  border-radius: 4px;
+  padding: 0;
   cursor: pointer;
-  transition: all 0.2s ease-out;
-  font-family: var(--font-primary);
-  padding: 0 8px;
+  transition: all 0.15s ease-out;
   -webkit-tap-highlight-color: transparent;
+}
+
+.emoji-button__emoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.emoji-button:hover {
+  background-color: #EBEBEB;
+}
+
+.emoji-button--pressed {
+  background-color: rgba(0, 0, 0, 0.08); /* interaction.PressLayer */
+  transform: scale(0.95);
+}
+
+.emoji-button--selected {
+  background-color: #EDEDED;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .emoji-button {
+    width: 36px;
+    height: 30px;
+  }
+  
+  .emoji-button__emoji {
+    font-size: 14px;
+  }
 }
 
 /* Button sizes */
@@ -66,14 +96,6 @@
   font-size: 14px;
 }
 
-/* Emoji styles */
-.emoji-button__emoji {
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Count styles */
 .emoji-button__count {
   font-weight: 500;
@@ -81,29 +103,10 @@
 }
 
 /* Interactive states */
-.emoji-button--selected {
-  background-color: #EBEDFF; /* interaction.toned */
-  box-shadow: 0 0 0 1px #0D1C91;
-}
-
-.emoji-button--pressed {
-  transform: scale(0.95);
-  background-color: #D9DEFF; /* Darker interaction.toned */
-}
-
 .emoji-button--disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-/* Hover state */
-.emoji-button:hover:not(.emoji-button--disabled) {
-  background-color: #EDEDED; /* background.03 */
-}
-
-.emoji-button--selected:hover {
-  background-color: #EBEDFF; /* interaction.toned */
 }
 
 /* Focus state */

@@ -3,6 +3,9 @@ import Button from '../../../components/atoms/Button';
 import TextField from '../../../components/atoms/TextField';
 import Divider from '../../../components/atoms/Divider';
 import NavBarEntry from '../../../components/atoms/NavBarEntry';
+import Hashtag from '../../../components/atoms/Hashtag';
+import Content from '../../../components/atoms/Content';
+import EmojiButton from '../../../components/atoms/EmojiButton';
 import { colors } from '../../../styles';
 
 // Import direct des icônes en utilisant des URLs standards
@@ -32,6 +35,9 @@ const AtomsSection = () => {
   const [searchSvg, setSearchSvg] = useState('');
   const [arrowRightSvg, setArrowRightSvg] = useState('');
   const [bookmarkSvg, setBookmarkSvg] = useState('');
+  
+  // État pour démonstration de l'EmojiButton
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
   
   // Charger les fichiers SVG au montage du composant
   useEffect(() => {
@@ -69,10 +75,91 @@ const AtomsSection = () => {
   // Regex pour validation de numéro de téléphone français
   const phoneRegex = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/;
 
+  // Gestionnaire de clic pour l'EmojiButton
+  const handleEmojiClick = (emoji) => {
+    setSelectedEmoji(emoji === selectedEmoji ? null : emoji);
+  };
+
   return (
     <div className="atoms-section">
       <h2>Atoms</h2>
       <p className="component-description">Les composants atomiques sont les plus petits éléments de l'interface.</p>
+
+      <div className="component-section">
+        <h3 className="component-title">Hashtag</h3>
+        <p className="component-description">
+          Composant de présentation des hashtags avec style uniforme.
+        </p>
+
+        <div className="component-example">
+          <h4>Exemples d'utilisation</h4>
+          <div className="component-variants" style={{ backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <Hashtag tag="vdm" onClick={(tag) => alert(`Hashtag clicked: ${tag}`)} />
+            <Hashtag tag="spicy" onClick={(tag) => alert(`Hashtag clicked: ${tag}`)} />
+            <Hashtag tag="trahison" onClick={(tag) => alert(`Hashtag clicked: ${tag}`)} />
+            <Hashtag tag="drole" onClick={(tag) => alert(`Hashtag clicked: ${tag}`)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="component-section">
+        <h3 className="component-title">Content</h3>
+        <p className="component-description">
+          Composant pour afficher le contenu d'un post avec deux variantes : texte simple ou titre + extrait.
+        </p>
+
+        <div className="component-example">
+          <h4>Variante A (Texte complet)</h4>
+          <div className="component-variants" style={{ backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <Content 
+              variant="A" 
+              content="Aujourd'hui, j'ai compris que mon accent anglais était mauvais en utilisant la commande vocale de la Chromecast pour chercher 'Daredevil Born Again' et que Google a cherché 'Daredevil porno gay.'" 
+            />
+          </div>
+
+          <h4>Variante B (Titre + Extrait)</h4>
+          <div className="component-variants" style={{ backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <Content 
+              variant="B" 
+              title="J'ai éjecté la meilleure amie de ma pote pour prendre sa place"
+              content="Cette histoire est un peu longue, mais je vais essayer d'aller à l'essentiel..." 
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="component-section">
+        <h3 className="component-title">EmojiButton</h3>
+        <p className="component-description">
+          Bouton pour réagir avec des emojis aux posts.
+        </p>
+
+        <div className="component-example">
+          <h4>Emojis de réaction</h4>
+          <div className="component-variants" style={{ backgroundColor: '#F4F4F4', padding: '1rem', borderRadius: '8px' }}>
+            <EmojiButton 
+              emoji="❤️" 
+              isSelected={selectedEmoji === "❤️"}
+              onClick={handleEmojiClick} 
+            />
+            <EmojiButton 
+              emoji="😂" 
+              isSelected={selectedEmoji === "😂"}
+              onClick={handleEmojiClick} 
+            />
+            <EmojiButton 
+              emoji="😮" 
+              isSelected={selectedEmoji === "😮"}
+              onClick={handleEmojiClick} 
+            />
+            <EmojiButton 
+              emoji="👏" 
+              isSelected={selectedEmoji === "👏"}
+              onClick={handleEmojiClick} 
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="component-section">
         <h3 className="component-title">Button</h3>

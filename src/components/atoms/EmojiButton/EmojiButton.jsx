@@ -1,60 +1,46 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './EmojiButton.css';
-import { colors } from '../../../styles';
 
 /**
- * Composant bouton avec emoji pour les réactions
- * @param {Object} props - Les propriétés du composant
- * @returns {JSX.Element}
+ * Component for emoji reaction buttons
  */
 const EmojiButton = ({
   emoji = '👍',
-  label = '',
-  count = 0,
-  size = 'md',
-  isSelected = false,
-  isPressed = false,
-  isDisabled = false,
   onClick = null,
+  isSelected = false,
   className = '',
-  showCount = true,
   ...props
 }) => {
-  // État local
+  // Local state
   const [isPressedInternal, setIsPressedInternal] = useState(false);
   
-  // Handlers pour l'état pressed
-  const handleMouseDown = (e) => {
-    if (onClick && !isDisabled) {
+  // Handlers for pressed state
+  const handleMouseDown = () => {
+    if (onClick) {
       setIsPressedInternal(true);
     }
   };
 
-  const handleMouseUp = (e) => {
-    if (onClick && !isDisabled) {
+  const handleMouseUp = () => {
+    if (onClick) {
       setIsPressedInternal(false);
     }
   };
 
-  const handleClick = (e) => {
-    if (onClick && !isDisabled) {
-      onClick(e);
+  const handleClick = () => {
+    if (onClick) {
+      onClick(emoji);
     }
   };
   
-  // Classes CSS
+  // CSS classes
   const buttonClasses = [
     'emoji-button',
-    `emoji-button--${size}`,
     isSelected ? 'emoji-button--selected' : '',
-    (isPressed || isPressedInternal) ? 'emoji-button--pressed' : '',
-    isDisabled ? 'emoji-button--disabled' : '',
+    isPressedInternal ? 'emoji-button--pressed' : '',
     className
   ].filter(Boolean).join(' ');
-
-  // Format du compteur
-  const formattedCount = count > 999 ? `${Math.floor(count / 1000)}k` : count.toString();
 
   return (
     <button
@@ -66,41 +52,25 @@ const EmojiButton = ({
       onTouchStart={handleMouseDown}
       onTouchEnd={handleMouseUp}
       onTouchCancel={handleMouseUp}
-      aria-label={label || `Réagir avec ${emoji}`}
+      aria-label={`React with ${emoji}`}
       aria-pressed={isSelected}
-      disabled={isDisabled}
       type="button"
       {...props}
     >
       <span className="emoji-button__emoji" role="img" aria-hidden="true">{emoji}</span>
-      {showCount && count > 0 && (
-        <span className="emoji-button__count">{formattedCount}</span>
-      )}
     </button>
   );
 };
 
 EmojiButton.propTypes = {
-  /** Emoji à afficher (Unicode) */
-  emoji: PropTypes.string,
-  /** Label accessible (aria-label) */
-  label: PropTypes.string,
-  /** Nombre de réactions */
-  count: PropTypes.number,
-  /** Taille du bouton */
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
-  /** Si le bouton est sélectionné (l'utilisateur a déjà réagi) */
-  isSelected: PropTypes.bool,
-  /** État pressé (contrôlé depuis l'extérieur) */
-  isPressed: PropTypes.bool,
-  /** État désactivé */
-  isDisabled: PropTypes.bool,
-  /** Fonction appelée lors du clic */
+  /** Emoji character to display */
+  emoji: PropTypes.string.isRequired,
+  /** Click handler */
   onClick: PropTypes.func,
-  /** Afficher le compteur ou non */
-  showCount: PropTypes.bool,
-  /** Classes CSS additionnelles */
-  className: PropTypes.string,
+  /** Selected state */
+  isSelected: PropTypes.bool,
+  /** Additional CSS classes */
+  className: PropTypes.string
 };
 
 export default EmojiButton; 

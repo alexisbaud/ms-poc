@@ -12,8 +12,16 @@ const api = axios.create({
 
 // Intercepteur pour ajouter le token d'authentification à chaque requête
 api.interceptors.request.use(config => {
-  const token = sessionStorage.getItem('token');
+  // Vérification des clés dans localStorage
+  const token = localStorage.getItem('token');
   
+  // Protection supplémentaire pour les requêtes qui nécessitent une authentification
+  if (['post', 'put', 'delete'].includes(config.method) && 
+      !config.url.includes('/auth/login') && 
+      !config.url.includes('/auth/register')) {
+  }
+  
+  // Configuration de l'en-tête avec le token
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -23,15 +31,30 @@ api.interceptors.request.use(config => {
 
 // Intercepteur pour gérer les erreurs de réponse
 api.interceptors.response.use(
-  response => response,
+  response => {
+    return response;
+  },
   error => {
-    // Traitement des erreurs communes
-    console.error('API error:', error.response?.data || error.message);
-    
-    // Redirection vers login si erreur 401 (non authentifié)
+    // Vérifier le token à nouveau en cas d'erreur 401
     if (error.response?.status === 401) {
-      sessionStorage.removeItem('token');
-      window.location.href = '/login';
+      const token = localStorage.getItem('token');
+      
+      // Stockage d'information de debug pour résoudre le problème ultérieurement
+      localStorage.setItem('lastAuthError', JSON.stringify({
+        timestamp: new Date().toISOString(),
+        tokenPresent: !!token,
+        url: error.config?.url,
+        errorDetails: error.response?.data
+      }));
+      
+      // Redirection vers login si erreur 401 (non authentifié) et si ce n'est pas un endpoint public
+      // Stocker la dernière URL pour rediriger après la connexion
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login' && currentPath !== '/auth') {
+        localStorage.setItem('redirectAfterLogin', currentPath);
+      }
+      
+      // Ne pas rediriger automatiquement - laisser les composants gérer l'erreur 401
     }
     
     return Promise.reject(error);

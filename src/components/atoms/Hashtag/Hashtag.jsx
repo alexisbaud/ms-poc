@@ -7,7 +7,7 @@ import './Hashtag.css';
  * @param {Object} props - Les propriétés du composant
  * @returns {JSX.Element}
  */
-const Hashtag = ({ tag, size = 'md', onClick }) => {
+const Hashtag = ({ tag, onClick }) => {
   const handleClick = () => {
     if (onClick) {
       onClick(tag);
@@ -16,7 +16,7 @@ const Hashtag = ({ tag, size = 'md', onClick }) => {
 
   return (
     <span 
-      className={`hashtag hashtag--${size}`} 
+      className="hashtag" 
       onClick={handleClick}
     >
       #{tag}
@@ -26,7 +26,6 @@ const Hashtag = ({ tag, size = 'md', onClick }) => {
 
 Hashtag.propTypes = {
   tag: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
   onClick: PropTypes.func
 };
 

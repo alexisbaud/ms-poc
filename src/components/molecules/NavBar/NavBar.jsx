@@ -81,9 +81,9 @@ const NavBar = ({
     return null;
   }
 
-  // Vérifier si un bouton est désactivé (tous sauf Home et Profile pour le moment)
+  // Vérifier si un bouton est désactivé (uniquement pour search et liked)
   const isDisabled = (pageId) => {
-    return pageId !== 'home' && pageId !== 'profile';
+    return pageId === 'search' || pageId === 'liked';
   };
 
   return (
@@ -104,7 +104,7 @@ const NavBar = ({
         aria-label="Recherche"
       />
 
-      {/* Bouton de création de post (désactivé) */}
+      {/* Bouton de création de post */}
       <div className="navbar__create-button">
         <Button 
           iconVariant="only"
@@ -112,7 +112,8 @@ const NavBar = ({
           variant="color"
           style="toned"
           icon={plusLgSvg}
-          disabled={true}
+          disabled={false}
+          onClick={() => handleNavigate('create')}
           aria-label="Créer un post"
         />
       </div>

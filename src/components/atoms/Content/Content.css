@@ -1,0 +1,38 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Variant A - Text only */
+.content--a .content__text {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+/* Variant B - Title + excerpt */
+.content--b .content__title {
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.content--b .content__excerpt {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .content--a .content__text {
+    font-size: 20px;
+  }
+  
+  .content--b .content__title {
+    font-size: 20px;
+  }
+  
+  .content--b .content__excerpt {
+    font-size: 14px;
+  }
+} 

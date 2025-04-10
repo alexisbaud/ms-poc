@@ -42,8 +42,17 @@ const PostCardA = ({
   if (disabled) cardClass += ' post-card-a--disabled';
   
   // Limite le nombre de hashtags affichés
-  const displayHashtags = post.hashtags ? post.hashtags.slice(0, 3) : [];
-  const hasMoreHashtags = post.hashtags && post.hashtags.length > 3;
+  // Gère à la fois le cas où hashtags est un tableau et où c'est une chaîne simple
+  let displayHashtags = [];
+  if (post.hashtags) {
+    if (Array.isArray(post.hashtags)) {
+      displayHashtags = post.hashtags.slice(0, 3);
+    } else if (typeof post.hashtags === 'string') {
+      // Si c'est une chaîne, on la met dans un tableau avec un seul élément
+      displayHashtags = [post.hashtags];
+    }
+  }
+  const hasMoreHashtags = Array.isArray(post.hashtags) && post.hashtags.length > 3;
   
   return (
     <article className={cardClass}>

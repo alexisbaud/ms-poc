@@ -1,15 +1,17 @@
 .hashtag {
   display: inline-flex;
   align-items: center;
+  height: 24px;
   background-color: #f2f2f2;
   color: #666;
   border-radius: 16px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0 12px;
-  margin-right: 8px;
-  margin-bottom: 8px;
+  margin-right: 4px;
+  margin-bottom: 4px;
 }
 
 .hashtag:hover {
@@ -18,6 +20,15 @@
 
 .hashtag:active {
   transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .hashtag {
+    height: 20px;
+    font-size: 11px;
+    padding: 0 10px;
+  }
 }
 
 /* Tailles */

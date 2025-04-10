@@ -57,10 +57,10 @@ export const register = async ({ email, password, pseudo }) => {
       throw new Error(data.message || 'Erreur lors de l\'inscription');
     }
     
-    // Stocker le token et les infos utilisateur dans le sessionStorage
+    // Stocker le token et les infos utilisateur dans le localStorage
     const { token, user } = data;
-    sessionStorage.setItem('token', token);
-    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     
     return { token, user };
   } catch (error) {
@@ -105,10 +105,10 @@ export const login = async ({ email, password }) => {
       throw new Error(data.message || 'Erreur lors de la connexion');
     }
     
-    // Stocker le token et les infos utilisateur dans le sessionStorage
+    // Stocker le token et les infos utilisateur dans le localStorage
     const { token, user } = data;
-    sessionStorage.setItem('token', token);
-    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     
     return { token, user };
   } catch (error) {
@@ -127,16 +127,17 @@ export const login = async ({ email, password }) => {
  * Déconnecte l'utilisateur actuel
  */
 export const logout = () => {
-  sessionStorage.removeItem('token');
-  sessionStorage.removeItem('user');
+  // Supprimer les informations d'authentification du localStorage
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
 };
 
 /**
- * Récupère les informations de l'utilisateur connecté depuis le sessionStorage
+ * Récupère les informations de l'utilisateur connecté depuis le localStorage
  * @returns {Object|null} - Données utilisateur ou null si non connecté
  */
 export const getCurrentUser = () => {
-  const userStr = sessionStorage.getItem('user');
+  const userStr = localStorage.getItem('user');
   return userStr ? JSON.parse(userStr) : null;
 };
 
@@ -145,7 +146,8 @@ export const getCurrentUser = () => {
  * @returns {boolean} - true si l'utilisateur est connecté
  */
 export const isAuthenticated = () => {
-  return !!sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  return !!token;
 };
 
 export default {

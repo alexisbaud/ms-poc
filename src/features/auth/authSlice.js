@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { logout as logoutService } from '../../services/auth';
 
-// Fonction pour récupérer les données utilisateur du sessionStorage au démarrage
+// Fonction pour récupérer les données utilisateur du localStorage au démarrage
 const loadUserFromStorage = () => {
   try {
-    const token = sessionStorage.getItem('token');
-    const userStr = sessionStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
     
     return {
@@ -16,7 +16,7 @@ const loadUserFromStorage = () => {
       loading: false
     };
   } catch (error) {
-    console.error('Erreur lors du chargement des données utilisateur depuis sessionStorage:', error);
+    console.error('Erreur lors du chargement des données utilisateur depuis localStorage:', error);
     return {
       token: null,
       user: null,
@@ -27,7 +27,7 @@ const loadUserFromStorage = () => {
   }
 };
 
-// État initial - charge les données depuis sessionStorage
+// État initial - charge les données depuis localStorage
 const initialState = loadUserFromStorage();
 
 const authSlice = createSlice({
@@ -44,6 +44,9 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       const { token, user } = action.payload;
       
+      // Débogage
+      console.log('loginSuccess action reçue - token:', token ? `${token.substring(0, 15)}...` : 'null');
+      
       // Mettre à jour l'état Redux
       state.token = token;
       state.user = user;
@@ -51,9 +54,12 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       
-      // Persister dans sessionStorage
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('user', JSON.stringify(user));
+      // Persister dans localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      // Vérification après persistance
+      console.log('Token sauvegardé dans localStorage:', !!localStorage.getItem('token'));
     },
     
     // Action en cas d'échec d'authentification (optionnel)
@@ -64,19 +70,25 @@ const authSlice = createSlice({
     
     // Action de déconnexion
     logout: (state) => {
-      // Réinitialiser l'état Redux
+      // Nettoyer l'état Redux
       state.token = null;
       state.user = null;
       state.isAuthenticated = false;
+      state.loading = false;
+      state.error = null;
       
-      // Supprimer du sessionStorage
-      logoutService(); // Appelle la fonction de déconnexion du service
+      // Nettoyer le localStorage
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Appeler le service de déconnexion
+      logoutService();
     },
     
     // Mettre à jour les informations utilisateur (optionnel)
     updateUserInfo: (state, action) => {
       state.user = { ...state.user, ...action.payload };
-      sessionStorage.setItem('user', JSON.stringify(state.user));
+      localStorage.setItem('user', JSON.stringify(state.user));
     }
   }
 });

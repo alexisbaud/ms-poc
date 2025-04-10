@@ -7,6 +7,7 @@ import PostFeed from '../../components/organisms/PostFeed';
 import Icon from '../../components/atoms/Icon';
 import Avatar from '../../components/atoms/Avatar';
 import Loader from '../../components/atoms/Loader';
+import NavBar from '../../components/molecules/NavBar';
 
 // Import services
 import PostsService from '../../services/posts';
@@ -145,6 +146,25 @@ const HomePage = () => {
     }
   };
   
+  // Gestion de la navigation via la NavBar
+  const handleNavigation = (pageId) => {
+    switch(pageId) {
+      case 'home':
+        // Déjà sur la page d'accueil, ne rien faire ou rafraîchir le feed
+        setPage(1); // Rafraîchir le feed en revenant à la première page
+        break;
+      case 'profile':
+        navigate('/profile');
+        break;
+      case 'create':
+        navigate('/create');
+        break;
+      default:
+        // Pour les autres pages non implémentées, rester sur la page actuelle
+        break;
+    }
+  };
+  
   return (
     <div className="home-page">
       <header className="home-page__header">
@@ -182,6 +202,11 @@ const HomePage = () => {
           error={error}
         />
       </main>
+      
+      <NavBar 
+        activePage="home"
+        onNavigate={handleNavigation}
+      />
     </div>
   );
 };

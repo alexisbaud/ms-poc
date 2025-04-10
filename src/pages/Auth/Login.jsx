@@ -73,7 +73,6 @@ const Login = () => {
         setError(resultAction.payload || 'Identifiants invalides');
       }
     } catch (error) {
-      console.error('Login error:', error);
       setError(error.message || 'Identifiants invalides');
     } finally {
       setIsSubmitting(false);

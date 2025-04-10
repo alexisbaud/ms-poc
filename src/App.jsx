@@ -9,8 +9,8 @@ import Style from './pages/Style'
 import AuthRoutes from './pages/Auth'
 import Profile from './pages/Profile'
 import HomePage from './pages/HomePage'
-import CreatePostPage from './pages/Create'
 import PostDetailPage from './pages/PostDetailPage'
+import { WritePostPage, CustomizePostPage, CreatePostProvider } from './pages/Create'
 
 function App() {
   const isAuthenticated = useSelector(selectIsAuthenticated)
@@ -42,16 +42,31 @@ function App() {
           } 
         />
         
-        {/* Page Création de post */}
-        <Route 
-          path="/create" 
+        {/* Pages Création de post */}
+        <Route
+          path="/create"
           element={
             isAuthenticated ? (
-              <CreatePostPage />
+              <CreatePostProvider>
+                <WritePostPage />
+              </CreatePostProvider>
             ) : (
               <Navigate to="/auth" replace />
             )
-          } 
+          }
+        />
+        
+        <Route
+          path="/create/customize"
+          element={
+            isAuthenticated ? (
+              <CreatePostProvider>
+                <CustomizePostPage />
+              </CreatePostProvider>
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
         />
         
         {/* Page Détail d'un post */}

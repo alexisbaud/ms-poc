@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './auth/authSlice';
+import authReducer from './features/auth/authSlice';
 
 // Fonction pour sauvegarder l'état dans localStorage
 const saveState = (state) => {
@@ -13,8 +13,9 @@ const saveState = (state) => {
       }
     });
     localStorage.setItem('reduxState', serializedState);
+    console.log('État Redux sauvegardé dans localStorage');
   } catch (err) {
-    // Gestion silencieuse des erreurs
+    console.error('Impossible de sauvegarder l\'état:', err);
   }
 };
 
@@ -25,10 +26,9 @@ const loadState = () => {
     if (serializedState === null) {
       return undefined; // Laisser le reducer initialiser l'état
     }
-    const state = JSON.parse(serializedState);
-    return state;
+    return JSON.parse(serializedState);
   } catch (err) {
-    // Gestion silencieuse des erreurs
+    console.error('Impossible de charger l\'état:', err);
     return undefined;
   }
 };
@@ -36,30 +36,17 @@ const loadState = () => {
 // Récupérer l'état préchargé
 const preloadedState = loadState();
 
-// Configurer le store avec les reducers et l'état préchargé
+// Configurer le store avec l'état préchargé
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    // Ajouter d'autres reducers ici au besoin
   },
-  preloadedState,
-  // Middleware par défaut inclut Redux Thunk pour les actions asynchrones
+  preloadedState
 });
 
 // S'abonner aux changements du store pour sauvegarder l'état
-let currentAuthState = store.getState().auth;
 store.subscribe(() => {
-  const previousAuthState = currentAuthState;
-  currentAuthState = store.getState().auth;
-  
-  // Ne sauvegarder que si l'état d'authentification a changé
-  if (
-    previousAuthState.isAuthenticated !== currentAuthState.isAuthenticated ||
-    previousAuthState.token !== currentAuthState.token ||
-    JSON.stringify(previousAuthState.user) !== JSON.stringify(currentAuthState.user)
-  ) {
-    saveState(store.getState());
-  }
+  saveState(store.getState());
 });
 
 export default store; 

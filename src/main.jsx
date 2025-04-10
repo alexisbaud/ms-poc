@@ -1,44 +1,44 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { StrictMode, useEffect } from 'react'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
-import store from './store.js'
+import store from './features/store'
 import './index.css'
 import App from './App.jsx'
+import { initFocusVisible } from './utils/focusVisible'
 import Logger from './logger'
+import * as debugHelper from './utils/debugHelper'
 
-// Initialiser le logger pour capturer toutes les erreurs
+// Importer et initialiser le logger en premier
 Logger.init()
 
-// Ajouter une gestion des erreurs non capturées au niveau global
-window.addEventListener('error', (event) => {
-  console.error('Erreur globale non capturée:', event.error?.message || event.message)
-  console.error('Source:', event.filename)
-  console.error('Ligne:', event.lineno, 'Colonne:', event.colno)
-  
-  // Stocker les détails de l'erreur pour débogage
-  localStorage.setItem('lastFatalError', JSON.stringify({
-    timestamp: new Date().toISOString(),
-    message: event.error?.message || event.message,
-    file: event.filename,
-    line: event.lineno,
-    column: event.colno,
-    stack: event.error?.stack,
-    type: event.error?.name || 'Error'
-  }))
-})
+// Journaliser les informations d'environnement au démarrage
+console.info('====== INFORMATIONS DE DÉMARRAGE ======')
+debugHelper.logEnvironmentInfo()
+debugHelper.debugAuthState()
 
-// Journaliser la configuration de l'environnement
-console.log('🔍 Environnement:', import.meta.env.MODE)
-console.log('🔍 API URL:', import.meta.env.VITE_API_URL)
-console.log('🔍 URL origine actuelle:', window.location.origin)
+// Tester la connexion API au démarrage
+debugHelper.testApiConnection()
+  .then(success => {
+    console.info('[STARTUP] Connexion API testée:', success ? 'OK' : 'ÉCHEC')
+  })
+  .catch(err => {
+    console.error('[STARTUP] Erreur lors du test API:', err.message)
+  })
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+// Composant d'initialisation - initialise le focus visible lors du montage
+function AppWithFocusVisible() {
+  useEffect(() => {
+    // Initialiser la détection du focus au clavier
+    initFocusVisible();
+  }, []);
+
+  return <App />;
+}
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AppWithFocusVisible />
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
 )

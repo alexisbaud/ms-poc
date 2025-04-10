@@ -47,23 +47,33 @@ export const checkPseudoExists = async (pseudo) => {
  * @returns {Promise<Object>} - Objet contenant le token et les données utilisateur
  */
 export const register = async ({ email, password, pseudo }) => {
+  console.info('[AUTH] Tentative d\'inscription:', email, 'pseudo:', pseudo);
+  
   try {
     const response = await api.post('/auth/register', { email, password, pseudo });
+    console.info('[AUTH] Réponse d\'inscription reçue');
     
     // Extraire et traiter les données de la réponse
     const data = response.data;
     
     if (!data.success) {
+      console.error('[AUTH] Inscription échouée:', data.message);
       throw new Error(data.message || 'Erreur lors de l\'inscription');
     }
+    
+    console.info('[AUTH] Inscription réussie pour:', email);
     
     // Stocker le token et les infos utilisateur dans le localStorage
     const { token, user } = data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     
+    console.info('[AUTH] Token stocké, longueur:', token?.length);
+    
     return { token, user };
   } catch (error) {
+    console.error('[AUTH] Erreur lors de l\'inscription:', error.message);
+    
     // Gérer les erreurs spécifiques à l'inscription
     if (error.response) {
       // Vérifier si c'est une erreur de validation champ spécifique
@@ -95,23 +105,35 @@ export const register = async ({ email, password, pseudo }) => {
  * @returns {Promise<Object>} - Objet contenant le token et les données utilisateur
  */
 export const login = async ({ email, password }) => {
+  console.info('[AUTH] Tentative de connexion pour:', email);
+  
   try {
+    console.info('[AUTH] Envoi requête POST /auth/login');
     const response = await api.post('/auth/login', { email, password });
+    console.info('[AUTH] Réponse de connexion reçue, status:', response.status);
     
     // Extraire et traiter les données de la réponse
     const data = response.data;
     
     if (!data.success) {
+      console.error('[AUTH] Connexion échouée:', data.message);
       throw new Error(data.message || 'Erreur lors de la connexion');
     }
     
+    console.info('[AUTH] Connexion réussie pour:', email);
+    
     // Stocker le token et les infos utilisateur dans le localStorage
     const { token, user } = data;
+    console.info('[AUTH] Token reçu, longueur:', token?.length, 'Format valide:', token?.includes('.'));
+    
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     
     return { token, user };
   } catch (error) {
+    console.error('[AUTH] Erreur lors de la connexion:', error.message);
+    console.error('[AUTH] Détails de l\'erreur:', error.response?.data || 'Pas de données de réponse');
+    
     // Gérer les erreurs spécifiques à la connexion
     if (error.response) {
       if (error.response.status === 400 || error.response.status === 401) {
@@ -127,6 +149,7 @@ export const login = async ({ email, password }) => {
  * Déconnecte l'utilisateur actuel
  */
 export const logout = () => {
+  console.info('[AUTH] Déconnexion utilisateur');
   // Supprimer les informations d'authentification du localStorage
   localStorage.removeItem('token');
   localStorage.removeItem('user');

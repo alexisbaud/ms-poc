@@ -236,16 +236,27 @@ const PostsService = {
    */
   generateAudio: async (id, content) => {
     try {
-      const response = await api.post('/generate-audio', {
+      // Supprimer le préfixe /api car il est déjà inclus dans baseURL
+      const response = await api.post('generate-audio', {
         id,
         content
       });
       
       if (response.data.success) {
-        // Retourne l'URL du fichier audio généré
+        // Créer l'URL correcte pour l'audio
+        // Extraire la base URL sans le chemin /api
+        const serverBaseUrl = api.defaults.baseURL.replace(/\/api$/, '');
+        // Combiner avec le chemin du fichier audio
+        const audioUrl = `${serverBaseUrl}/${response.data.file}`;
+        
+        console.log('URL audio générée:', audioUrl);
+        
+        // Mettre à jour automatiquement l'URL audio du post
+        await PostsService.updatePostAudio(id, audioUrl);
+        
         return {
           success: true,
-          audioUrl: `${api.defaults.baseURL}/${response.data.file}`
+          audioUrl
         };
       } else {
         return {
@@ -256,6 +267,29 @@ const PostsService = {
     } catch (error) {
       console.error('Erreur lors de la génération audio:', error);
       throw error;
+    }
+  },
+
+  /**
+   * Met à jour l'URL audio d'un post
+   * @param {string|number} id - ID du post
+   * @param {string} audioUrl - URL du fichier audio
+   * @returns {Promise} Promesse avec le résultat de la mise à jour
+   */
+  updatePostAudio: async (id, audioUrl) => {
+    try {
+      // Supprimer le préfixe /api car il est déjà inclus dans baseURL
+      const response = await api.put(`posts/${id}/audio`, { audioUrl });
+      return {
+        success: true,
+        message: response.data.message || 'URL audio mise à jour avec succès'
+      };
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de l\'audio:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Échec de la mise à jour de l\'audio'
+      };
     }
   }
 };

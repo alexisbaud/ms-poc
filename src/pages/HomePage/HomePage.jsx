@@ -130,19 +130,47 @@ const HomePage = () => {
     if (post && post.ttsGenerated) {
       setPlayingPostId(postId);
     } else {
-      // Sinon on indique un chargement et on simule une génération TTS
+      // Sinon, on doit d'abord générer l'audio
+      handleGenerateAudio(postId);
+    }
+  };
+  
+  // Gestion de la génération audio
+  const handleGenerateAudio = async (postId) => {
+    try {
+      // Trouver le post concerné
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+      
+      // Marquer comme en cours de chargement
       setLoadingAudioPostId(postId);
       
-      // Dans une version complète, appeler l'API pour générer le TTS
-      setTimeout(() => {
-        setLoadingAudioPostId(null);
-        setPlayingPostId(postId);
-        
-        // Mettre à jour le statut ttsGenerated du post
+      // Appel à l'API pour générer l'audio
+      const result = await PostsService.generateAudio(postId, post.content);
+      
+      // Vérifier le résultat
+      if (result.success) {
+        // Mettre à jour le post avec l'URL audio
         setPosts(prevPosts => prevPosts.map(p => 
-          p.id === postId ? { ...p, ttsGenerated: true } : p
+          p.id === postId ? { 
+            ...p, 
+            ttsGenerated: true, 
+            audioUrl: result.audioUrl 
+          } : p
         ));
-      }, 2000);
+        
+        // Démarrer la lecture
+        setPlayingPostId(postId);
+      } else {
+        console.error('Échec de la génération audio:', result.message);
+        // Afficher un message d'erreur à l'utilisateur
+        setError(`Échec de la génération audio: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la génération audio:', error);
+      setError('Une erreur est survenue lors de la génération audio.');
+    } finally {
+      setLoadingAudioPostId(null);
     }
   };
   
@@ -197,6 +225,7 @@ const HomePage = () => {
           onUserClick={handleUserClick}
           onReadMore={handleReadMore}
           onPlay={handlePlay}
+          onGenerateAudio={handleGenerateAudio}
           playingPostId={playingPostId}
           loadingAudioPostId={loadingAudioPostId}
           error={error}

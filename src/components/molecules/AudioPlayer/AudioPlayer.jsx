@@ -63,8 +63,23 @@ const AudioPlayer = ({
   // Handle audio loading error
   const handleError = (e) => {
     console.error('Audio player error:', e);
+    console.error('Audio source url:', audioSrc);
+    
+    // Vérifier si l'URL est bien formée
+    try {
+      new URL(audioSrc);
+      console.log('URL audio valide');
+    } catch (error) {
+      console.error('URL audio invalide:', error.message);
+    }
+    
     setIsLoading(false);
   };
+  
+  // Effet pour logger l'URL audio au chargement
+  useEffect(() => {
+    console.log('AudioPlayer - Tentative de lecture depuis:', audioSrc);
+  }, [audioSrc]);
   
   // Handle play/pause toggle
   const togglePlay = () => {

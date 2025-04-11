@@ -143,6 +143,40 @@ const PostDetailPage = () => {
     setIsPlaying(false);
   };
   
+  // Fonction pour générer l'audio d'un post
+  const handleGenerateAudio = async (postId) => {
+    try {
+      setIsLoadingAudio(true);
+      
+      // Appel à l'API pour générer l'audio
+      // En production, remplacer par l'appel réel à votre service API
+      const PostsService = await import('../../services/posts').then(module => module.default);
+      
+      const result = await PostsService.generateAudio(postId, post.content);
+      
+      // Vérifier le résultat
+      if (result.success) {
+        // Mettre à jour l'URL audio du post
+        setPost(prevPost => ({
+          ...prevPost,
+          audioUrl: result.audioUrl,
+          ttsGenerated: true
+        }));
+        
+        setIsPlaying(true);
+      } else {
+        console.error('Échec de la génération audio:', result.message);
+        // Afficher un message d'erreur à l'utilisateur
+        setError(`Échec de la génération audio: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la génération audio:', error);
+      setError('Une erreur est survenue lors de la génération audio.');
+    } finally {
+      setIsLoadingAudio(false);
+    }
+  };
+  
   // Affiche un loader pendant le chargement
   if (isLoading) {
     return (
@@ -196,6 +230,7 @@ const PostDetailPage = () => {
           isLoadingAudio={isLoadingAudio}
           onPlayAudio={handlePlayAudio}
           onPauseAudio={handlePauseAudio}
+          onGenerateAudio={handleGenerateAudio}
         />
       )}
     </div>

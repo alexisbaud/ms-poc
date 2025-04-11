@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './PostCardB.css';
 
@@ -32,6 +32,8 @@ const PostCardB = ({
   disabled = false 
 }) => {
   const [isPressed, setIsPressed] = useState(false);
+  // État local pour gérer le chargement de l'audio
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   
   const handleCardClick = (e) => {
     // Ne pas déclencher le clic si l'utilisateur a cliqué sur un bouton interne
@@ -72,12 +74,39 @@ const PostCardB = ({
   // Vérifier si le post a un audio associé
   const hasAudio = !!post.audioUrl;
   
-  const handleGenerateAudio = (e) => {
+  // Logs pour debugging
+  useEffect(() => {
+    if (post.audioUrl) {
+      console.log(`PostCardB (${post.id}) - URL audio détectée:`, post.audioUrl);
+    }
+  }, [post.audioUrl, post.id]);
+  
+  const handleGenerateAudio = async (e) => {
     e.stopPropagation();
+    
+    if (disabled || isGeneratingAudio) return;
+    
+    setIsGeneratingAudio(true);
+    
     if (onGenerateAudio) {
-      onGenerateAudio(post.id);
+      try {
+        // Appel à la fonction de génération audio
+        await onGenerateAudio(post.id);
+        
+        // En cas de succès, on peut laisser la page parent gérer l'état
+        // Si nécessaire, attendre un peu pour laisser le temps au parent de mettre à jour le post
+        setTimeout(() => {
+          setIsGeneratingAudio(false);
+        }, 500);
+      } catch (error) {
+        console.error('Erreur lors de la génération audio:', error);
+        setIsGeneratingAudio(false);
+      }
     }
   };
+  
+  // Détermine si on doit afficher l'état de chargement (priorité à l'état global)
+  const isAudioLoading = isLoadingAudio || isGeneratingAudio;
   
   return (
     <article className={cardClass}>
@@ -134,9 +163,10 @@ const PostCardB = ({
                 style="color"
                 importance="tertiary"
                 size="md"
-                disabled={disabled}
+                disabled={disabled || isAudioLoading}
+                loading={isAudioLoading}
               >
-                Générer l'audio
+                {isAudioLoading ? 'Génération en cours...' : 'Générer l\'audio'}
               </Button>
             )}
           </div>

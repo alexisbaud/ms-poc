@@ -26,6 +26,7 @@ const PostFeed = ({
   onComment,
   onShare,
   onPlay,
+  onGenerateAudio,
   playingPostId = null,
   loadingAudioPostId = null,
   error = null
@@ -124,6 +125,7 @@ const PostFeed = ({
                       onComment={onComment}
                       onShare={onShare}
                       onPlay={onPlay}
+                      onGenerateAudio={onGenerateAudio}
                       isPlaying={isPostPlaying(post.id)}
                       isLoadingAudio={isPostLoadingAudio(post.id)}
                     />
@@ -174,6 +176,7 @@ PostFeed.propTypes = {
   onComment: PropTypes.func,
   onShare: PropTypes.func,
   onPlay: PropTypes.func,
+  onGenerateAudio: PropTypes.func,
   playingPostId: PropTypes.string,
   loadingAudioPostId: PropTypes.string,
   error: PropTypes.string

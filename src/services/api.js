@@ -7,7 +7,7 @@ console.info('[API CONFIG] URL API configurée:', apiUrl);
 // Configuration de base pour axios
 const api = axios.create({
   baseURL: apiUrl,
-  timeout: 20000, // Augmenté à 20 secondes pour les serveurs Render en veille
+  timeout: 60000, // Augmenté à 60 secondes pour les serveurs Render en veille
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

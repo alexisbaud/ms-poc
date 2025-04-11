@@ -198,19 +198,6 @@ const HomePage = () => {
       <header className="home-page__header">
         <div className="home-page__header-inner">
           <h1 className="home-page__title">Micro Story</h1>
-          
-          <div className="home-page__actions">
-            <button className="home-page__action-button" onClick={() => navigate('/search')}>
-              <Icon name="search" size="md" />
-            </button>
-            <button className="home-page__profile-button" onClick={() => navigate('/profile')}>
-              <Avatar 
-                src="https://randomuser.me/api/portraits/women/44.jpg" 
-                alt="Profil" 
-                size="sm" 
-              />
-            </button>
-          </div>
         </div>
       </header>
       

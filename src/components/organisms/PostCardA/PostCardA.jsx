@@ -46,13 +46,13 @@ const PostCardA = ({
   let displayHashtags = [];
   if (post.hashtags) {
     if (Array.isArray(post.hashtags)) {
-      displayHashtags = post.hashtags.slice(0, 3);
+      displayHashtags = post.hashtags.slice(0, 1);
     } else if (typeof post.hashtags === 'string') {
       // Si c'est une chaîne, on la met dans un tableau avec un seul élément
       displayHashtags = [post.hashtags];
     }
   }
-  const hasMoreHashtags = Array.isArray(post.hashtags) && post.hashtags.length > 3;
+  const hasMoreHashtags = Array.isArray(post.hashtags) && post.hashtags.length > 1;
   
   return (
     <article className={cardClass}>
@@ -83,7 +83,7 @@ const PostCardA = ({
               />
             ))}
             {hasMoreHashtags && (
-              <span className="post-card-a__more-hashtags">+{post.hashtags.length - 3}</span>
+              <span className="post-card-a__more-hashtags">+{post.hashtags.length - 1}</span>
             )}
           </div>
         )}

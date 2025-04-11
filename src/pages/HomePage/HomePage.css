@@ -1,9 +1,11 @@
 .home-page {
   min-height: 100vh;
+  height: 100vh;
   background-color: #f5f7f9;
   padding-bottom: 4.5rem;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .home-page__header {
@@ -69,8 +71,11 @@
 .home-page__content {
   flex: 1;
   max-width: 768px;
+  margin: 0 auto;
   padding: 1rem;
   padding-bottom: 2rem;
+  overflow-y: auto;
+  height: calc(100vh - 60px - 60px);
 }
 
 /* Styles pour la navbar, s'assurer qu'elle reste fixe en bas */

@@ -30,11 +30,13 @@ const InteractionBar = ({
 
   return (
     <div className={barClasses} {...rest}>
-      <EmojiReactions 
-        emojis={emojis}
-        selectedEmoji={selectedEmoji}
-        onReact={onReact}
-      />
+      <div className="interaction-bar__reactions-container">
+        <EmojiReactions 
+          emojis={emojis}
+          selectedEmoji={selectedEmoji}
+          onReact={onReact}
+        />
+      </div>
       <PostInteractions
         onComment={onComment}
         onShare={onShare}
@@ -43,8 +45,9 @@ const InteractionBar = ({
         likeCount={likeCount}
         isLiked={isLiked}
         onLike={onLike}
-        disabled={disabled}
+        disabled={true}
         postId={postId}
+        className="interaction-bar__post-interactions--centered"
       />
     </div>
   );

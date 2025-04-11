@@ -34,28 +34,32 @@ const PostInteractions = ({
   return (
     <div className={interactionsClasses} {...rest}>
       {/* Le bouton like a été supprimé selon les instructions */}
-      <Button
-        variant="tertiary"
-        size="sm"
-        onClick={onComment}
-        aria-label="Comment on this post"
-        icon={<Icon src={commentIcon} size="md" alt="Comment" />}
-        className="post-interactions__button"
-        disabled={disabled}
-      >
-        {commentCount > 0 && <span className="post-interactions__count">{commentCount}</span>}
-      </Button>
-      <Button
-        variant="tertiary"
-        size="sm"
-        onClick={onShare}
-        aria-label="Share this post"
-        icon={<Icon src={shareIcon} size="md" alt="Share" />}
-        className="post-interactions__button"
-        disabled={disabled}
-      >
-        {shareCount > 0 && <span className="post-interactions__count">{shareCount}</span>}
-      </Button>
+      <div className="post-interactions__button-container">
+        <Button
+          variant="tertiary"
+          size="sm"
+          onClick={onComment}
+          aria-label="Comment on this post"
+          icon={<Icon src={commentIcon} size="md" alt="Comment" />}
+          className="post-interactions__button"
+          disabled={disabled}
+        >
+          {commentCount > 0 && <span className="post-interactions__count">{commentCount}</span>}
+        </Button>
+      </div>
+      <div className="post-interactions__button-container">
+        <Button
+          variant="tertiary"
+          size="sm"
+          onClick={onShare}
+          aria-label="Share this post"
+          icon={<Icon src={shareIcon} size="md" alt="Share" />}
+          className="post-interactions__button"
+          disabled={disabled}
+        >
+          {shareCount > 0 && <span className="post-interactions__count">{shareCount}</span>}
+        </Button>
+      </div>
     </div>
   );
 };

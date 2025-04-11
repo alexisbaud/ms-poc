@@ -5,12 +5,11 @@ import './ExpandedPostB.css';
 // Import required components
 import Text from '../../atoms/Text';
 import Hashtag from '../../atoms/Hashtag';
-import Divider from '../../atoms/Divider';
 import Icon from '../../atoms/Icon';
-import AudioPlayerMini from '../../atoms/AudioPlayerMini';
+import Button from '../../atoms/Button';
+import AudioPlayer from '../../molecules/AudioPlayer';
 import InteractionBar from '../../molecules/InteractionBar';
 import PostHeader from '../../molecules/PostHeader';
-import CommentSection from '../CommentSection';
 
 /**
  * Vue détaillée du Post B avec texte intégral + lecteur audio + commentaires
@@ -49,16 +48,19 @@ const ExpandedPostB = ({
   
   return (
     <article className="expanded-post-b">
-      <div className="expanded-post-b__header">
-        <button 
-          className="expanded-post-b__back-button" 
+      <header className="expanded-post-b__header">
+        <Button 
+          style="black"
+          importance="tertiary" 
+          size="M"
           onClick={handleBackClick}
           aria-label="Retour"
-        >
-          <Icon name="arrow-left" size="md" />
-        </button>
+          icon={<Icon src="/icons/chevron-left.svg" size="md" />}
+          iconVariant="only"
+          square
+        />
         <h1 className="expanded-post-b__title">Publication</h1>
-      </div>
+      </header>
       
       <div className="expanded-post-b__content">
         <PostHeader 
@@ -76,15 +78,11 @@ const ExpandedPostB = ({
         </div>
         
         {post.audioUrl && (
-          <div className="expanded-post-b__audio-player">
-            <AudioPlayerMini 
-              audioUrl={audioUrl || post.audioUrl}
-              isPlaying={isPlaying}
-              isLoading={isLoadingAudio}
+          <div className="expanded-post-b__audio-player expanded-post-b__audio-player--full-width">
+            <AudioPlayer 
+              audioSrc={audioUrl || post.audioUrl}
               onPlay={onPlayAudio}
-              onPause={onPauseAudio}
-              onProgressChange={handleAudioProgressChange}
-              disabled={disabled}
+              className="expanded-post-b__player"
             />
           </div>
         )}
@@ -95,7 +93,7 @@ const ExpandedPostB = ({
           </Text>
         </div>
         
-        {post.hashtags && post.hashtags.length > 0 && (
+        {post.hashtags && Array.isArray(post.hashtags) && post.hashtags.length > 0 && (
           <div className="expanded-post-b__hashtags">
             {post.hashtags.map((tag, index) => (
               <Hashtag 
@@ -124,17 +122,6 @@ const ExpandedPostB = ({
           onComment={onComment}
           onShare={onShare}
           size="lg"
-          disabled={disabled}
-        />
-        
-        <Divider />
-        
-        <CommentSection 
-          postId={post.id}
-          comments={comments}
-          onAddComment={onAddComment}
-          isLoading={isLoadingComments}
-          onUserClick={onUserClick}
           disabled={disabled}
         />
       </div>

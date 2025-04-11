@@ -1,23 +1,34 @@
 .post-interactions {
   display: flex;
-  flex-direction: row;
-  justify-content: center; /* Centre les boutons horizontalement */
-  gap: 16px; /* Augmente l'espace entre les boutons */
+  flex-direction: row; /* Correction: horizontal n'est pas une valeur valide */
+  justify-content: flex-start; /* Alignement à gauche du conteneur */
+  gap: 4px; /* Espacement entre les boutons */
+}
+
+/* Nouveau conteneur pour chaque bouton */
+.post-interactions__button-container {
+  display: flex;
+  justify-content: flex-start; /* Alignement à gauche */
+  align-items: center;
+  text-align: left;
 }
 
 .post-interactions__button {
-  min-width: 32px;
+  min-width: 40px;
   min-height: 32px;
   padding: 4px;
   display: flex;
-  justify-content: center; /* Centre l'icône horizontalement */
-  align-items: center; /* Centre l'icône verticalement */
+  justify-content: center; /* Centre l'icône dans le bouton */
+  align-items: center; /* Centre l'icône dans le bouton */
+  margin: 0; /* Supprime la marge automatique */
 }
 
 /* Style pour le compteur */
 .post-interactions__count {
   margin-left: 4px;
   font-size: 0.9em;
+  display: inline-block;
+  text-align: center;
 }
 
 /* Compteur avec couleur lorsque liké */
@@ -59,7 +70,7 @@ button.button.post-interactions__button.post-interactions__button--liked {
 /* Media query pour les petits écrans */
 @media (max-width: 480px) {
   .post-interactions {
-    gap: 12px; /* Espace réduit en mobile mais suffisant pour une bonne lisibilité */
+    gap: 4px; /* Espace réduit en mobile mais suffisant pour une bonne lisibilité */
   }
   
   .post-interactions__button {

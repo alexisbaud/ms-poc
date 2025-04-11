@@ -19,7 +19,7 @@ const Hashtag = ({ tag, onClick }) => {
       className="hashtag" 
       onClick={handleClick}
     >
-      #{tag}
+      {tag}
     </span>
   );
 };

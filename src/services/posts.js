@@ -226,6 +226,37 @@ const PostsService = {
   getTtsSuggestions: async (text) => {
     // En attendant l'implémentation des routes API, retourne une chaîne vide
     return '';
+  },
+
+  /**
+   * Génère un fichier audio pour un post
+   * @param {string|number} id - ID du post
+   * @param {string} content - Contenu du post à convertir en audio
+   * @returns {Promise} Promesse avec l'URL du fichier audio généré
+   */
+  generateAudio: async (id, content) => {
+    try {
+      const response = await api.post('/generate-audio', {
+        id,
+        content
+      });
+      
+      if (response.data.success) {
+        // Retourne l'URL du fichier audio généré
+        return {
+          success: true,
+          audioUrl: `${api.defaults.baseURL}/${response.data.file}`
+        };
+      } else {
+        return {
+          success: false,
+          message: response.data.message || 'Échec de la génération audio'
+        };
+      }
+    } catch (error) {
+      console.error('Erreur lors de la génération audio:', error);
+      throw error;
+    }
   }
 };
 

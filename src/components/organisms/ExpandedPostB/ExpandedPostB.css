@@ -155,4 +155,39 @@
   .expanded-post-b__post-title {
     font-size: 1.125rem;
   }
+}
+
+/* Ajout d'un style pour le lecteur audio en pleine largeur */
+.expanded-post-b__audio-player--full-width {
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.expanded-post-b__audio-player--full-width .audio-player-mini,
+.expanded-post-b__audio-player--full-width .audio-player {
+  width: 100%;
+}
+
+/* Styles spécifiques pour le AudioPlayer */
+.expanded-post-b__player {
+  width: 100%;
+  display: flex;
+}
+
+.expanded-post-b__player .audio-player__progress-container {
+  flex: 1;
+}
+
+.expanded-post-b__player .audio-player__button {
+  margin-right: 10px;
+}
+
+.expanded-post-b__player .audio-player__time {
+  margin-left: 10px;
+  min-width: 90px;
+  text-align: right;
 } 

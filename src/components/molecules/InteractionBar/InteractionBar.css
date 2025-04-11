@@ -96,4 +96,49 @@
     justify-content: flex-end;
     gap: 8px;
   }
+}
+
+/* Style pour pousser les PostInteractions à droite */
+.interaction-bar__post-interactions--centered {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}
+
+.interaction-bar__post-interactions--centered .post-interactions {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.interaction-bar__post-interactions--centered button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.interaction-bar__post-interactions--centered .post-interactions__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+.interaction-bar__post-interactions--centered .post-interactions__button span {
+  margin: 0;
+}
+
+/* Style pour le conteneur des emoji reactions */
+.interaction-bar__reactions-container {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%; /* Prendre la moitié de l'espace */
+}
+
+/* En mobile, adapter la mise en page */
+@media (max-width: 480px) {
+  .interaction-bar__reactions-container,
+  .interaction-bar__post-interactions--centered {
+    width: auto; /* Adaptation auto en mobile */
+  }
 } 
